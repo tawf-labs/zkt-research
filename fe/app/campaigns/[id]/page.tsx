@@ -3,19 +3,24 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, Users, Clock, CircleCheck, Share2, Heart, MapPin, Calendar, Target, TrendingUp, Shield, FileText, Loader2, AlertTriangle, Timer, ExternalLink, Vote, CheckCircle2, XCircle, MinusCircle } from 'lucide-react';
+import { ArrowLeft, Clock, CircleCheck, Share2, Heart, MapPin, Calendar, Target, TrendingUp, Shield, FileText, Loader2, AlertTriangle, Timer, ExternalLink, Vote, CheckCircle2, XCircle, MinusCircle } from 'lucide-react';
 import { DonationDialog } from '@/components/donations/donation-dialog';
 import dynamic from 'next/dynamic';
 import { useMilestones, useMilestoneActions, useHasVotedOnMilestone } from '@/hooks/useMilestones';
 import { useAccount } from 'wagmi';
 import { MilestoneStatus, MilestoneData, VoteSupport, getMilestoneStatusLabel, getMilestoneStatusColor } from '@/lib/types';
+import { HeroImpact } from '@/components/campaigns/hero-impact';
+import { ImpactCalculator } from '@/components/campaigns/impact-calculator';
+import { BeneficiaryStories } from '@/components/campaigns/beneficiary-stories';
+import { OrganizerMessage } from '@/components/campaigns/organizer-message';
+import { JourneyTimeline } from '@/components/campaigns/journey-timeline';
+import { UrgencyBanner } from '@/components/campaigns/urgency-banner';
+import type { Beneficiary, OrganizerMessage as OrganizerMessageType, ImpactMetrics, ImpactCalculator as ImpactCalculatorItem, JourneyItem, UrgencyInfo } from '@/data/campaigns';
 
 const CampaignMap = dynamic(() => import('@/components/campaigns/campaign-map'), {
   loading: () => <div className="w-full h-[400px] bg-muted animate-pulse rounded-xl" />,
   ssr: false
 });
-
-const donationAmounts = [10000, 25000, 50000, 100000, 250000, 500000];
 
 interface CampaignDetailData {
   id: number;
@@ -55,6 +60,14 @@ interface CampaignDetailData {
   redistributionStatus?: 'none' | 'pending' | 'executed';
   inGracePeriod?: boolean;
   canRedistribute?: boolean;
+  // NEW: Storytelling fields
+  familiesHelped?: number;
+  beneficiaries?: Beneficiary[];
+  organizerMessage?: OrganizerMessageType;
+  impactMetrics?: ImpactMetrics;
+  impactCalculator?: ImpactCalculatorItem[];
+  journey?: JourneyItem[];
+  urgency?: UrgencyInfo;
 }
 
 export default function CampaignDetail() {
@@ -64,8 +77,6 @@ export default function CampaignDetail() {
   const [campaignDetail, setCampaignDetail] = useState<CampaignDetailData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
-  const [customAmount, setCustomAmount] = useState('');
   const [activeTab, setActiveTab] = useState('story');
   const [selectedImage, setSelectedImage] = useState(0);
   const [showDonationDialog, setShowDonationDialog] = useState(false);
@@ -181,6 +192,22 @@ export default function CampaignDetail() {
           Back to Campaigns
         </Link>
 
+        {/* NEW: Hero Impact Section */}
+        {campaignDetail.beneficiaries && campaignDetail.beneficiaries.length > 0 && campaignDetail.impactMetrics && (
+          <div className="mb-8">
+            <HeroImpact
+              beneficiaryName={campaignDetail.beneficiaries[0].name}
+              beneficiaryQuote={campaignDetail.beneficiaries[0].story}
+              beneficiaryPhoto={campaignDetail.beneficiaries[0].photo}
+              impactMetrics={campaignDetail.impactMetrics}
+              raised={campaignDetail.raised}
+              goal={campaignDetail.goal}
+              formatCurrency={formatCurrency}
+              onDonateClick={() => setShowDonationDialog(true)}
+            />
+          </div>
+        )}
+
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
@@ -243,9 +270,6 @@ export default function CampaignDetail() {
                     <span className="text-primary font-semibold hover:underline cursor-pointer">
                       {campaignDetail.organization.name}
                     </span>
-                    {campaignDetail.organization.verified && (
-                      <CircleCheck className="h-4 w-4 text-green-600" />
-                    )}
                   </div>
                   <h1 className="text-3xl font-bold tracking-tight mb-3">
                     {campaignDetail.title}
@@ -270,46 +294,6 @@ export default function CampaignDetail() {
                   <button className="inline-flex items-center justify-center rounded-md border border-border bg-transparent hover:bg-accent hover:text-accent-foreground h-9 w-9">
                     <Heart className="h-4 w-4" />
                   </button>
-                </div>
-              </div>
-
-              {/* Progress Section */}
-              <div className="bg-card border border-border rounded-xl p-6 space-y-4">
-                <div className="flex justify-between items-baseline">
-                  <div>
-                    <div className="text-3xl font-bold text-foreground">
-                      {formatCurrency(campaignDetail.raised)}
-                    </div>
-                    <div className="text-sm text-muted-foreground">
-                      raised of {formatCurrency(campaignDetail.goal)} goal
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-2xl font-bold text-primary">
-                      {Math.round(progress)}%
-                    </div>
-                    <div className="text-sm text-muted-foreground">funded</div>
-                  </div>
-                </div>
-
-                {/* Progress Bar */}
-                <div className="w-full h-3 bg-secondary rounded-full overflow-hidden">
-                  <div
-                    className="bg-primary h-full transition-all duration-500"
-                    style={{ width: `${progress}%` }}
-                  />
-                </div>
-
-                <div className="flex justify-between items-center pt-2">
-                  <div className="flex items-center gap-2 text-sm">
-                    <Users className="h-4 w-4 text-muted-foreground" />
-                    <span className="font-semibold">{campaignDetail.donors.toLocaleString()}</span>
-                    <span className="text-muted-foreground">donors</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm bg-secondary px-3 py-1.5 rounded-md">
-                    <Clock className="h-4 w-4" />
-                    <span className="font-semibold">{campaignDetail.daysLeft} days left</span>
-                  </div>
                 </div>
               </div>
 
@@ -414,7 +398,7 @@ export default function CampaignDetail() {
               )}
 
               {/* Milestones - On-Chain Data */}
-              {campaignDetail.proposalId !== undefined && onChainMilestones.length > 0 ? (
+              {campaignDetail.proposalId !== undefined && onChainMilestones.length > 0 && (
                 <div className="bg-card border border-border rounded-xl p-6">
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-2">
@@ -448,7 +432,7 @@ export default function CampaignDetail() {
                         {milestone.proofIPFS && (
                           <div className="flex items-center gap-2 text-sm">
                             <FileText className="h-4 w-4 text-muted-foreground" />
-                            <a 
+                            <a
                               href={`https://gateway.pinata.cloud/ipfs/${milestone.proofIPFS}`}
                               target="_blank"
                               rel="noopener noreferrer"
@@ -521,36 +505,6 @@ export default function CampaignDetail() {
                     ))}
                   </div>
                 </div>
-              ) : (
-                /* Static Milestones Fallback (from API data) */
-                <div className="bg-card border border-border rounded-xl p-6">
-                  <div className="flex items-center gap-2 mb-4">
-                    <Target className="h-5 w-5" />
-                    <h3 className="font-bold text-lg">Campaign Milestones</h3>
-                  </div>
-                  <div className="space-y-3">
-                    {campaignDetail.milestones.map((milestone, idx) => (
-                      <div key={idx} className="flex items-start gap-3">
-                        <div className={`h-5 w-5 rounded-full border-2 flex items-center justify-center mt-0.5 ${milestone.achieved ? 'border-green-600 bg-green-600' : 'border-border'
-                          }`}>
-                          {milestone.achieved && (
-                            <CircleCheck className="h-3 w-3 text-white" />
-                          )}
-                        </div>
-                        <div className="flex-1">
-                          <div className="flex justify-between items-start gap-2">
-                            <span className={`text-sm font-medium ${milestone.achieved ? 'text-foreground' : 'text-muted-foreground'}`}>
-                              {milestone.label}
-                            </span>
-                            <span className={`text-sm font-semibold ${milestone.achieved ? 'text-green-600' : 'text-muted-foreground'}`}>
-                              {formatCurrency(milestone.amount)}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
               )}
             </div>
 
@@ -607,25 +561,35 @@ export default function CampaignDetail() {
 
             {/* Tab Content */}
             {activeTab === 'story' && (
-              <div className="space-y-6">
+              <div className="space-y-6 py-6">
+                {/* Campaign Description */}
                 <div className="prose prose-sm max-w-none">
                   <div className="whitespace-pre-line text-foreground leading-relaxed">
                     {campaignDetail.description}
                   </div>
                 </div>
 
-                {/* Blockchain Verified Badge */}
-                <div className="bg-primary/5 border border-primary/20 rounded-xl p-4">
-                  <div className="flex items-start gap-3">
-                    <Shield className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                    <div className="space-y-1">
-                      <div className="font-semibold">Blockchain Verified</div>
-                      <p className="text-sm text-muted-foreground">
-                        All donations are recorded on the blockchain. You'll receive an NFT receipt as permanent proof.
-                      </p>
-                    </div>
-                  </div>
-                </div>
+                {/* Beneficiary Stories */}
+                {campaignDetail.beneficiaries && campaignDetail.beneficiaries.length > 0 && (
+                  <BeneficiaryStories beneficiaries={campaignDetail.beneficiaries} />
+                )}
+
+                {/* Organizer Message */}
+                {campaignDetail.organizerMessage && (
+                  <OrganizerMessage
+                    name={campaignDetail.organizerMessage.name}
+                    role={campaignDetail.organizerMessage.role}
+                    photo={campaignDetail.organizerMessage.photo}
+                    message={campaignDetail.organizerMessage.message}
+                    verified={campaignDetail.organizerMessage.verified}
+                    organizationName={campaignDetail.organization.name}
+                  />
+                )}
+
+                {/* Journey Timeline */}
+                {campaignDetail.journey && campaignDetail.journey.length > 0 && (
+                  <JourneyTimeline journey={campaignDetail.journey} />
+                )}
               </div>
             )}
 
@@ -779,73 +743,38 @@ export default function CampaignDetail() {
           <div className="lg:col-span-1">
             <div className="sticky top-8">
               <div className="bg-card border border-border rounded-xl p-6 shadow-sm">
-                <h3 className="font-bold text-xl mb-6">Make a Donation</h3>
+                <h3 className="font-bold text-xl mb-4">Make a Donation</h3>
+                <p className="text-sm text-muted-foreground mb-6">
+                  Your support helps families in need. All donations go directly to the campaign.
+                </p>
 
-                {/* Donation Amounts */}
-                <div className="grid grid-cols-2 gap-3 mb-4">
-                  {donationAmounts.map((amount) => (
-                    <button
-                      key={amount}
-                      onClick={() => {
-                        setSelectedAmount(amount);
-                        setCustomAmount('');
-                      }}
-                      className={`border rounded-lg py-3 px-4 text-center font-semibold transition-all ${selectedAmount === amount
-                        ? 'border-primary bg-primary text-primary-foreground'
-                        : 'border-border hover:border-primary hover:bg-accent'
-                        }`}
-                    >
-                      {(amount / 1000).toFixed(0)}K IDRX
-                    </button>
-                  ))}
-                </div>
-
-                {/* Custom Amount */}
-                <div className="mb-6">
-                  <label className="text-sm font-medium mb-2 block">
-                    Or enter custom amount (IDRX)
-                  </label>
-                  <div className="relative">
-                    <input
-                      type="number"
-                      value={customAmount}
-                      onChange={(e) => {
-                        setCustomAmount(e.target.value);
-                        setSelectedAmount(null);
-                      }}
-                      placeholder="0"
-                      className="flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-                    />
-                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">
-                      IDRX
-                    </span>
-                  </div>
-                </div>
-
-                {/* Donate Button */}
+                {/* Donate Button - Opens Dialog Directly */}
                 <button
                   onClick={() => setShowDonationDialog(true)}
-                  className="w-full bg-primary text-primary-foreground hover:bg-primary/90 border border-transparent rounded-md h-11 px-4 text-sm font-bold transition-all shadow-sm mb-4"
+                  className="w-full bg-primary text-primary-foreground hover:bg-primary/90 border border-transparent rounded-md h-11 px-4 text-sm font-bold transition-all shadow-sm"
                 >
                   Donate Now
                 </button>
-
-                <p className="text-xs text-center text-muted-foreground">
-                  Your donation is secure and 100% goes to the campaign
-                </p>
-
-                {/* Donation Info */}
-                <div className="mt-6 pt-6 border-t border-border space-y-3">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Average donation</span>
-                    <span className="font-semibold">50,000 IDRX</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Recent donation</span>
-                    <span className="font-semibold">2 mins ago</span>
-                  </div>
-                </div>
               </div>
+
+              {/* NEW: Impact Calculator */}
+              {campaignDetail.impactCalculator && campaignDetail.impactCalculator.length > 0 && (
+                <div className="mt-6">
+                  <ImpactCalculator
+                    impactCalculator={campaignDetail.impactCalculator}
+                    formatCurrency={formatCurrency}
+                  />
+                </div>
+              )}
+
+              {/* NEW: Urgency Banner */}
+              {campaignDetail.urgency && (
+                <div className="mt-6">
+                  <UrgencyBanner
+                    urgency={campaignDetail.urgency}
+                  />
+                </div>
+              )}
 
               {/* Organization Info */}
               <div className="bg-card border border-border rounded-xl p-6 shadow-sm mt-6">
@@ -857,7 +786,6 @@ export default function CampaignDetail() {
                   <div className="flex-1">
                     <div className="flex items-center gap-1 mb-1">
                       <span className="font-semibold">{campaignDetail.organization.name}</span>
-                      <CircleCheck className="h-4 w-4 text-green-600" />
                     </div>
                     <p className="text-sm text-muted-foreground">Verified Organization</p>
                   </div>

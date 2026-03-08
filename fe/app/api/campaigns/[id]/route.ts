@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getCampaignPool, calculateDaysLeft } from '@/lib/contract-client';
-import { campaigns as demoCampaigns } from '@/data/campaigns';
+import { campaigns as demoCampaigns, campaignStoryData } from '@/data/campaigns';
+import type { Beneficiary, OrganizerMessage, ImpactMetrics, ImpactCalculator, JourneyItem, UrgencyInfo } from '@/data/campaigns';
 
 export async function GET(
   request: NextRequest,
@@ -66,6 +67,42 @@ export async function GET(
       );
     }
 
+    // Get storytelling data if available
+    const storyData = campaignStoryData[poolId] || {
+      beneficiaries: [] as Beneficiary[],
+      organizerMessage: {
+        name: campaign.organizationName,
+        role: 'Organizer',
+        photo: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face',
+        message: 'Thank you for your support. Your donation makes a real difference.',
+        verified: campaign.organizationVerified
+      } as OrganizerMessage,
+      impactMetrics: {
+        familiesHelped: Math.floor(campaign.raised / 500),
+        peopleReached: Math.floor(campaign.raised / 100),
+        mealsProvided: campaign.raised / 10,
+        childrenSupported: Math.floor(campaign.raised / 300)
+      } as ImpactMetrics,
+      impactCalculator: [
+        { amount: 10000, impact: 'Basic support', icon: '❤️' },
+        { amount: 50000, impact: '5x impact', icon: '💝' },
+        { amount: 100000, impact: '10x impact', icon: '💖' }
+      ] as ImpactCalculator[],
+      journey: [
+        {
+          date: new Date(campaign.createdAt * 1000).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }),
+          title: 'Campaign Started',
+          description: 'Campaign launched to support those in need.',
+          status: 'completed' as const
+        }
+      ] as JourneyItem[],
+      urgency: {
+        type: 'deadline',
+        message: `${calculateDaysLeft(campaign.endTime)} days left to donate`,
+        count: calculateDaysLeft(campaign.endTime)
+      } as UrgencyInfo
+    };
+
     // Format campaign detail
     const campaignDetail = {
       id: poolId,
@@ -90,6 +127,14 @@ export async function GET(
       }),
       image: campaign.imageUrl,
       images: campaign.imageUrls.length > 0 ? campaign.imageUrls : [campaign.imageUrl],
+      // NEW: Storytelling fields
+      familiesHelped: storyData.impactMetrics.familiesHelped,
+      beneficiaries: storyData.beneficiaries,
+      organizerMessage: storyData.organizerMessage,
+      impactMetrics: storyData.impactMetrics,
+      impactCalculator: storyData.impactCalculator,
+      journey: storyData.journey,
+      urgency: storyData.urgency,
       // Mock updates
       updates: [
         {

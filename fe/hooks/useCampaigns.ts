@@ -30,6 +30,8 @@ export interface Campaign {
   imageUrls: string[];
   tags: string[];
   metadataURI?: string;
+  // NEW: Storytelling fields
+  familiesHelped?: number;
 }
 
 /**
@@ -65,12 +67,13 @@ export function useCampaigns() {
           donors: d.donors,
           daysLeft: d.daysLeft,
           isActive: true,
-          isVerified: false,
+          isVerified: d.isVerified ?? false,
           startDate: Date.now(),
           endDate: Date.now() + (d.daysLeft || 0) * 24 * 60 * 60 * 1000,
           campaignType: 0,
           imageUrls: d.image ? [d.image] : [],
           tags: [],
+          familiesHelped: d.familiesHelped,
         }));
 
         setCampaigns(converted);
@@ -130,12 +133,13 @@ export function useCampaigns() {
           donors: d.donors,
           daysLeft: d.daysLeft,
           isActive: true,
-          isVerified: false,
+          isVerified: d.isVerified ?? false,
           startDate: Date.now(),
           endDate: Date.now() + (d.daysLeft || 0) * 24 * 60 * 60 * 1000,
           campaignType: 0,
           imageUrls: d.image ? [d.image] : [],
           tags: [],
+          familiesHelped: d.familiesHelped,
         }));
 
         setCampaigns(converted);

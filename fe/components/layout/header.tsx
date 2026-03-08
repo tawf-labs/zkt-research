@@ -1,15 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { Menu, Search, ChevronDown } from "lucide-react";
-import { useState } from "react";
+import { Menu, Search } from "lucide-react";
 import { useSearch } from "@/components/shared/SearchContext";
 import { SearchDropdown } from "@/components/shared/SearchDropdown";
 import { ConnectWalletButton } from "@/components/wallet/connect-wallet-button";
 import { useLanguage } from "@/components/providers/language-provider";
 
 export function Header() {
-  const [isDropdownOpen, setDropdownOpen] = useState(false);
   const { searchQuery, setSearchQuery, isSearchOpen, setIsSearchOpen } =
     useSearch();
   const { language, setLanguage, t } = useLanguage();
@@ -25,73 +23,23 @@ export function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-white/95 backdrop-blur-sm shadow-sm">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
-        
+    <header className="sticky top-0 z-50 w-full border-b border-primary/10 bg-[#F9F6F0]/95 backdrop-blur-lg shadow-sm">
+      {/* Height: 80px per guidelines */}
+      <div className="container mx-auto flex h-20 items-center justify-between px-4 sm:px-6 lg:px-8">
+
         {/* LEFT */}
-        <div className="flex items-center gap-10">
-          <Link href="/" className="flex items-center">
-            <img src="/logo.png" className="h-8 object-contain" />
+        <div className="flex items-center gap-8 lg:gap-10">
+          <Link href="/" className="flex items-center gap-1.5">
+            {/* Logo: Serif font, 24px, medium weight per guidelines */}
+            <span className="font-serif text-2xl font-medium text-primary">Tawf</span>
+            <span className="w-2 h-2 rounded-full bg-secondary"></span>
           </Link>
 
-          <nav className="hidden md:flex items-center gap-8 text-[0.79rem] font-medium">
-            <Link href="/zakat" className="text-foreground hover:text-primary transition-colors">{t("header.zakat")}</Link>
-            <Link href="/campaigns" className="text-foreground hover:text-primary transition-colors">{t("header.campaigns")}</Link>
-            {/* <Link href="/faucet" className="text-foreground hover:text-primary transition-colors">{t("header.faucet")}</Link> */}
-            <Link href="/explorer" className="text-foreground hover:text-primary transition-colors">{t("header.explorer")}</Link>
-            <Link href="/contact" className="text-foreground hover:text-primary transition-colors">{t("header.contact")}</Link>
-
-            {/* Dashboard dropdown */}
-            <div className="relative">
-              <button
-                onClick={() => setDropdownOpen(!isDropdownOpen)}
-                className="flex items-center gap-1"
-              >
-                {t("header.dashboard")}
-                <ChevronDown className="w-4 h-4" />
-              </button>
-
-              {isDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-56 bg-white border border-border rounded-lg shadow-lg z-50">
-                  <ul className="flex flex-col p-2">
-                    {/* Donors Section */}
-                    <li className="px-3 py-1.5 text-xs font-semibold text-muted-foreground">
-                      Untuk Donatur
-                    </li>
-                    <li>
-                      <Link href="/dashboard/donor" className="block px-4 py-2.5 rounded-md text-sm hover:bg-accent hover:text-primary transition-colors">
-                        {t("dashboard.donor")}
-                      </Link>
-                    </li>
-
-                    <li className="my-1 border-t border-border" />
-
-                    {/* Organizations Section */}
-                    <li className="px-3 py-1.5 text-xs font-semibold text-muted-foreground">
-                      Untuk Organisasi
-                    </li>
-                    <li>
-                      <Link href="/dashboard/organization" className="block px-4 py-2.5 rounded-md text-sm hover:bg-accent hover:text-primary transition-colors">
-                        {t("dashboard.organization")}
-                      </Link>
-                    </li>
-
-                    {/* Auditor - Hidden for future use */}
-                    {/* <li className="my-1 border-t border-border" />
-                    <li className="px-3 py-1.5 text-xs font-semibold text-muted-foreground">
-                      Auditor
-                    </li>
-                    <li>
-                      <Link href="/dashboard/auditor" className="block px-4 py-2.5 rounded-md text-sm hover:bg-accent hover:text-primary transition-colors">
-                        {t("dashboard.auditor")}
-                      </Link>
-                    </li> */}
-                  </ul>
-                </div>
-              )}
-            </div>
-
-            <Link href="/governance" className="text-foreground hover:text-primary transition-colors">{t("header.governance")}</Link>
+          {/* Nav links: Uppercase, wide tracking (0.2em), 14px per guidelines */}
+          <nav className="hidden md:flex items-center gap-6 lg:gap-8 text-xs font-medium uppercase tracking-wide-label">
+            <Link href="/campaigns" className="relative text-foreground hover:text-primary transition-colors after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all hover:after:w-full">{t("header.campaigns")}</Link>
+            <Link href="/governance" className="relative text-foreground hover:text-primary transition-colors after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all hover:after:w-full">{t("header.governance")}</Link>
+            <Link href="/explorer" className="relative text-foreground hover:text-primary transition-colors after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all hover:after:w-full">{t("header.explorer")}</Link>
           </nav>
         </div>
 
@@ -100,7 +48,7 @@ export function Header() {
 
           {/* SEARCH BAR */}
           <div className="relative hidden lg:block w-40">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
 
             <input
               type="search"
@@ -111,7 +59,7 @@ export function Header() {
                 setIsSearchOpen(true);
               }}
               onKeyDown={handleEnter}
-              className="w-full pl-9 py-1.5 h-10 bg-accent/50 border border-border rounded-lg outline-none focus:ring-2 focus:ring-primary/20 transition-all text-sm"
+              className="w-full pl-10 pr-4 h-10 bg-white/70 border border-primary/20 rounded-full outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/30 transition-all text-sm"
             />
 
             {/* DROPDOWN */}
@@ -119,12 +67,12 @@ export function Header() {
           </div>
 
           {/* Language Toggle */}
-          <div className="hidden sm:flex items-center gap-1 border border-border rounded-lg p-1 bg-accent/30">
+          <div className="hidden sm:flex items-center gap-1 border border-primary/10 rounded-full p-1 bg-white/50">
             <button
               onClick={() => setLanguage("id")}
-              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
+              className={`px-4 py-2 rounded-full text-xs font-medium uppercase tracking-wide-label transition-all ${
                 language === "id"
-                  ? "bg-primary text-white shadow-sm"
+                  ? "bg-primary text-primary-foreground shadow-sm"
                   : "text-foreground/60 hover:text-foreground hover:bg-white/50"
               }`}
             >
@@ -132,9 +80,9 @@ export function Header() {
             </button>
             <button
               onClick={() => setLanguage("en")}
-              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
+              className={`px-4 py-2 rounded-full text-xs font-medium uppercase tracking-wide-label transition-all ${
                 language === "en"
-                  ? "bg-primary text-white shadow-sm"
+                  ? "bg-primary text-primary-foreground shadow-sm"
                   : "text-foreground/60 hover:text-foreground hover:bg-white/50"
               }`}
             >
@@ -142,13 +90,13 @@ export function Header() {
             </button>
           </div>
 
-          <Link href="/campaigns/new" className="hidden sm:flex items-center gap-2 border border-border h-10 px-5 rounded-lg hover:bg-accent hover:border-primary/30 transition-all text-sm font-medium">
+          <Link href="/campaigns/new" className="hidden sm:flex items-center gap-2 border border-primary/20 h-10 px-6 rounded-full hover:bg-primary hover:text-primary-foreground transition-all text-xs font-medium uppercase tracking-wide-label">
             {t("header.start_campaign")}
           </Link>
 
           <ConnectWalletButton />
 
-          <button className="md:hidden size-10 flex items-center justify-center rounded-lg hover:bg-accent transition-colors">
+          <button className="md:hidden size-10 flex items-center justify-center rounded-full hover:bg-accent transition-colors">
             <Menu className="w-5 h-5" />
           </button>
         </div>

@@ -398,14 +398,20 @@ export function WalletProvider({ children }: { children: ReactNode }) {
     setClientConfig(getClientConfig()); // safe to call browser-only APIs here
   }, []);
 
-  if (!isClient || !clientConfig) return null; // prevent SSR and invalid config
+  // Prevent SSR rendering - clientConfig is browser-only
+  // but still render the provider tree to avoid hydration issues
+  if (!clientConfig) return null;
 
   return (
     <WagmiProvider config={clientConfig}>
       <QueryClientProvider client={queryClient}>
         <XellarKitProvider theme={darkTheme}>
           <ChainEnforcer>
-            <WalletStateController>{children}</WalletStateController>
+            {isClient ? (
+              <WalletStateController>{children}</WalletStateController>
+            ) : (
+              children
+            )}
           </ChainEnforcer>
         </XellarKitProvider>
       </QueryClientProvider>

@@ -1,25 +1,26 @@
 export function HowItWorks() {
   return (
-    <section className="py-16 lg:py-24 bg-background">
-      <div className="container px-4 mx-auto">
-        <div className="flex flex-col lg:flex-row items-center gap-12">
+    <section className="py-16 md:py-24 px-4 sm:px-6 bg-gradient-to-b from-transparent to-secondary/5">
+      <div className="container mx-auto">
+        <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
 
           {/* Left Content */}
           <div className="lg:w-1/2 space-y-6">
-            <h2 className="text-3xl lg:text-4xl font-bold">How ZKT.app Works</h2>
-            <p className="text-lg text-muted-foreground">
+            {/* Updated H2 size per guidelines: 40px/36px */}
+            <h2 className="font-serif text-[36px] md:text-[40px] font-bold text-foreground">How Tawf Works</h2>
+            <p className="text-base lg:text-lg text-muted-foreground">
               Experience the future of giving with our seamless, transparent 4-step process.
             </p>
 
             <div className="space-y-6 pt-4">
 
               {/* Step 1 */}
-              <div className="flex gap-4">
-                <div className="flex-none h-8 w-8 rounded-full bg-white/10 text-primary flex items-center justify-center font-bold text-sm">
+              <div className="flex gap-4 group">
+                <div className="flex-none h-12 w-12 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm font-serif group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
                   1
                 </div>
                 <div>
-                  <h3 className="font-bold text-lg">Connect & Verify</h3>
+                  <h3 className="font-semibold text-lg font-serif">Connect & Verify</h3>
                   <p className="text-muted-foreground">
                     Login easily and get your identity verified automatically.
                   </p>
@@ -27,12 +28,12 @@ export function HowItWorks() {
               </div>
 
               {/* Step 2 */}
-              <div className="flex gap-4">
-                <div className="flex-none h-8 w-8 rounded-full bg-white/10 text-primary flex items-center justify-center font-bold text-sm">
+              <div className="flex gap-4 group">
+                <div className="flex-none h-12 w-12 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm font-serif group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
                   2
                 </div>
                 <div>
-                  <h3 className="font-bold text-lg">Choose Your Cause</h3>
+                  <h3 className="font-semibold text-lg font-serif">Choose Your Cause</h3>
                   <p className="text-muted-foreground">
                     Browse verified campaigns for Zakat, Infaq, or Sodaqah.
                   </p>
@@ -40,12 +41,12 @@ export function HowItWorks() {
               </div>
 
               {/* Step 3 */}
-              <div className="flex gap-4">
-                <div className="flex-none h-8 w-8 rounded-full bg-white/10 text-primary flex items-center justify-center font-bold text-sm">
+              <div className="flex gap-4 group">
+                <div className="flex-none h-12 w-12 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm font-serif group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
                   3
                 </div>
                 <div>
-                  <h3 className="font-bold text-lg">Donate Securely</h3>
+                  <h3 className="font-semibold text-lg font-serif">Donate Securely</h3>
                   <p className="text-muted-foreground">
                     Pay via Xellar embedded wallet with one click.
                   </p>
@@ -53,12 +54,12 @@ export function HowItWorks() {
               </div>
 
               {/* Step 4 */}
-              <div className="flex gap-4">
-                <div className="flex-none h-8 w-8 rounded-full bg-white/10 text-primary flex items-center justify-center font-bold text-sm">
+              <div className="flex gap-4 group">
+                <div className="flex-none h-12 w-12 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm font-serif group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
                   4
                 </div>
                 <div>
-                  <h3 className="font-bold text-lg">Track Impact</h3>
+                  <h3 className="font-semibold text-lg font-serif">Track Impact</h3>
                   <p className="text-muted-foreground">
                     Receive an NFT receipt and track your funds on-chain.
                   </p>
@@ -69,32 +70,32 @@ export function HowItWorks() {
           </div>
 
           {/* Right Box */}
-          <div className="lg:w-1/2 bg-white/50 rounded-2xl p-8 lg:p-12">
+          <div className="lg:w-1/2 bg-gradient-to-br from-white to-primary/5 rounded-2xl p-6 lg:p-8 border border-primary/10 shadow-md">
             <div className="space-y-4">
 
-              <div className="bg-background p-4 rounded-lg shadow-sm border border-black flex items-center justify-between">
+              <div className="bg-background p-5 rounded-2xl border border-primary/10 flex items-center justify-between">
                 <span className="font-medium">Donation Sent</span>
                 <span className="text-primary font-mono font-bold">Confirmed ✓</span>
               </div>
 
               <div className="flex justify-center">
-                <div className="h-8 w-0.5 bg-black border-l border-dashed" />
+                <div className="h-8 w-0.5 border-l-2 border-dashed border-primary/20" />
               </div>
 
-              <div className="bg-background p-4 rounded-lg shadow-sm border border-black flex items-center justify-between">
+              <div className="bg-background p-5 rounded-2xl border border-primary/10 flex items-center justify-between">
                 <span className="font-medium">Smart Contract</span>
-                <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">
+                <span className="text-xs bg-primary/10 text-primary px-3 py-1.5 rounded-full font-medium uppercase tracking-wide-label">
                   Processing
                 </span>
               </div>
 
               <div className="flex justify-center">
-                <div className="h-8 w-0.5 bg-black border-l border-dashed" />
+                <div className="h-8 w-0.5 border-l-2 border-dashed border-primary/20" />
               </div>
 
-              <div className="bg-background p-4 rounded-lg shadow-sm border border-black flex items-center justify-between">
+              <div className="bg-background p-5 rounded-2xl border border-primary/10 flex items-center justify-between">
                 <span className="font-medium">NFT Receipt Minted</span>
-                <span className="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded">
+                <span className="text-xs bg-secondary/20 text-secondary-foreground px-3 py-1.5 rounded-full font-medium font-mono uppercase tracking-wide-label">
                   0x83...29a
                 </span>
               </div>

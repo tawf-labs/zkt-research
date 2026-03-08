@@ -15,41 +15,45 @@ export default function HomePage() {
       <Hero />
       {/* <Trusted /> */}
 
-      {/* Role-based entry section */}
-      <section className="py-20 px-4 bg-muted/30">
+      {/* Role-based entry section - updated spacing per guidelines */}
+      <section className="py-16 md:py-24 px-4 sm:px-6 bg-gradient-to-b from-secondary/5 to-transparent">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">
+          {/* Updated H2 size per guidelines: 40px/36px */}
+          <h2 className="font-serif text-[36px] md:text-[40px] font-bold text-center mb-4 text-foreground">
             Pilih Peran Anda
           </h2>
+          <p className="text-center text-muted-foreground mb-12 max-w-xl mx-auto">
+            Choose your role and start making a difference today
+          </p>
           <div className="grid md:grid-cols-3 gap-6">
             {/* Donor Card */}
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <Heart className="h-8 w-8 text-primary mb-2" />
-                <CardTitle>Donatur</CardTitle>
+            <Card className="hover:shadow-lg transition-shadow border-primary/10 rounded-2xl group">
+              <CardHeader className="p-6 pb-4">
+                <Heart className="h-8 w-8 text-primary mb-3 group-hover:scale-110 transition-transform" />
+                <CardTitle className="font-serif">Donatur</CardTitle>
                 <CardDescription>
                   Dukung donasi, terima NFT bukti, dan partisipasi dalam tata kelola
                 </CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="p-6 pt-0">
                 <Link href="/campaigns">
-                  <Button className="w-full">Mulai Berdonasi</Button>
+                  <Button className="w-full rounded-full uppercase tracking-wide-label">Mulai Berdonasi</Button>
                 </Link>
               </CardContent>
             </Card>
 
             {/* Organization Card */}
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <Building2 className="h-8 w-8 text-blue-600 mb-2" />
-                <CardTitle>Organisasi</CardTitle>
+            <Card className="hover:shadow-lg transition-shadow border-primary/10 rounded-2xl group">
+              <CardHeader className="p-6 pb-4">
+                <Building2 className="h-8 w-8 text-secondary mb-3 group-hover:scale-110 transition-transform" />
+                <CardTitle className="font-serif">Organisasi</CardTitle>
                 <CardDescription>
                   Buat kampanye Zakat, kumpulkan dana, dan verifikasi oleh Dewan Syariah
                 </CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="p-6 pt-0">
                 <Link href="/organizer">
-                  <Button className="w-full" variant="outline">
+                  <Button className="w-full rounded-full uppercase tracking-wide-label" variant="outline">
                     Mulai Organisasi
                   </Button>
                 </Link>
@@ -57,17 +61,17 @@ export default function HomePage() {
             </Card>
 
             {/* Governance Card */}
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <Scale className="h-8 w-8 text-purple-600 mb-2" />
-                <CardTitle>Governance</CardTitle>
+            <Card className="hover:shadow-lg transition-shadow border-primary/10 rounded-2xl group">
+              <CardHeader className="p-6 pb-4">
+                <Scale className="h-8 w-8 text-primary mb-3 group-hover:scale-110 transition-transform" />
+                <CardTitle className="font-serif">Governance</CardTitle>
                 <CardDescription>
                   Partisipasi dalam Community DAO dan Dewan Syariah untuk verifikasi proposal
                 </CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="p-6 pt-0">
                 <Link href="/governance">
-                  <Button className="w-full" variant="secondary">
+                  <Button className="w-full rounded-full uppercase tracking-wide-label" variant="secondary">
                     Governance
                   </Button>
                 </Link>
@@ -79,8 +83,8 @@ export default function HomePage() {
 
       <FeaturedCampaigns />
       <HowItWorks />
-      <section id="campaigns" className="py-12 md:py-16">
-        <div className="container mx-auto px-4">
+      <section id="campaigns" className="py-12 lg:py-16">
+        <div className="container mx-auto px-6">
           {/* <div className="mb-6 flex items-center justify-between">
             <h2 className="text-2xl font-semibold tracking-tight text-pretty">Featured Campaigns</h2>
             <Button asChild variant="default" className="bg-primary text-primary-foreground hover:opacity-90">

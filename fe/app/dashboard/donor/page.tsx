@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Award, FileText, Vote, Wallet, ShieldCheck, Download, ExternalLink, TrendingUp, CheckCircle2, XCircle, Clock, Settings } from 'lucide-react';
+import { useLanguage } from '@/components/providers/language-provider';
 
 interface NFTReceipt {
   id: string;
@@ -16,6 +17,7 @@ interface NFTReceipt {
 type SidebarTab = 'overview' | 'tax-reports' | 'governance-dao' | 'wallet-settings';
 
 const DonorDashboard: React.FC = () => {
+  const { t } = useLanguage();
   const [sidebarTab, setSidebarTab] = useState<SidebarTab>('overview');
   const [activeTab, setActiveTab] = useState<'receipts' | 'history' | 'governance'>('receipts');
 
@@ -80,48 +82,48 @@ const DonorDashboard: React.FC = () => {
                     0x71C...92F
                   </div>
                   <button className="w-full inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all border border-black shadow-xs hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2 bg-transparent">
-                    Edit Profile
+                    {t("dashboard.editProfile")}
                   </button>
                 </div>
               </div>
 
               {/* Navigation */}
               <nav className="space-y-1">
-                <button 
+                <button
                   onClick={() => setSidebarTab('overview')}
                   className={`w-full inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm transition-all hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2 justify-start ${
                     sidebarTab === 'overview' ? 'bg-secondary/50 font-semibold' : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   <Award className="mr-2 h-4 w-4" />
-                  Overview
+                  {t("dashboard.overview")}
                 </button>
-                <button 
+                <button
                   onClick={() => setSidebarTab('tax-reports')}
                   className={`w-full inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all hover:bg-accent h-9 px-4 py-2 justify-start ${
                     sidebarTab === 'tax-reports' ? 'bg-secondary/50 font-semibold' : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   <FileText className="mr-2 h-4 w-4" />
-                  Tax Reports
+                  {t("dashboard.taxReports")}
                 </button>
-                <button 
+                <button
                   onClick={() => setSidebarTab('governance-dao')}
                   className={`w-full inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all hover:bg-accent h-9 px-4 py-2 justify-start ${
                     sidebarTab === 'governance-dao' ? 'bg-secondary/50 font-semibold' : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   <Vote className="mr-2 h-4 w-4" />
-                  Governance (DAO)
+                  {t("dashboard.governanceDao")}
                 </button>
-                <button 
+                <button
                   onClick={() => setSidebarTab('wallet-settings')}
                   className={`w-full inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all hover:bg-accent h-9 px-4 py-2 justify-start ${
                     sidebarTab === 'wallet-settings' ? 'bg-secondary/50 font-semibold' : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   <Settings className="mr-2 h-4 w-4" />
-                  Wallet Settings
+                  {t("dashboard.walletSettings")}
                 </button>
               </nav>
             </aside>
@@ -134,17 +136,17 @@ const DonorDashboard: React.FC = () => {
               {/* Stats Cards */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="text-card-foreground rounded-xl border shadow-sm bg-white/5 border-black p-6">
-                  <div className="text-sm font-medium text-muted-foreground mb-2">Total Donated</div>
+                  <div className="text-sm font-medium text-muted-foreground mb-2">{t("dashboard.totalDonated")}</div>
                   <div className="text-2xl font-bold text-primary">$1,250.00</div>
                   <p className="text-xs text-muted-foreground mt-1">+12% from last month</p>
                 </div>
                 <div className="bg-white text-card-foreground rounded-xl border border-black shadow-sm p-6">
-                  <div className="text-sm font-medium text-muted-foreground mb-2">Campaigns Supported</div>
+                  <div className="text-sm font-medium text-muted-foreground mb-2">{t("dashboard.campaignsSupported")}</div>
                   <div className="text-2xl font-bold">14</div>
                   <p className="text-xs text-muted-foreground mt-1">Across 3 categories</p>
                 </div>
                 <div className="bg-white text-card-foreground rounded-xl border border-black shadow-sm p-6">
-                  <div className="text-sm font-medium text-muted-foreground mb-2">Governance Power</div>
+                  <div className="text-sm font-medium text-muted-foreground mb-2">{t("dashboard.governancePower")}</div>
                   <div className="text-2xl font-bold text-purple-600">850 vZKT</div>
                   <p className="text-xs text-muted-foreground mt-1">Top 15% of donors</p>
                 </div>
@@ -162,7 +164,7 @@ const DonorDashboard: React.FC = () => {
                         : 'border-transparent text-muted-foreground hover:text-foreground'
                     }`}
                   >
-                    My NFT Receipts
+                    {t("dashboard.myNftReceipts")}
                   </button>
                   <button
                     onClick={() => setActiveTab('history')}
@@ -172,7 +174,7 @@ const DonorDashboard: React.FC = () => {
                         : 'border-transparent text-muted-foreground hover:text-foreground'
                     }`}
                   >
-                    Donation History
+                    {t("dashboard.donationHistory")}
                   </button>
                   <button
                     onClick={() => setActiveTab('governance')}
@@ -182,7 +184,7 @@ const DonorDashboard: React.FC = () => {
                         : 'border-transparent text-muted-foreground hover:text-foreground'
                     }`}
                   >
-                    DAO Proposals
+                    {t("dashboard.daoProposals")}
                   </button>
                 </div>
 
@@ -211,7 +213,7 @@ const DonorDashboard: React.FC = () => {
                               </div>
                             </div>
                             <span className="inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium absolute top-3 right-3 bg-white/80 backdrop-blur text-foreground border-border/50 shadow-sm">
-                              Verified
+                              {t("campaign.verified")}
                             </span>
                           </div>
 
@@ -236,7 +238,7 @@ const DonorDashboard: React.FC = () => {
                       {/* Monthly Summary */}
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div className="bg-white text-card-foreground rounded-xl border border-black shadow-sm p-4">
-                          <div className="text-sm text-muted-foreground mb-1">This Month</div>
+                          <div className="text-sm text-muted-foreground mb-1">{t("dashboard.thisMonth")}</div>
                           <div className="text-2xl font-bold">Rp 790.000</div>
                           <div className="flex items-center gap-1 text-xs text-green-600 mt-1">
                             <TrendingUp className="h-3 w-3" />
@@ -244,12 +246,12 @@ const DonorDashboard: React.FC = () => {
                           </div>
                         </div>
                         <div className="bg-white text-card-foreground rounded-xl border border-black shadow-sm p-4">
-                          <div className="text-sm text-muted-foreground mb-1">Total Impact</div>
+                          <div className="text-sm text-muted-foreground mb-1">{t("dashboard.totalImpact")}</div>
                           <div className="text-2xl font-bold">542 people</div>
                           <div className="text-xs text-muted-foreground mt-1">Directly helped</div>
                         </div>
                         <div className="bg-white text-card-foreground rounded-xl border border-black shadow-sm p-4">
-                          <div className="text-sm text-muted-foreground mb-1">Categories</div>
+                          <div className="text-sm text-muted-foreground mb-1">{t("dashboard.categories")}</div>
                           <div className="flex gap-2 mt-2">
                             <span className="inline-flex items-center rounded-md border px-2 py-1 text-xs font-medium bg-primary/10 text-primary border-primary/20">Zakat</span>
                             <span className="inline-flex items-center rounded-md border px-2 py-1 text-xs font-medium bg-purple-100 text-purple-700 border-purple-200">Education</span>
@@ -261,16 +263,16 @@ const DonorDashboard: React.FC = () => {
                       {/* Transaction History Table */}
                       <div className="bg-white text-card-foreground rounded-xl border border-black shadow-sm">
                         <div className="p-6">
-                          <h3 className="font-semibold text-lg mb-4">Recent Donations</h3>
+                          <h3 className="font-semibold text-lg mb-4">{t("dashboard.recentDonations")}</h3>
                           <div className="overflow-x-auto">
                             <table className="w-full">
                               <thead>
                                 <tr className="border-b border-border">
-                                  <th className="text-left text-sm font-medium text-muted-foreground py-3 px-4">Date</th>
-                                  <th className="text-left text-sm font-medium text-muted-foreground py-3 px-4">Campaign</th>
-                                  <th className="text-left text-sm font-medium text-muted-foreground py-3 px-4">Amount</th>
-                                  <th className="text-left text-sm font-medium text-muted-foreground py-3 px-4">Type</th>
-                                  <th className="text-left text-sm font-medium text-muted-foreground py-3 px-4">Transaction</th>
+                                  <th className="text-left text-sm font-medium text-muted-foreground py-3 px-4">{t("dashboard.date")}</th>
+                                  <th className="text-left text-sm font-medium text-muted-foreground py-3 px-4">{t("dashboard.campaignColumn")}</th>
+                                  <th className="text-left text-sm font-medium text-muted-foreground py-3 px-4">{t("dashboard.amount")}</th>
+                                  <th className="text-left text-sm font-medium text-muted-foreground py-3 px-4">{t("dashboard.type")}</th>
+                                  <th className="text-left text-sm font-medium text-muted-foreground py-3 px-4">{t("dashboard.transaction")}</th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -357,16 +359,16 @@ const DonorDashboard: React.FC = () => {
                       <div className="bg-gradient-to-br from-purple-50 to-white text-card-foreground rounded-xl border border-purple-200 shadow-sm p-6">
                         <div className="flex items-start justify-between">
                           <div>
-                            <h3 className="font-semibold text-lg mb-2">Your Voting Power</h3>
+                            <h3 className="font-semibold text-lg mb-2">{t("dashboard.yourVotingPower")}</h3>
                             <div className="text-3xl font-bold text-purple-600 mb-2">850 vZKT</div>
-                            <p className="text-sm text-muted-foreground mb-4">Soul-bound tokens earned through donations</p>
+                            <p className="text-sm text-muted-foreground mb-4">{t("dashboard.soulboundTokens")}</p>
                             <div className="flex gap-4 text-sm">
                               <div>
-                                <div className="text-muted-foreground">Proposals Voted</div>
+                                <div className="text-muted-foreground">{t("dashboard.proposalsVoted")}</div>
                                 <div className="font-semibold">12</div>
                               </div>
                               <div>
-                                <div className="text-muted-foreground">Participation Rate</div>
+                                <div className="text-muted-foreground">{t("dashboard.participationRate")}</div>
                                 <div className="font-semibold">85%</div>
                               </div>
                             </div>
@@ -379,7 +381,7 @@ const DonorDashboard: React.FC = () => {
 
                       {/* Active Proposals */}
                       <div>
-                        <h3 className="font-semibold text-lg mb-4">Active Proposals</h3>
+                        <h3 className="font-semibold text-lg mb-4">{t("dashboard.activeProposals")}</h3>
                         <div className="space-y-4">
                           {/* Proposal 1 */}
                           <div className="bg-white text-card-foreground rounded-xl border border-black shadow-sm p-6">
@@ -409,15 +411,15 @@ const DonorDashboard: React.FC = () => {
                                 </div>
                               </div>
                               <div className="flex items-center justify-between pt-2 border-t border-border">
-                                <span className="text-xs text-muted-foreground">Ends in 3 days</span>
+                                <span className="text-xs text-muted-foreground">{t("dashboard.endsIn")} 3 days</span>
                                 <div className="flex gap-2">
                                   <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all border shadow-xs h-9 px-4 py-2 bg-green-500 text-white border-green-600 hover:bg-green-600">
                                     <CheckCircle2 className="h-4 w-4" />
-                                    Vote For
+                                    {t("dashboard.voteFor")}
                                   </button>
                                   <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all border shadow-xs h-9 px-4 py-2 bg-white border-black hover:bg-gray-50">
                                     <XCircle className="h-4 w-4" />
-                                    Vote Against
+                                    {t("dashboard.voteAgainst")}
                                   </button>
                                 </div>
                               </div>
@@ -452,15 +454,15 @@ const DonorDashboard: React.FC = () => {
                                 </div>
                               </div>
                               <div className="flex items-center justify-between pt-2 border-t border-border">
-                                <span className="text-xs text-muted-foreground">Ends in 5 days</span>
+                                <span className="text-xs text-muted-foreground">{t("dashboard.endsIn")} 5 days</span>
                                 <div className="flex gap-2">
                                   <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all border shadow-xs h-9 px-4 py-2 bg-green-500 text-white border-green-600 hover:bg-green-600">
                                     <CheckCircle2 className="h-4 w-4" />
-                                    Vote For
+                                    {t("dashboard.voteFor")}
                                   </button>
                                   <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all border shadow-xs h-9 px-4 py-2 bg-white border-black hover:bg-gray-50">
                                     <XCircle className="h-4 w-4" />
-                                    Vote Against
+                                    {t("dashboard.voteAgainst")}
                                   </button>
                                 </div>
                               </div>
@@ -506,7 +508,7 @@ const DonorDashboard: React.FC = () => {
 
                       {/* How to Earn More Voting Power */}
                       <div className="bg-purple-50 text-card-foreground rounded-xl border border-purple-200 p-6">
-                        <h4 className="font-semibold mb-3">How to Earn More Voting Power</h4>
+                        <h4 className="font-semibold mb-3">{t("dashboard.howToEarnMore")}</h4>
                         <ul className="space-y-2 text-sm text-muted-foreground">
                           <li className="flex items-start gap-2">
                             <CheckCircle2 className="h-4 w-4 text-purple-600 mt-0.5 flex-shrink-0" />
@@ -533,40 +535,40 @@ const DonorDashboard: React.FC = () => {
               {sidebarTab === 'tax-reports' && (
                 <>
                   <div>
-                    <h1 className="text-3xl font-bold tracking-tight mb-2">Tax Reports</h1>
-                    <p className="text-muted-foreground">Download tax-deductible donation receipts for filing</p>
+                    <h1 className="text-3xl font-bold tracking-tight mb-2">{t("dashboard.taxReports")}</h1>
+                    <p className="text-muted-foreground">{t("dashboard.downloadTaxReports")}</p>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-white rounded-xl border border-black shadow-sm p-6">
-                      <div className="text-sm text-muted-foreground mb-1">Total Deductible (2025)</div>
+                      <div className="text-sm text-muted-foreground mb-1">{t("dashboard.totalDeductible")} (2025)</div>
                       <div className="text-2xl font-bold">Rp 19.750.000</div>
                       <p className="text-xs text-muted-foreground mt-1">Across 45 donations</p>
                     </div>
                     <div className="bg-white rounded-xl border border-black shadow-sm p-6">
-                      <div className="text-sm text-muted-foreground mb-1">Tax Benefit Estimate</div>
+                      <div className="text-sm text-muted-foreground mb-1">{t("dashboard.taxBenefitEstimate")}</div>
                       <div className="text-2xl font-bold text-green-600">Rp 4.937.500</div>
-                      <p className="text-xs text-muted-foreground mt-1">At 25% tax rate</p>
+                      <p className="text-xs text-muted-foreground mt-1">At 25% {t("dashboard.taxRate")}</p>
                     </div>
                   </div>
 
                   <div className="bg-white rounded-xl border border-black shadow-sm">
                     <div className="p-6 border-b border-border">
-                      <h3 className="font-semibold text-lg">Annual Reports</h3>
+                      <h3 className="font-semibold text-lg">{t("dashboard.annualReports")}</h3>
                       <p className="text-sm text-muted-foreground mt-1">Download comprehensive tax reports by year</p>
                     </div>
                     <div className="p-6 space-y-4">
                       {['2025', '2024', '2023'].map((year) => (
                         <div key={year} className="flex items-center justify-between border border-border rounded-lg p-4 hover:bg-accent/50 transition-colors">
                           <div>
-                            <div className="font-semibold">{year} Tax Year</div>
+                            <div className="font-semibold">{year} {t("dashboard.taxYear")}</div>
                             <div className="text-sm text-muted-foreground mt-1">
-                              {year === '2025' ? 'In Progress - YTD' : 'Complete'}
+                              {year === '2025' ? t("dashboard.inProgressYtd") : t("dashboard.complete")}
                             </div>
                           </div>
                           <button className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-black hover:bg-gray-50 text-sm font-medium">
                             <Download className="h-4 w-4" />
-                            Download PDF
+                            {t("dashboard.downloadPdf")}
                           </button>
                         </div>
                       ))}
@@ -574,19 +576,19 @@ const DonorDashboard: React.FC = () => {
                   </div>
 
                   <div className="bg-blue-50 rounded-xl border border-blue-200 p-6">
-                    <h4 className="font-semibold mb-3">Tax Deduction Information</h4>
+                    <h4 className="font-semibold mb-3">{t("dashboard.taxDeductionInfo")}</h4>
                     <ul className="space-y-2 text-sm text-muted-foreground">
                       <li className="flex items-start gap-2">
                         <CheckCircle2 className="h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0" />
-                        <span>All donations to registered charities are tax-deductible in Indonesia</span>
+                        <span>{t("dashboard.taxInfo1")}</span>
                       </li>
                       <li className="flex items-start gap-2">
                         <CheckCircle2 className="h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0" />
-                        <span>Keep these receipts with your annual tax filing documentation</span>
+                        <span>{t("dashboard.taxInfo2")}</span>
                       </li>
                       <li className="flex items-start gap-2">
                         <CheckCircle2 className="h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0" />
-                        <span>Consult with a tax professional for personalized advice</span>
+                        <span>{t("dashboard.taxInfo3")}</span>
                       </li>
                     </ul>
                   </div>
@@ -597,16 +599,16 @@ const DonorDashboard: React.FC = () => {
               {sidebarTab === 'governance-dao' && (
                 <>
                   <div>
-                    <h1 className="text-3xl font-bold tracking-tight mb-2">DAO Governance</h1>
-                    <p className="text-muted-foreground">Participate in platform decisions with your voting power</p>
+                    <h1 className="text-3xl font-bold tracking-tight mb-2">{t("dashboard.governanceDao")}</h1>
+                    <p className="text-muted-foreground">{t("dashboard.participateInPlatform")}</p>
                   </div>
 
                   <div className="bg-gradient-to-br from-purple-50 to-white rounded-xl border border-purple-200 shadow-sm p-6">
                     <div className="flex items-start justify-between">
                       <div>
-                        <h3 className="font-semibold text-lg mb-2">Your Voting Power</h3>
+                        <h3 className="font-semibold text-lg mb-2">{t("dashboard.yourVotingPower")}</h3>
                         <div className="text-3xl font-bold text-purple-600 mb-2">850 vZKT</div>
-                        <p className="text-sm text-muted-foreground mb-4">Soul-bound tokens earned through donations</p>
+                        <p className="text-sm text-muted-foreground mb-4">{t("dashboard.soulboundTokens")}</p>
                       </div>
                       <span className="inline-flex items-center rounded-md border px-3 py-1 text-sm font-medium bg-purple-100 text-purple-700 border-purple-200">Top 15%</span>
                     </div>
@@ -614,15 +616,15 @@ const DonorDashboard: React.FC = () => {
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="bg-white rounded-xl border border-black shadow-sm p-6">
-                      <div className="text-sm text-muted-foreground mb-1">Proposals Voted</div>
+                      <div className="text-sm text-muted-foreground mb-1">{t("dashboard.proposalsVoted")}</div>
                       <div className="text-2xl font-bold">12</div>
                     </div>
                     <div className="bg-white rounded-xl border border-black shadow-sm p-6">
-                      <div className="text-sm text-muted-foreground mb-1">Participation Rate</div>
+                      <div className="text-sm text-muted-foreground mb-1">{t("dashboard.participationRate")}</div>
                       <div className="text-2xl font-bold">85%</div>
                     </div>
                     <div className="bg-white rounded-xl border border-black shadow-sm p-6">
-                      <div className="text-sm text-muted-foreground mb-1">Active Proposals</div>
+                      <div className="text-sm text-muted-foreground mb-1">{t("dashboard.activeProposals")}</div>
                       <div className="text-2xl font-bold">3</div>
                     </div>
                   </div>
@@ -631,10 +633,10 @@ const DonorDashboard: React.FC = () => {
                     <div className="p-6 border-b border-border">
                       <div className="flex items-center justify-between">
                         <div>
-                          <h3 className="font-semibold text-lg">Active Proposals</h3>
-                          <p className="text-sm text-muted-foreground mt-1">Vote on important platform decisions</p>
+                          <h3 className="font-semibold text-lg">{t("dashboard.activeProposals")}</h3>
+                          <p className="text-sm text-muted-foreground mt-1">{t("dashboard.voteOnDecisions")}</p>
                         </div>
-                        <a href="/governance" className="text-sm text-primary hover:underline">View All</a>
+                        <a href="/governance" className="text-sm text-primary hover:underline">{t("dashboard.viewAll")}</a>
                       </div>
                     </div>
                     <div className="p-6 space-y-4">
@@ -643,7 +645,7 @@ const DonorDashboard: React.FC = () => {
                           <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-green-100 text-green-700 border-green-200">
                             Active
                           </span>
-                          <span className="text-xs text-muted-foreground">Ends in 3 days</span>
+                          <span className="text-xs text-muted-foreground">{t("dashboard.endsIn")} 3 days</span>
                         </div>
                         <h4 className="font-semibold mb-2">Increase Education Fund Allocation to 35%</h4>
                         <div className="flex justify-between text-sm text-muted-foreground mb-2">
@@ -659,7 +661,7 @@ const DonorDashboard: React.FC = () => {
                           <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-green-100 text-green-700 border-green-200">
                             Active
                           </span>
-                          <span className="text-xs text-muted-foreground">Ends in 5 days</span>
+                          <span className="text-xs text-muted-foreground">{t("dashboard.endsIn")} 5 days</span>
                         </div>
                         <h4 className="font-semibold mb-2">Implement Quarterly Impact Reports</h4>
                         <div className="flex justify-between text-sm text-muted-foreground mb-2">
@@ -679,32 +681,32 @@ const DonorDashboard: React.FC = () => {
               {sidebarTab === 'wallet-settings' && (
                 <>
                   <div>
-                    <h1 className="text-3xl font-bold tracking-tight mb-2">Wallet Settings</h1>
-                    <p className="text-muted-foreground">Manage your wallet connection and preferences</p>
+                    <h1 className="text-3xl font-bold tracking-tight mb-2">{t("dashboard.walletSettings")}</h1>
+                    <p className="text-muted-foreground">{t("dashboard.manageWallet")}</p>
                   </div>
 
                   <div className="bg-white rounded-xl border border-black shadow-sm">
                     <div className="p-6 border-b border-border">
-                      <h3 className="font-semibold text-lg">Connected Wallet</h3>
+                      <h3 className="font-semibold text-lg">{t("dashboard.connectedWallet")}</h3>
                       <p className="text-sm text-muted-foreground mt-1">Your currently connected wallet address</p>
                     </div>
                     <div className="p-6">
                       <div className="flex items-center justify-between mb-4 p-4 bg-accent/30 rounded-lg">
                         <div>
-                          <div className="text-sm text-muted-foreground mb-1">Address</div>
+                          <div className="text-sm text-muted-foreground mb-1">{t("dashboard.walletAddress")}</div>
                           <div className="font-mono font-semibold">0x71C7656EC7ab88b098defB751B7401B5f6d8976F</div>
                         </div>
                         <button className="px-4 py-2 rounded-md border border-black hover:bg-gray-50 text-sm font-medium">
-                          Disconnect
+                          {t("dashboard.disconnect")}
                         </button>
                       </div>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="p-4 border border-border rounded-lg">
-                          <div className="text-sm text-muted-foreground mb-1">Network</div>
+                          <div className="text-sm text-muted-foreground mb-1">{t("dashboard.network")}</div>
                           <div className="font-semibold">Base Sepolia</div>
                         </div>
                         <div className="p-4 border border-border rounded-lg">
-                          <div className="text-sm text-muted-foreground mb-1">Balance</div>
+                          <div className="text-sm text-muted-foreground mb-1">{t("dashboard.balance")}</div>
                           <div className="font-semibold">15,800,000 IDRX</div>
                         </div>
                       </div>
@@ -713,15 +715,15 @@ const DonorDashboard: React.FC = () => {
 
                   <div className="bg-white rounded-xl border border-black shadow-sm">
                     <div className="p-6 border-b border-border">
-                      <h3 className="font-semibold text-lg">Notification Preferences</h3>
-                      <p className="text-sm text-muted-foreground mt-1">Choose how you want to be notified</p>
+                      <h3 className="font-semibold text-lg">{t("dashboard.notificationPreferences")}</h3>
+                      <p className="text-sm text-muted-foreground mt-1">{t("dashboard.chooseNotified")}</p>
                     </div>
                     <div className="p-6 space-y-4">
                       {[
-                        { label: 'Donation Confirmations', desc: 'Get notified when your donations are processed' },
-                        { label: 'New Proposals', desc: 'Alerts for new DAO governance proposals' },
-                        { label: 'Campaign Updates', desc: 'Updates from campaigns you have supported' },
-                        { label: 'Tax Reports', desc: 'Annual tax report availability notifications' }
+                        { label: t("dashboard.donationConfirmations"), desc: t("dashboard.donationConfirmationsDesc") },
+                        { label: t("dashboard.newProposals"), desc: t("dashboard.newProposalsDesc") },
+                        { label: t("dashboard.campaignUpdates"), desc: t("dashboard.campaignUpdatesDesc") },
+                        { label: t("dashboard.taxReportNotifications"), desc: t("dashboard.taxReportNotificationsDesc") }
                       ].map((item, idx) => (
                         <div key={idx} className="flex items-center justify-between p-4 border border-border rounded-lg">
                           <div>
@@ -729,7 +731,7 @@ const DonorDashboard: React.FC = () => {
                             <div className="text-sm text-muted-foreground mt-1">{item.desc}</div>
                           </div>
                           <button className="px-4 py-2 rounded-md bg-primary text-white text-sm font-medium hover:bg-primary/90">
-                            Enabled
+                            {t("dashboard.enabled")}
                           </button>
                         </div>
                       ))}

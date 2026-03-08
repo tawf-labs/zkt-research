@@ -7,6 +7,7 @@ import { Users, Clock, CircleCheck } from "lucide-react";
 import { Campaign } from "@/hooks/useCampaigns";
 import { DonationDialog } from "@/components/donations/donation-dialog";
 import { Heart } from "lucide-react";
+import { useLanguage } from "@/components/providers/language-provider";
 
 interface CampaignCardProps {
   campaign: Campaign;
@@ -30,6 +31,7 @@ const calculateRealTimeDaysLeft = (endDate: number): number => {
 };
 
 export function CampaignCard({ campaign, onDonationSuccess }: CampaignCardProps) {
+  const { t } = useLanguage()
   const router = useRouter();
   const [showDonationDialog, setShowDonationDialog] = useState(false);
   const [daysLeft, setDaysLeft] = useState(calculateRealTimeDaysLeft(campaign.endDate));
@@ -84,7 +86,7 @@ export function CampaignCard({ campaign, onDonationSuccess }: CampaignCardProps)
           {campaign.familiesHelped && (
             <span className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-primary/95 backdrop-blur-sm text-white text-xs font-medium shadow-md">
               <Heart className="h-3 w-3 fill-white" />
-              {campaign.familiesHelped} families helped
+              {campaign.familiesHelped} {t("campaign.familiesHelped")}
             </span>
           )}
         </div>
@@ -92,14 +94,14 @@ export function CampaignCard({ campaign, onDonationSuccess }: CampaignCardProps)
         <div className="absolute bottom-4 right-4">
           {/* Updated with uppercase tracking-wide-label per guidelines */}
           <span className="inline-flex items-center gap-1.5 bg-primary text-primary-foreground px-3 py-1.5 rounded-full text-xs font-medium shadow-md uppercase tracking-wide-label">
-            <CircleCheck className="h-3 w-3" /> {campaign.isVerified ? "Verified" : "Unverified"}
+            <CircleCheck className="h-3 w-3" /> {campaign.isVerified ? t("campaign.verified") : t("campaign.unverified")}
           </span>
         </div>
       </div>
 
       <div className="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 p-6 pb-2 space-y-2">
         <div className="text-xs text-muted-foreground font-medium flex items-center gap-1">
-          by{" "}
+          {t("campaign.by")}{" "}
           <span className="text-primary font-semibold hover:underline cursor-pointer">
             {campaign.organizationName || "Unknown"}
           </span>
@@ -131,14 +133,14 @@ export function CampaignCard({ campaign, onDonationSuccess }: CampaignCardProps)
           <div className="flex justify-between items-center text-xs text-muted-foreground pt-1">
             <div className="flex items-center gap-1">
               <Users className="h-3.5 w-3.5" />
-              <span>{campaign.donors.toLocaleString()} donors</span>
+              <span>{campaign.donors.toLocaleString()} {t("campaign.donors")}</span>
             </div>
 
             {/* Updated with uppercase tracking-wide-label per guidelines */}
             <div className="flex items-center gap-1 bg-secondary/30 px-3 py-1.5 rounded-full">
               <Clock className="h-3.5 w-3.5" />
               <span className="font-medium text-foreground uppercase tracking-wide-label">
-                {campaign.daysLeft} days left
+                {campaign.daysLeft} {t("campaign.daysLeft")}
               </span>
             </div>
           </div>
@@ -151,7 +153,7 @@ export function CampaignCard({ campaign, onDonationSuccess }: CampaignCardProps)
           onClick={handleDonateClick}
           className="w-full h-12 rounded-full bg-primary text-primary-foreground font-semibold hover:bg-primary/90 hover:shadow-md hover:shadow-primary/20 transition-all uppercase tracking-wide-label"
         >
-          Donate Now
+          {t("campaign.donate")}
         </button>
       </div>
 

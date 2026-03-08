@@ -10,10 +10,12 @@ import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { useLanguage } from '@/components/providers/language-provider';
 
 type SidebarTab = 'overview' | 'organizations' | 'audit' | 'alerts' | 'kyc';
 
-const BaznasDashboard = () => {
+const AuditorDashboard = () => {
+  const { t } = useLanguage()
   const [sidebarTab, setSidebarTab] = useState<SidebarTab>('overview');
   const { address } = useAccount();
 
@@ -84,8 +86,8 @@ const BaznasDashboard = () => {
               <Shield className="h-6 w-6" />
             </div>
             <div>
-              <div className="font-bold text-lg">Baznas Audit</div>
-              <div className="text-xs text-black">Regulator Portal</div>
+              <div className="font-bold text-lg">{t("auditor.title")}</div>
+              <div className="text-xs text-black">{t("auditor.subtitle")}</div>
             </div>
           </div>
 
@@ -100,7 +102,7 @@ const BaznasDashboard = () => {
               }`}
             >
               <LayoutDashboard className="h-4 w-4" />
-              Ecosystem Overview
+              {t("auditor.ecosystemOverview")}
             </button>
             <button
               onClick={() => setSidebarTab('kyc')}
@@ -111,7 +113,7 @@ const BaznasDashboard = () => {
               }`}
             >
               <FileText className="h-4 w-4" />
-              KYC Verification
+              {t("auditor.kycVerification")}
             </button>
             <button
               onClick={() => setSidebarTab('organizations')}
@@ -122,7 +124,7 @@ const BaznasDashboard = () => {
               }`}
             >
               <Building2 className="h-4 w-4" />
-              Organizations
+              {t("auditor.organizationsNav")}
             </button>
             <button
               onClick={() => setSidebarTab('audit')}
@@ -133,7 +135,7 @@ const BaznasDashboard = () => {
               }`}
             >
               <FileCheck className="h-4 w-4" />
-              Audit Logs
+              {t("auditor.auditLogs")}
             </button>
             <button
               onClick={() => setSidebarTab('alerts')}
@@ -144,7 +146,7 @@ const BaznasDashboard = () => {
               }`}
             >
               <TriangleAlert className="h-4 w-4" />
-              Risk Alerts
+              {t("auditor.riskAlerts")}
             </button>
           </nav>
         </div>
@@ -156,28 +158,28 @@ const BaznasDashboard = () => {
         {sidebarTab === 'kyc' && (
           <>
             <div className="mb-8">
-              <h1 className="text-3xl font-bold tracking-tight text-black">KYC Verification</h1>
-              <p className="text-black">Verify or reject proposal KYC submissions</p>
+              <h1 className="text-3xl font-bold tracking-tight text-black">{t("auditor.kycVerification")}</h1>
+              <p className="text-black">{t("auditor.verifyOrReject")}</p>
             </div>
 
             <div className="grid gap-6 max-w-4xl">
               {/* KYC Verification Panel */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Update Proposal KYC Status</CardTitle>
+                  <CardTitle>{t("auditor.updateKycStatus")}</CardTitle>
                   <CardDescription>
-                    Verify or reject proposal KYC submissions (requires KYC_ORACLE_ROLE)
+                    {t("auditor.updateKycDesc")}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <label htmlFor="proposalId" className="text-sm font-medium">
-                      Proposal ID
+                      {t("auditor.proposalId")}
                     </label>
                     <Input
                       id="proposalId"
                       type="number"
-                      placeholder="Enter proposal ID (e.g., 1)"
+                      placeholder={t("auditor.proposalIdPlaceholder")}
                       value={proposalId}
                       onChange={(e) => setProposalId(e.target.value)}
                       className="max-w-md"
@@ -227,18 +229,18 @@ const BaznasDashboard = () => {
 
                   <div className="space-y-2">
                     <label htmlFor="notes" className="text-sm font-medium">
-                      Verification Notes <span className="text-red-500">*</span>
+                      {t("auditor.verificationNotes")} <span className="text-red-500">*</span>
                     </label>
                     <Textarea
                       id="notes"
-                      placeholder="Enter verification notes or reasoning (e.g., 'Verified via government ID check and organization registration documents')"
+                      placeholder={t("auditor.verificationNotesPlaceholder")}
                       value={notes}
                       onChange={(e) => setNotes(e.target.value)}
                       rows={4}
                       className="resize-none"
                     />
                     <p className="text-xs text-slate-500">
-                      Notes will be stored on-chain and visible to all users
+                      {t("auditor.notesStored")}
                     </p>
                   </div>
 
@@ -249,7 +251,7 @@ const BaznasDashboard = () => {
                       className="bg-green-600 hover:bg-green-700"
                     >
                       <CheckCircle2 className="w-4 h-4 mr-2" />
-                      {isPending ? "Processing..." : "Verify KYC"}
+                      {isPending ? t("auditor.processing") : t("auditor.verifyKyc")}
                     </Button>
 
                     <Button
@@ -258,7 +260,7 @@ const BaznasDashboard = () => {
                       variant="destructive"
                     >
                       <XCircle className="w-4 h-4 mr-2" />
-                      {isPending ? "Processing..." : "Reject KYC"}
+                      {isPending ? t("auditor.processing") : t("auditor.rejectKyc")}
                     </Button>
                   </div>
 
@@ -266,7 +268,7 @@ const BaznasDashboard = () => {
                     <div className="p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-md">
                       <p className="text-green-800 dark:text-green-200 font-medium flex items-center gap-2">
                         <CheckCircle2 className="h-4 w-4" />
-                        KYC status updated successfully!
+                        {t("auditor.kycUpdated")}
                       </p>
                     </div>
                   )}
@@ -275,10 +277,10 @@ const BaznasDashboard = () => {
                     <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md">
                       <p className="text-red-800 dark:text-red-200 font-medium flex items-center gap-2">
                         <XCircle className="h-4 w-4" />
-                        Error: {error.message}
+                        {t("auditor.error")} {error.message}
                       </p>
                       <p className="text-xs text-red-600 mt-1">
-                        Make sure your wallet has KYC_ORACLE_ROLE granted
+                        {t("auditor.kycRoleError")}
                       </p>
                     </div>
                   )}
@@ -288,20 +290,20 @@ const BaznasDashboard = () => {
               {/* Your Connected Wallet */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Your Wallet</CardTitle>
+                  <CardTitle>{t("auditor.yourWallet")}</CardTitle>
                   <CardDescription>
-                    KYC Oracle credentials
+                    {t("auditor.kycCredentials")}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-2">
                   <div className="flex items-center gap-2">
-                    <span className="text-sm text-slate-600">Connected as:</span>
+                    <span className="text-sm text-slate-600">{t("auditor.connectedAs")}</span>
                     <code className="bg-slate-100 px-2 py-1 rounded text-xs font-mono">
-                      {address ? `${address.slice(0, 6)}...${address.slice(-4)}` : 'Not connected'}
+                      {address ? `${address.slice(0, 6)}...${address.slice(-4)}` : t("auditor.notConnected")}
                     </code>
                   </div>
                   <p className="text-xs text-slate-500">
-                    ⚠️ Make sure this wallet has KYC_ORACLE_ROLE granted by the DAO admin
+                    ⚠️ {t("auditor.roleWarning")}
                   </p>
                 </CardContent>
               </Card>
@@ -309,17 +311,11 @@ const BaznasDashboard = () => {
               {/* Instructions */}
               <Card className="border-blue-200 bg-blue-50/50">
                 <CardHeader>
-                  <CardTitle className="text-blue-900">How to Verify KYC</CardTitle>
+                  <CardTitle className="text-blue-900">{t("auditor.howToVerify")}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-2 text-sm text-blue-800">
                   <ol className="list-decimal list-inside space-y-2">
-                    <li>Enter the Proposal ID you want to verify</li>
-                    <li>Review the proposal details that appear</li>
-                    <li>Check the organizer's KYC documents (off-chain)</li>
-                    <li>Add detailed verification notes explaining your decision</li>
-                    <li>Click "Verify KYC" to approve or "Reject KYC" to deny</li>
-                    <li>Sign the transaction in your wallet</li>
-                    <li>Wait for blockchain confirmation</li>
+                    <li>{t("auditor.verifyInstructions")}</li>
                   </ol>
                 </CardContent>
               </Card>
@@ -334,10 +330,10 @@ const BaznasDashboard = () => {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
           <div>
             <h1 className="text-3xl font-bold tracking-tight text-black">
-              Ecosystem Overview
+              {t("auditor.ecosystemOverview")}
             </h1>
             <p className="text-black">
-              Monitoring 145 Laznas and NGOs in real-time.
+              {t("auditor.monitoring")} 145 {t("auditor.laznasNgos")} {t("auditor.inRealtime")}
             </p>
           </div>
           <div className="flex items-center gap-3">
@@ -345,13 +341,13 @@ const BaznasDashboard = () => {
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-black" />
               <input
                 type="search"
-                placeholder="Search organization or hash..."
+                placeholder={t("auditor.searchOrgHash")}
                 className="w-full pl-9 pr-3 py-2 border border-black rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
               />
             </div>
             <button className="flex items-center gap-2 px-4 py-2 bg-white border border-black rounded-md text-sm font-medium hover:bg-gray-50 transition-colors">
               <Download className="h-4 w-4" />
-              Export Report
+              {t("auditor.exportReport")}
             </button>
           </div>
         </div>
@@ -360,32 +356,32 @@ const BaznasDashboard = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div className="bg-white rounded-xl border border-l-4 border-l-emerald-500 p-6 shadow-sm">
             <div className="text-sm font-medium text-emerald-600 mb-2">
-              Total National Zakat
+              {t("auditor.totalNationalZakat")}
             </div>
             <div className="text-2xl font-bold text-emerald-900">$45,250,000</div>
             <div className="flex items-center gap-1 text-xs text-emerald-600 mt-2 font-medium">
               <Activity className="h-3 w-3" />
-              100% Traced on Blockchain
+              100% {t("auditor.tracedOnBlockchain")}
             </div>
           </div>
 
           <div className="bg-white rounded-xl border border-l-4 border-l-blue-500 p-6 shadow-sm">
             <div className="text-sm font-medium text-blue-600 mb-2">
-              Active Organizations
+              {t("auditor.activeOrganizations")}
             </div>
             <div className="text-2xl font-bold text-blue">145</div>
             <div className="text-xs text-blue-600 mt-2">
-              142 Compliant, 3 Under Review
+              142 {t("auditor.compliant")}, 3 {t("auditor.underReview")}
             </div>
           </div>
 
           <div className="bg-white rounded-xl border border-l-4 border-l-amber-500 p-6 shadow-sm">
             <div className="text-sm font-medium text-amber-600 mb-2">
-              Compliance Rate
+              {t("auditor.complianceRate")}
             </div>
             <div className="text-2xl font-bold text-amber-900">98.2%</div>
             <div className="text-xs text-amber-600 mt-2">
-              Based on real-time audits
+              {t("auditor.basedOnAudits")}
             </div>
           </div>
         </div>
@@ -396,9 +392,9 @@ const BaznasDashboard = () => {
           <div className="lg:col-span-2">
             <div className="bg-white rounded-xl border border-black shadow-sm">
               <div className="p-6 border-b border-black">
-                <h3 className="font-semibold text-black">Organization Status</h3>
+                <h3 className="font-semibold text-black">{t("auditor.organizationStatus")}</h3>
                 <p className="text-sm text-black mt-1">
-                  Real-time compliance monitoring.
+                  {t("auditor.realTimeCompliance")}
                 </p>
               </div>
               <div className="p-6">
@@ -410,13 +406,13 @@ const BaznasDashboard = () => {
                           Organization
                         </th>
                         <th className="text-left py-3 px-2 font-medium text-black">
-                          Fund Allocation
+                          {t("auditor.fundAllocation")}
                         </th>
                         <th className="text-left py-3 px-2 font-medium text-black">
-                          Audit Status
+                          {t("auditor.auditStatus")}
                         </th>
                         <th className="text-left py-3 px-2 font-medium text-black">
-                          Risk Score
+                          {t("auditor.riskScore")}
                         </th>
                         <th className="text-left py-3 px-2 font-medium text-black"></th>
                       </tr>
@@ -450,7 +446,7 @@ const BaznasDashboard = () => {
                           </td>
                           <td className="py-3 px-2">
                             <button className="text-xs font-medium text-black hover:text-black px-3 py-1 rounded-md hover:bg-slate-100 transition-colors">
-                              Details
+                              {t("auditor.details")}
                             </button>
                           </td>
                         </tr>
@@ -466,9 +462,9 @@ const BaznasDashboard = () => {
           <div className="lg:col-span-1">
             <div className="bg-white rounded-xl border border-black shadow-sm h-full">
               <div className="p-6 border-b border-black">
-                <h3 className="font-semibold text-black">Live Audit Log</h3>
+                <h3 className="font-semibold text-black">{t("auditor.liveAuditLog")}</h3>
                 <p className="text-sm text-black mt-1">
-                  Immutable blockchain records.
+                  {t("auditor.immutableRecords")}
                 </p>
               </div>
               <div className="p-6">
@@ -503,14 +499,14 @@ const BaznasDashboard = () => {
           <>
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
               <div>
-                <h1 className="text-3xl font-bold tracking-tight text-black">Organizations</h1>
+                <h1 className="text-3xl font-bold tracking-tight text-black">{t("auditor.organizationsNav")}</h1>
                 <p className="text-black">Detailed view of all registered organizations</p>
               </div>
               <div className="relative w-64">
                 <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-black" />
                 <input
                   type="search"
-                  placeholder="Search organization..."
+                  placeholder={t("auditor.searchOrg")}
                   className="w-full pl-9 pr-3 py-2 border border-black rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
                 />
               </div>
@@ -518,7 +514,7 @@ const BaznasDashboard = () => {
 
             <div className="bg-white rounded-xl border border-black shadow-sm">
               <div className="p-6 border-b border-black">
-                <h3 className="font-semibold text-black">All Organizations</h3>
+                <h3 className="font-semibold text-black">{t("auditor.allOrganizations")}</h3>
               </div>
               <div className="p-6">
                 <div className="overflow-x-auto">
@@ -526,10 +522,10 @@ const BaznasDashboard = () => {
                     <thead>
                       <tr className="border-b border-black">
                         <th className="text-left py-3 px-2 font-medium text-black">Organization</th>
-                        <th className="text-left py-3 px-2 font-medium text-black">Fund Allocation</th>
-                        <th className="text-left py-3 px-2 font-medium text-black">Audit Status</th>
-                        <th className="text-left py-3 px-2 font-medium text-black">Risk Score</th>
-                        <th className="text-left py-3 px-2 font-medium text-black">Actions</th>
+                        <th className="text-left py-3 px-2 font-medium text-black">{t("auditor.fundAllocation")}</th>
+                        <th className="text-left py-3 px-2 font-medium text-black">{t("auditor.auditStatus")}</th>
+                        <th className="text-left py-3 px-2 font-medium text-black">{t("auditor.riskScore")}</th>
+                        <th className="text-left py-3 px-2 font-medium text-black">{t("auditor.actions")}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -552,7 +548,7 @@ const BaznasDashboard = () => {
                           </td>
                           <td className="py-3 px-2">
                             <button className="text-xs font-medium text-black hover:text-black px-3 py-1 rounded-md hover:bg-slate-100 transition-colors">
-                              View Details
+                              {t("auditor.viewDetails")}
                             </button>
                           </td>
                         </tr>
@@ -569,14 +565,14 @@ const BaznasDashboard = () => {
         {sidebarTab === 'audit' && (
           <>
             <div className="mb-8">
-              <h1 className="text-3xl font-bold tracking-tight text-black">Audit Logs</h1>
-              <p className="text-black">Complete immutable blockchain audit trail</p>
+              <h1 className="text-3xl font-bold tracking-tight text-black">{t("auditor.auditLogs")}</h1>
+              <p className="text-black">{t("auditor.completeAuditTrail")}</p>
             </div>
 
             <div className="bg-white rounded-xl border border-black shadow-sm">
               <div className="p-6 border-b border-black">
-                <h3 className="font-semibold text-black">All Audit Entries</h3>
-                <p className="text-sm text-black mt-1">Chronological view of all platform activities</p>
+                <h3 className="font-semibold text-black">{t("auditor.allAuditEntries")}</h3>
+                <p className="text-sm text-black mt-1">{t("auditor.chronologicalView")}</p>
               </div>
               <div className="p-6">
                 <div className="relative border-l border-black ml-3 space-y-6">
@@ -605,31 +601,31 @@ const BaznasDashboard = () => {
         {sidebarTab === 'alerts' && (
           <>
             <div className="mb-8">
-              <h1 className="text-3xl font-bold tracking-tight text-black">Risk Alerts</h1>
-              <p className="text-black">Monitor and address potential compliance issues</p>
+              <h1 className="text-3xl font-bold tracking-tight text-black">{t("auditor.riskAlerts")}</h1>
+              <p className="text-black">{t("auditor.monitorAddress")}</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
               <div className="bg-white rounded-xl border border-l-4 border-l-red-500 p-6 shadow-sm">
-                <div className="text-sm font-medium text-red-600 mb-2">Critical Alerts</div>
+                <div className="text-sm font-medium text-red-600 mb-2">{t("auditor.criticalAlerts")}</div>
                 <div className="text-2xl font-bold text-red-900">0</div>
-                <div className="text-xs text-red-600 mt-2">Immediate action required</div>
+                <div className="text-xs text-red-600 mt-2">{t("auditor.immediateAction")}</div>
               </div>
               <div className="bg-white rounded-xl border border-l-4 border-l-amber-500 p-6 shadow-sm">
-                <div className="text-sm font-medium text-amber-600 mb-2">Medium Priority</div>
+                <div className="text-sm font-medium text-amber-600 mb-2">{t("auditor.mediumPriority")}</div>
                 <div className="text-2xl font-bold text-amber-900">3</div>
-                <div className="text-xs text-amber-600 mt-2">Review recommended</div>
+                <div className="text-xs text-amber-600 mt-2">{t("auditor.reviewRecommended")}</div>
               </div>
               <div className="bg-white rounded-xl border border-l-4 border-l-green-500 p-6 shadow-sm">
-                <div className="text-sm font-medium text-green-600 mb-2">Resolved</div>
+                <div className="text-sm font-medium text-green-600 mb-2">{t("auditor.resolved")}</div>
                 <div className="text-2xl font-bold text-green-900">12</div>
-                <div className="text-xs text-green-600 mt-2">This month</div>
+                <div className="text-xs text-green-600 mt-2">{t("auditor.thisMonth")}</div>
               </div>
             </div>
 
             <div className="bg-white rounded-xl border border-black shadow-sm">
               <div className="p-6 border-b border-black">
-                <h3 className="font-semibold text-black">Active Alerts</h3>
+                <h3 className="font-semibold text-black">{t("auditor.activeAlerts")}</h3>
               </div>
               <div className="p-6 space-y-4">
                 {[
@@ -653,10 +649,10 @@ const BaznasDashboard = () => {
                     </div>
                     <div className="flex gap-2">
                       <button className="px-3 py-1 text-xs font-medium rounded-md border border-black hover:bg-gray-50">
-                        Investigate
+                        {t("auditor.investigate")}
                       </button>
                       <button className="px-3 py-1 text-xs font-medium rounded-md bg-primary text-white hover:bg-primary/90">
-                        Resolve
+                        {t("auditor.resolve")}
                       </button>
                     </div>
                   </div>
@@ -670,4 +666,4 @@ const BaznasDashboard = () => {
   );
 };
 
-export default BaznasDashboard;
+export default AuditorDashboard;

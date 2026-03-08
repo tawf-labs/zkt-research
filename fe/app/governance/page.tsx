@@ -339,7 +339,7 @@ export default function GovernancePage() {
               </TabsTrigger>
               <TabsTrigger value="sharia" className="gap-2">
                 <Shield className="h-4 w-4" />
-                Dewan Syariah
+                Sharia Council
               </TabsTrigger>
             </TabsList>
 
@@ -375,7 +375,7 @@ export default function GovernancePage() {
             {/* Sharia Council Tab */}
             <TabsContent value="sharia" className="space-y-4 mt-0">
               <div className="mb-6">
-                <h3 className="text-lg font-semibold mb-2">Dewan Syariah Review</h3>
+                <h3 className="text-lg font-semibold mb-2">Sharia Council Review</h3>
                 <p className="text-sm text-muted-foreground">
                   Zakat-compliant proposals that passed community vote require Sharia Council approval.
                   Only authorized council members can review these proposals.

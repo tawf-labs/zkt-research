@@ -1,12 +1,10 @@
 'use client';
 
 import React from 'react';
-import { Shield, TrendingUp, Heart, Building2, Scale } from 'lucide-react';
+import { Shield, TrendingUp } from 'lucide-react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useLanguage } from '@/components/providers/language-provider';
 import { CardBody, CardContainer, CardItem } from '../ui/3d-card';
-import { Button } from '@/components/ui/button';
 
 export function Hero() {
   const { t } = useLanguage();
@@ -37,7 +35,7 @@ export function Hero() {
             {/* Enhanced badge with gold accent */}
             <div className="inline-flex items-center gap-2 rounded-full border border-secondary/30 bg-secondary/10 px-5 py-2.5 text-sm font-medium text-primary uppercase tracking-wide-label">
               <span className="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
-              Blockchain Traced
+              {t("hero.badge")}
             </div>
 
             {/* Heading - Updated size per guidelines: 60px/48px */}
@@ -50,46 +48,24 @@ export function Hero() {
               {t("hero.subtitle")}
             </p>
 
-            {/* CTA Buttons - Role Based */}
-            <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
-              <Link href="/campaigns">
-                <Button size="lg" className="gap-2">
-                  <Heart className="h-5 w-5" />
-                  <span className="uppercase tracking-wide-label">Saya Donatur</span>
-                </Button>
-              </Link>
-              <Link href="/dashboard/organization">
-                <Button size="lg" variant="outline" className="gap-2">
-                  <Building2 className="h-5 w-5" />
-                  <span className="uppercase tracking-wide-label">Saya Organisasi</span>
-                </Button>
-              </Link>
-              <Link href="/governance">
-                <Button size="lg" variant="secondary" className="gap-2">
-                  <Scale className="h-5 w-5" />
-                  <span className="uppercase tracking-wide-label">Governance</span>
-                </Button>
-              </Link>
-            </div>
-
             {/* Enhanced stats with proper labels per guidelines */}
               <div className="grid grid-cols-3 gap-4 lg:gap-8 pt-8 border-t border-primary/10">
               <div className="space-y-1 delay-100 animate-fade-in-up">
                 <div className="font-serif text-3xl lg:text-4xl font-bold text-primary">$10+</div>
                 <div className="text-sm text-foreground font-medium uppercase tracking-wide-label">
-                  DONATED
+                  {t("hero.statDonated")}
                 </div>
               </div>
               <div className="space-y-1 delay-200 animate-fade-in-up">
                 <div className="font-serif text-3xl lg:text-4xl font-bold text-primary">100%</div>
                 <div className="text-sm text-foreground font-medium uppercase tracking-wide-label">
-                  TRACEABLE
+                  {t("hero.statTraceable")}
                 </div>
               </div>
               <div className="space-y-1 delay-300 animate-fade-in-up">
                 <div className="font-serif text-3xl lg:text-4xl font-bold text-primary">50+</div>
                 <div className="text-sm text-foreground font-medium uppercase tracking-wide-label">
-                  DONORS
+                  {t("hero.statDonors")}
                 </div>
               </div>
             </div>

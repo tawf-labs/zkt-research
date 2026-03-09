@@ -1,6 +1,6 @@
 # ZKT - Zakat On Chain 
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Solidity](https://img.shields.io/badge/Solidity-0.8.31-blue.svg)](https://soliditylang.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-16.1.1-black.svg)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue.svg)](https://www.typescriptlang.org/)
@@ -22,6 +22,8 @@ A decentralized Zakat donation platform combining zero-knowledge proofs, smart c
 - [Deployment](#deployment)
 - [Roadmap](#roadmap)
 - [Contributing](#contributing)
+- [Security](#security)
+- [Acknowledgments](#acknowledgments)
 - [License](#license)
 
 ## Overview
@@ -815,15 +817,39 @@ Contributions are welcome! Please see our contributing guidelines:
 4. Push to the branch
 5. Open a Pull Request
 
+## Security
+
+For security concerns or vulnerability disclosures, please follow our responsible disclosure policy:
+
+- **Report Vulnerabilities**: Open a [security advisory](https://github.com/tawf-labs/zkt-hackathon/security/advisories)
+- **Security Policy**: See [SECURITY.md](./SECURITY.md) for detailed information
+- **Contact**: security@tawflabs.com for critical security issues
+
+Please do NOT open public issues for security vulnerabilities.
+
+## Acknowledgments
+
+- **Base Network**: For providing the Layer 2 infrastructure
+- **OpenZeppelin**: For secure smart contract libraries
+- **Circom & SnarkJS**: For zero-knowledge proof tooling
+- **Radix UI & Shadcn**: For accessible UI components
+- **Next.js Team**: For the excellent React framework
+
 ## License
 
 Copyright 2026 Tawf Labs
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+    http://www.apache.org/licenses/LICENSE-2.0
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 
 ## Support
 

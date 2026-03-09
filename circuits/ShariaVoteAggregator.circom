@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: Apache-2.0
 pragma circom 2.0.0;
 
 include "./components/VoteCounter.circom";

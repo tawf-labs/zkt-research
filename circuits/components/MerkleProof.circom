@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: Apache-2.0
 pragma circom 2.0.0;
 
 include "../node_modules/circomlib/circuits/poseidon.circom";

@@ -32,10 +32,11 @@ export function FeaturedCampaigns() {
 
         {/* Grid - gap-6 = 24px per guidelines */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {featuredCampaigns.map((campaign) => (
+          {featuredCampaigns.map((campaign, index) => (
             <CampaignCard
               key={campaign.id}
               campaign={campaign}
+              priority  // All featured campaigns are above-the-fold
             />
           ))}
         </div>

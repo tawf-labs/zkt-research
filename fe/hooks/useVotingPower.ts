@@ -49,7 +49,7 @@ export function useVotingPower() {
       });
 
       toast({
-        title: "Voting Power Requested! 🗳️",
+        title: "Voting Power Requested",
         description: "Transaction submitted. Your vZKT balance will update shortly.",
       });
       

@@ -88,8 +88,14 @@ const translations = {
     "campaigns.loadMore": "Muat Lebih Banyak",
     "campaigns.retry": "Coba Lagi",
     "campaigns.sort": "Urutkan",
+    "campaigns.sortDefault": "Default",
+    "campaigns.sortRaised": "Paling Terkumpul",
+    "campaigns.sortEndingSoon": "Segera Berakhir",
+    "campaigns.sortAlpha": "A-Z",
+    "campaigns.sortDonors": "Terbanyak Donatur",
     "campaigns.campaignCount": "kampanye",
     "campaigns.findAndSupport": "Temukan dan dukung penyebab terverifikasi yang penting bagi Anda.",
+    "campaigns.clearFilters": "Hapus Semua Filter",
 
     // Footer
     "footer.poweredBy": "Ditenagai oleh",
@@ -442,8 +448,14 @@ const translations = {
     "campaigns.loadMore": "Load More Campaigns",
     "campaigns.retry": "Try Again",
     "campaigns.sort": "Sort",
+    "campaigns.sortDefault": "Default",
+    "campaigns.sortRaised": "Most Raised",
+    "campaigns.sortEndingSoon": "Ending Soon",
+    "campaigns.sortAlpha": "A-Z",
+    "campaigns.sortDonors": "Most Donors",
     "campaigns.campaignCount": "campaigns",
     "campaigns.findAndSupport": "Find and support verified causes that matter to you.",
+    "campaigns.clearFilters": "Clear All Filters",
 
     // Footer
     "footer.poweredBy": "Powered by",

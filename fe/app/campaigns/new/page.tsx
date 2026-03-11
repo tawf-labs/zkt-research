@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { 
+import { useRouter } from 'next/navigation';
+import {
   Upload, CheckCircle2, Loader2, X, AlertCircle,
   ArrowLeft, Plus, Trash2, Lock
 } from 'lucide-react';
@@ -9,6 +10,19 @@ import { useCreateCampaign } from '@/hooks/useCreateCampaign';
 import { useAccount } from 'wagmi';
 import { toast } from '@/components/ui/use-toast';
 import { keccak256, stringToBytes } from 'viem';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Checkbox } from '@/components/ui/checkbox';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { useIsVerifiedOrganizer } from '@/hooks/useOrganizerApplication';
 
 export default function CreateCampaignPage() {
   const [isClientReady, setIsClientReady] = useState(false)
@@ -51,7 +65,9 @@ const localStringToTimestamp = (localString: string): number => {
 };
 
 function CreateCampaignInner() {
+  const router = useRouter();
   const { address: userAddress, isConnected } = useAccount();
+  const { isVerified } = useIsVerifiedOrganizer(userAddress);
   const { 
     createCampaign, 
     isLoading,
@@ -64,6 +80,20 @@ function CreateCampaignInner() {
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [imagePreviewUrls, setImagePreviewUrls] = useState<string[]>([]);
   const [milestones, setMilestones] = useState<{ description: string; targetAmount: string }[]>([]);
+  
+  // Redirect if not verified organizer
+  if (isConnected && !isVerified) {
+    return (
+      <div className="min-h-screen bg-accent flex items-center justify-center p-4">
+        <div className="max-w-md w-full bg-white border border-border rounded-lg shadow-sm p-8 text-center space-y-4">
+          <AlertCircle className="h-16 w-16 text-blue-600 mx-auto" />
+          <h2 className="text-2xl font-bold">Become an Organizer</h2>
+          <p className="text-muted-foreground">You need to be verified as an organizer to create campaigns.</p>
+          <Button onClick={() => router.push('/organizer')}>Go to Organizer Dashboard</Button>
+        </div>
+      </div>
+    );
+  }
   
   // Initialize start and end times
   const now = Math.floor(Date.now() / 1000);
@@ -299,10 +329,10 @@ function CreateCampaignInner() {
   // Loading/Success Screen
   if (step > 1) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-white to-secondary/20 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-accent flex items-center justify-center p-4">
         <div className="max-w-2xl w-full bg-white border border-border rounded-2xl shadow-lg p-8">
           <div className="text-center space-y-6">
-            <div className="inline-flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-primary to-primary/80 shadow-lg shadow-primary/30 mx-auto">
+            <div className="inline-flex h-20 w-20 items-center justify-center rounded-full bg-primary shadow-lg shadow-primary/30 mx-auto">
               {step === 3 ? (
                 <CheckCircle2 className="h-10 w-10 text-white" />
               ) : (
@@ -313,7 +343,7 @@ function CreateCampaignInner() {
             <div className="space-y-2">
               <h2 className="text-3xl font-bold">
                 {step === 2 && 'Creating Campaign...'}
-                {step === 3 && 'Campaign Created Successfully! 🎉'}
+                {step === 3 && 'Campaign Created Successfully!'}
               </h2>
               <p className="text-muted-foreground text-lg">
                 {step === 2 && (currentStep || 'Processing...')}
@@ -325,7 +355,7 @@ function CreateCampaignInner() {
               <div className="space-y-2">
                 <div className="w-full bg-secondary rounded-full h-3">
                   <div
-                    className="bg-gradient-to-r from-primary to-primary/80 h-3 rounded-full transition-all duration-300"
+                    className="bg-primary h-3 rounded-full transition-all duration-300"
                     style={{ width: `${uploadProgress}%` }}
                   ></div>
                 </div>
@@ -343,13 +373,13 @@ function CreateCampaignInner() {
                   <CheckCircle2 className="h-6 w-6 text-green-600 flex-shrink-0 mt-0.5" />
                   <div className="flex-1 min-w-0">
                     <div className="font-bold text-lg mb-1 text-green-900">
-                      ✅ Campaign Proposal Submitted
+                      Campaign Proposal Submitted
                     </div>
                     <p className="text-sm text-green-800 mb-2">
                       Your campaign proposal has been successfully submitted to the blockchain. It will be available for community voting.
                     </p>
                     <p className="text-xs text-green-700 font-semibold">
-                      ⏳ Status: Proposal Submitted
+                      Status: Proposal Submitted
                     </p>
                   </div>
                 </div>
@@ -359,7 +389,7 @@ function CreateCampaignInner() {
                   <Lock className="h-5 w-5 text-gray-600 flex-shrink-0 mt-0.5" />
                   <div className="flex-1 min-w-0">
                     <div className="font-bold text-base mb-3 text-gray-900">
-                      📋 Campaign Details
+                      Campaign Details
                     </div>
                     <div className="space-y-2 text-xs text-gray-700">
                       <p><strong>Campaign Name:</strong> {createdCampaign.campaignTitle}</p>
@@ -376,7 +406,7 @@ function CreateCampaignInner() {
                   <AlertCircle className="h-5 w-5 text-amber-600 flex-shrink-0 mt-0.5" />
                   <div className="flex-1 min-w-0">
                     <div className="font-bold text-base mb-2 text-amber-900">
-                      📝 Next Steps
+                      Next Steps
                     </div>
                     <ul className="text-xs text-amber-800 space-y-1 list-disc list-inside">
                       <li>Your proposal is now visible on the Governance page</li>
@@ -390,18 +420,21 @@ function CreateCampaignInner() {
 
             {step === 3 && (
               <div className="pt-6 space-y-3">
-                <button
+                <Button
                   onClick={() => window.location.href = '/campaigns'}
-                  className="w-full bg-gradient-to-r from-primary to-primary/90 text-white hover:shadow-lg hover:shadow-primary/30 rounded-xl h-12 px-6 font-semibold transition-all"
+                  className="w-full"
+                  size="lg"
                 >
                   View All Campaigns
-                </button>
-                <button
+                </Button>
+                <Button
                   onClick={resetForm}
-                  className="w-full border-2 border-border rounded-xl h-12 px-6 font-semibold hover:bg-accent hover:border-primary/30 transition-all"
+                  variant="outline"
+                  className="w-full"
+                  size="lg"
                 >
                   Create Another Campaign
-                </button>
+                </Button>
               </div>
             )}
           </div>
@@ -412,7 +445,7 @@ function CreateCampaignInner() {
 
   // Main Form
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-secondary/20 py-12 px-4">
+    <div className="min-h-screen bg-accent py-12 px-4">
       <div className="container mx-auto max-w-4xl">
         {/* Header */}
         <div className="mb-8 text-center">
@@ -440,26 +473,26 @@ function CreateCampaignInner() {
           <div className="space-y-6">
             {/* Campaign Name */}
             <div>
-              <label className="block text-sm font-semibold mb-2">Campaign Name</label>
-              <input
+              <Label htmlFor="name">Campaign Name</Label>
+              <Input
+                id="name"
                 type="text"
                 placeholder="e.g., Emergency Relief for Flood Victims"
                 value={campaignData.name}
                 onChange={(e) => setCampaignData({ ...campaignData, name: e.target.value })}
-                className="w-full px-4 py-2.5 border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
               />
               <p className="text-xs text-muted-foreground mt-1">Minimum 10 characters • This identifies your campaign</p>
             </div>
 
             {/* Description */}
             <div>
-              <label className="block text-sm font-semibold mb-2">Description</label>
-              <textarea
+              <Label htmlFor="description">Description</Label>
+              <Textarea
+                id="description"
                 placeholder="Provide details about your campaign, who it helps, and why it matters..."
                 value={campaignData.description}
                 onChange={(e) => setCampaignData({ ...campaignData, description: e.target.value })}
                 rows={4}
-                className="w-full px-4 py-2.5 border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition-colors resize-none"
               />
               <p className="text-xs text-muted-foreground mt-1">Minimum 50 characters</p>
             </div>
@@ -468,40 +501,44 @@ function CreateCampaignInner() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Category */}
               <div>
-                <label className="block text-sm font-semibold mb-2">Category</label>
-                <select
+                <Label htmlFor="category">Category</Label>
+                <Select
                   value={campaignData.category}
-                  onChange={(e) => setCampaignData({ ...campaignData, category: e.target.value })}
-                  className="w-full px-4 py-2.5 border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
+                  onValueChange={(value) => setCampaignData({ ...campaignData, category: value })}
                 >
-                  {categories.map((cat) => (
-                    <option key={cat} value={cat}>{cat}</option>
-                  ))}
-                </select>
+                  <SelectTrigger id="category">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {categories.map((cat) => (
+                      <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
 
               {/* Location */}
               <div>
-                <label className="block text-sm font-semibold mb-2">Location</label>
-                <input
+                <Label htmlFor="location">Location</Label>
+                <Input
+                  id="location"
                   type="text"
                   placeholder="e.g., Jakarta, Indonesia"
                   value={campaignData.location}
                   onChange={(e) => setCampaignData({ ...campaignData, location: e.target.value })}
-                  className="w-full px-4 py-2.5 border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
                 />
               </div>
             </div>
 
             {/* Funding Goal */}
             <div>
-              <label className="block text-sm font-semibold mb-2">Funding Goal (IDRX)</label>
-              <input
+              <Label htmlFor="goal">Funding Goal (IDRX)</Label>
+              <Input
+                id="goal"
                 type="number"
                 placeholder="e.g., 10000"
                 value={campaignData.goal}
                 onChange={(e) => setCampaignData({ ...campaignData, goal: e.target.value })}
-                className="w-full px-4 py-2.5 border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
               />
               <p className="text-xs text-muted-foreground mt-1">Minimum 1,000 IDRX</p>
             </div>
@@ -513,14 +550,16 @@ function CreateCampaignInner() {
                   <p className="text-sm font-semibold">Milestones (Optional)</p>
                   <p className="text-xs text-muted-foreground">Define funding milestones for staged fund release with community oversight</p>
                 </div>
-                <button
+                <Button
                   type="button"
                   onClick={addMilestone}
-                  className="flex items-center gap-1 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+                  variant="ghost"
+                  size="sm"
+                  className="text-primary hover:text-primary/80"
                 >
-                  <Plus className="h-4 w-4" />
+                  <Plus className="h-4 w-4 mr-1" />
                   Add Milestone
-                </button>
+                </Button>
               </div>
 
               {milestones.length > 0 && (
@@ -539,23 +578,25 @@ function CreateCampaignInner() {
                       </div>
                       <div className="space-y-3">
                         <div>
-                          <label className="block text-xs font-medium mb-1">Description</label>
-                          <input
+                          <Label htmlFor={`milestone-desc-${index}`} className="text-xs">Description</Label>
+                          <Input
+                            id={`milestone-desc-${index}`}
                             type="text"
                             placeholder="e.g., Complete initial relief distribution"
                             value={milestone.description}
                             onChange={(e) => updateMilestone(index, 'description', e.target.value)}
-                            className="w-full px-3 py-2 text-sm border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
+                            className="text-sm"
                           />
                         </div>
                         <div>
-                          <label className="block text-xs font-medium mb-1">Target Amount (IDRX)</label>
-                          <input
+                          <Label htmlFor={`milestone-amount-${index}`} className="text-xs">Target Amount (IDRX)</Label>
+                          <Input
+                            id={`milestone-amount-${index}`}
                             type="number"
                             placeholder="e.g., 2500"
                             value={milestone.targetAmount}
                             onChange={(e) => updateMilestone(index, 'targetAmount', e.target.value)}
-                            className="w-full px-3 py-2 text-sm border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
+                            className="text-sm"
                           />
                         </div>
                       </div>
@@ -590,28 +631,26 @@ function CreateCampaignInner() {
 
             {/* Organization Info */}
             <div>
-              <label className="block text-sm font-semibold mb-2">Organization Name</label>
-              <input
+              <Label htmlFor="orgName">Organization Name</Label>
+              <Input
+                id="orgName"
                 type="text"
                 placeholder="Your organization or nonprofit name"
                 value={campaignData.organizationName}
                 onChange={(e) => setCampaignData({ ...campaignData, organizationName: e.target.value })}
-                className="w-full px-4 py-2.5 border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
               />
             </div>
 
             {/* Verified Checkbox */}
             <div className="flex items-center gap-2">
-              <input
-                type="checkbox"
+              <Checkbox
                 id="verified"
                 checked={campaignData.organizationVerified}
-                onChange={(e) => setCampaignData({ ...campaignData, organizationVerified: e.target.checked })}
-                className="w-4 h-4 rounded border-input cursor-pointer"
+                onCheckedChange={(checked) => setCampaignData({ ...campaignData, organizationVerified: checked === true })}
               />
-              <label htmlFor="verified" className="text-sm font-medium cursor-pointer">
+              <Label htmlFor="verified" className="cursor-pointer">
                 My organization is verified
-              </label>
+              </Label>
             </div>
 
             {/* Campaign Duration */}
@@ -620,23 +659,23 @@ function CreateCampaignInner() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Start Date */}
                 <div>
-                  <label className="block text-sm font-medium mb-2">Start Date & Time</label>
-                  <input
+                  <Label htmlFor="startDate">Start Date & Time</Label>
+                  <Input
+                    id="startDate"
                     type="datetime-local"
                     value={dateToLocalString(campaignData.startTime)}
                     onChange={(e) => setCampaignData({ ...campaignData, startTime: localStringToTimestamp(e.target.value) })}
-                    className="w-full px-4 py-2.5 border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
                   />
                 </div>
 
                 {/* End Date */}
                 <div>
-                  <label className="block text-sm font-medium mb-2">End Date & Time</label>
-                  <input
+                  <Label htmlFor="endDate">End Date & Time</Label>
+                  <Input
+                    id="endDate"
                     type="datetime-local"
                     value={dateToLocalString(campaignData.endTime)}
                     onChange={(e) => setCampaignData({ ...campaignData, endTime: localStringToTimestamp(e.target.value) })}
-                    className="w-full px-4 py-2.5 border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
                   />
                 </div>
               </div>
@@ -681,45 +720,46 @@ function CreateCampaignInner() {
 
             {/* Tags */}
             <div>
-              <label className="block text-sm font-semibold mb-2">Tags (Optional)</label>
-              <input
+              <Label htmlFor="tags">Tags (Optional)</Label>
+              <Input
+                id="tags"
                 type="text"
                 placeholder="e.g., relief, emergency, disaster (comma-separated)"
                 value={campaignData.tags.join(', ')}
-                onChange={(e) => setCampaignData({ 
-                  ...campaignData, 
+                onChange={(e) => setCampaignData({
+                  ...campaignData,
                   tags: e.target.value.split(',').map(tag => tag.trim()).filter(tag => tag)
                 })}
-                className="w-full px-4 py-2.5 border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
               />
             </div>
 
             {/* Action Buttons */}
             <div className="flex gap-3 pt-4">
-              <button
+              <Button
+                type="button"
                 onClick={() => window.history.back()}
                 disabled={isLoading}
-                className="flex-1 border border-border rounded-lg h-11 px-4 font-semibold hover:bg-accent transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                variant="outline"
+                className="flex-1"
               >
-                <ArrowLeft className="h-4 w-4" />
+                <ArrowLeft className="h-4 w-4 mr-2" />
                 Back
-              </button>
-              <button
+              </Button>
+              <Button
+                type="button"
                 onClick={handleSubmit}
                 disabled={!isConnected || isLoading}
-                className="flex-1 bg-primary text-white hover:bg-primary/90 hover:shadow-lg rounded-lg h-11 px-4 font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className="flex-1"
               >
                 {isLoading ? (
                   <>
-                    <Loader2 className="h-4 w-4 animate-spin" />
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                     Creating campaign...
                   </>
                 ) : (
-                  <>
-                    Create Campaign
-                  </>
+                  "Create Campaign"
                 )}
-              </button>
+              </Button>
             </div>
           </div>
         </div>

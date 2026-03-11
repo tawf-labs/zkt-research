@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 export function UnderDevelopment() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-white via-secondary/30 to-accent min-h-screen flex items-center justify-center py-20">
+    <section className="relative overflow-hidden bg-accent min-h-screen flex items-center justify-center py-20">
       <div className="container px-4 mx-auto">
         <div className="flex flex-col items-center text-center space-y-8 max-w-3xl mx-auto">
           
@@ -20,7 +20,7 @@ export function UnderDevelopment() {
 
           {/* Badge */}
           <div className="inline-flex items-center rounded-full border border-primary/20 bg-primary/5 px-4 py-2 text-sm font-medium text-primary">
-            ✨ Coming Soon
+            Coming Soon
           </div>
 
           {/* Heading */}

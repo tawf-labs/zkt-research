@@ -71,7 +71,7 @@ export const useCreateCampaign = () => {
         let imageUrls: string[] = [];
         if (params.imageFiles.length > 0) {
           imageUrls = await uploadFilesToPinata(params.imageFiles);
-          console.log("🖼️ Images uploaded:", imageUrls);
+          console.log("Images uploaded:", imageUrls);
         }
 
         // ============================================
@@ -106,7 +106,7 @@ export const useCreateCampaign = () => {
         const metadataUploads = await uploadFilesToPinata([metadataFile]);
         const metadataURI = `ipfs://${metadataUploads[0]}`;
 
-        console.log("📄 Metadata uploaded:", metadataURI);
+        console.log("Metadata uploaded:", metadataURI);
 
         // ============================================
         // STEP 3: Create proposal on blockchain
@@ -134,7 +134,7 @@ export const useCreateCampaign = () => {
           throw new Error("Failed to create proposal on blockchain");
         }
 
-        console.log("⛓️ On-chain creation successful:", onChainResult);
+        console.log("On-chain creation successful:", onChainResult);
 
         // ============================================
         // STEP 4: Complete
@@ -143,7 +143,7 @@ export const useCreateCampaign = () => {
         setUploadProgress(100);
 
         toast({
-          title: "Success! 🎉",
+          title: "Success",
           description: "Proposal created successfully on blockchain",
         });
 
@@ -152,7 +152,7 @@ export const useCreateCampaign = () => {
           txHash: onChainResult.txHash,
         };
       } catch (error) {
-        console.error("❌ Proposal creation failed:", error);
+        console.error("Proposal creation failed:", error);
 
         // Detailed error message
         let errorMessage = "Failed to create proposal";

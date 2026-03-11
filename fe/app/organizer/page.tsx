@@ -22,6 +22,36 @@ export default function OrganizerPage() {
     { href: "/organizer/settings", label: "Settings", icon: Settings },
   ];
 
+  // Show wallet connection prompt if not connected
+  if (!isConnected) {
+    return (
+      <div className="min-h-screen bg-accent flex items-center justify-center p-4">
+        <Card className="max-w-md w-full">
+          <CardContent className="p-8 text-center space-y-6">
+            <div className="h-16 w-16 rounded-full bg-amber-100 flex items-center justify-center mx-auto">
+              <Wallet className="h-8 w-8 text-amber-600" />
+            </div>
+            <h1 className="text-2xl font-bold">Connect Your Wallet</h1>
+            <p className="text-muted-foreground">
+              Please connect your wallet to access the organizer dashboard.
+            </p>
+            <Alert>
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>
+                You need to connect your wallet to apply as an organizer and create campaigns.
+              </AlertDescription>
+            </Alert>
+            <Link href="/">
+              <Button variant="outline" className="w-full">
+                Return to Home
+              </Button>
+            </Link>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
   if (isConnected && !isVerified) {
     // Show application page if connected but not verified
     return <OrganizerNotVerified />;
@@ -100,7 +130,7 @@ export default function OrganizerPage() {
 
 function OrganizerNotVerified() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-secondary/20 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-accent flex items-center justify-center p-4">
       <Card className="max-w-md w-full">
         <CardContent className="p-8 text-center space-y-6">
           <div className="h-16 w-16 rounded-full bg-blue-100 flex items-center justify-center mx-auto">

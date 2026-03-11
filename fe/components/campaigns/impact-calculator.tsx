@@ -27,9 +27,9 @@ export function ImpactCalculator({ impactCalculator, formatCurrency }: ImpactCal
       </div>
 
       {/* Impact Preview */}
-      <div className="bg-gradient-to-br from-primary/10 to-secondary/20 rounded-lg p-4 border border-primary/20">
+      <div className="bg-primary/10 rounded-lg p-4 border border-primary/20">
         <div className="flex items-center gap-3">
-          <span className="text-4xl">{currentImpact?.icon || "❤️"}</span>
+          <span className="text-4xl">{currentImpact?.icon || "♥"}</span>
           <div>
             <p className="text-sm text-muted-foreground">Your donation provides</p>
             <p className="text-lg font-semibold text-foreground">

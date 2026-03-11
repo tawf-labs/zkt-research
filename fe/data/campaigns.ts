@@ -213,11 +213,11 @@ export const campaignStoryData: Record<number, {
       childrenSupported: 412
     },
     impactCalculator: [
-      { amount: 10000, impact: "1 meal for a family", icon: "🍲" },
-      { amount: 50000, impact: "5 meals for families", icon: "🍲" },
-      { amount: 100000, impact: "Food package for 1 week", icon: "📦" },
-      { amount: 250000, impact: "Shelter materials", icon: "🏠" },
-      { amount: 500000, impact: "Complete family support", icon: "👨‍👩‍👧‍👦" }
+      { amount: 10000, impact: "1 meal for a family", icon: "Meal" },
+      { amount: 50000, impact: "5 meals for families", icon: "Meal" },
+      { amount: 100000, impact: "Food package for 1 week", icon: "Box" },
+      { amount: 250000, impact: "Shelter materials", icon: "Home" },
+      { amount: 500000, impact: "Complete family support", icon: "Family" }
     ],
     journey: [
       {
@@ -283,11 +283,11 @@ export const campaignStoryData: Record<number, {
       childrenSupported: 120
     },
     impactCalculator: [
-      { amount: 10000, impact: "Water for 1 family", icon: "💧" },
-      { amount: 50000, impact: "5 families get water", icon: "💧" },
-      { amount: 100000, impact: "Water storage tank", icon: "🛢️" },
-      { amount: 250000, impact: "Well construction", icon: "🏗️" },
-      { amount: 500000, impact: "Complete water system", icon: "🚰" }
+      { amount: 10000, impact: "Water for 1 family", icon: "Drop" },
+      { amount: 50000, impact: "5 families get water", icon: "Drop" },
+      { amount: 100000, impact: "Water storage tank", icon: "Tank" },
+      { amount: 250000, impact: "Well construction", icon: "Build" },
+      { amount: 500000, impact: "Complete water system", icon: "Tap" }
     ],
     journey: [
       {
@@ -341,11 +341,11 @@ export const campaignStoryData: Record<number, {
       childrenSupported: 87
     },
     impactCalculator: [
-      { amount: 10000, impact: "Books for 1 student", icon: "📚" },
-      { amount: 50000, impact: "1 month tuition", icon: "🎓" },
-      { amount: 100000, impact: "Full semester support", icon: "📖" },
-      { amount: 250000, impact: "1 year scholarship", icon: "🎓" },
-      { amount: 500000, impact: "Complete education support", icon: "🏫" }
+      { amount: 10000, impact: "Books for 1 student", icon: "Book" },
+      { amount: 50000, impact: "1 month tuition", icon: "Grad" },
+      { amount: 100000, impact: "Full semester support", icon: "Read" },
+      { amount: 250000, impact: "1 year scholarship", icon: "Grad" },
+      { amount: 500000, impact: "Complete education support", icon: "School" }
     ],
     journey: [
       {
@@ -399,11 +399,11 @@ export const campaignStoryData: Record<number, {
       childrenSupported: 280
     },
     impactCalculator: [
-      { amount: 10000, impact: "1 family food package", icon: "📦" },
+      { amount: 10000, impact: "1 family food package", icon: "Box" },
       { amount: 50000, impact: "5 families fed", icon: "👨‍👩‍👧" },
-      { amount: 100000, impact: "10 families - 1 month", icon: "🍽️" },
-      { amount: 250000, impact: "25 families supported", icon: "❤️" },
-      { amount: 500000, impact: "50 families - 2 months", icon: "🤝" }
+      { amount: 100000, impact: "10 families - 1 month", icon: "Dish" },
+      { amount: 250000, impact: "25 families supported", icon: "Love" },
+      { amount: 500000, impact: "50 families - 2 months", icon: "Hand" }
     ],
     journey: [
       {
@@ -457,11 +457,11 @@ export const campaignStoryData: Record<number, {
       childrenSupported: 95
     },
     impactCalculator: [
-      { amount: 10000, impact: "1 medical checkup", icon: "🏥" },
-      { amount: 50000, impact: "5 patients treated", icon: "💊" },
-      { amount: 100000, impact: "Medical camp for village", icon: "🩺" },
-      { amount: 250000, impact: "Mobile clinic day", icon: "🚑" },
-      { amount: 500000, impact: "Complete health mission", icon: "⚕️" }
+      { amount: 10000, impact: "1 medical checkup", icon: "Care" },
+      { amount: 50000, impact: "5 patients treated", icon: "Pill" },
+      { amount: 100000, impact: "Medical camp for village", icon: "Scope" },
+      { amount: 250000, impact: "Mobile clinic day", icon: "Van" },
+      { amount: 500000, impact: "Complete health mission", icon: "Med" }
     ],
     journey: [
       {
@@ -515,11 +515,11 @@ export const campaignStoryData: Record<number, {
       childrenSupported: 300
     },
     impactCalculator: [
-      { amount: 10000, impact: "Prayer mats", icon: "🕌" },
-      { amount: 50000, impact: "Renovation materials", icon: "🧱" },
-      { amount: 100000, impact: "Section renovation", icon: "🔧" },
-      { amount: 250000, impact: "Major renovation work", icon: "🏗️" },
-      { amount: 500000, impact: "Complete wing renovation", icon: "✨" }
+      { amount: 10000, impact: "Prayer mats", icon: "Mosque" },
+      { amount: 50000, impact: "Renovation materials", icon: "Brick" },
+      { amount: 100000, impact: "Section renovation", icon: "Tool" },
+      { amount: 250000, impact: "Major renovation work", icon: "Build" },
+      { amount: 500000, impact: "Complete wing renovation", icon: "Star" }
     ],
     journey: [
       {

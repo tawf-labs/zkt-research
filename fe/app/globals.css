@@ -346,9 +346,7 @@
   }
 
   .pattern-concentric {
-    background-image: radial-gradient(circle at 20% 50%, rgba(15, 61, 48, 0.03) 0%, transparent 50%),
-                      radial-gradient(circle at 80% 80%, rgba(197, 168, 105, 0.03) 0%, transparent 50%),
-                      radial-gradient(circle at 40% 20%, rgba(197, 168, 105, 0.02) 0%, transparent 40%);
+    background-color: rgba(15, 61, 48, 0.02);
   }
 
   /* Oval mask for hero images */

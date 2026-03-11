@@ -83,49 +83,49 @@ export function ZakatCertificateModal({
 
         <div className="space-y-6 py-4">
           {/* Certificate Preview */}
-          <div className="bg-gradient-to-br from-emerald-50 to-teal-50 border-2 border-emerald-200 rounded-lg p-6 space-y-4">
+          <div className="bg-accent border-2 border-primary/20 rounded-lg p-6 space-y-4">
             <div className="text-center space-y-2">
-              <div className="inline-flex items-center justify-center w-12 h-12 bg-emerald-100 rounded-full">
-                <Shield className="h-6 w-6 text-emerald-700" />
+              <div className="inline-flex items-center justify-center w-12 h-12 bg-primary/10 rounded-full">
+                <Shield className="h-6 w-6 text-primary" />
               </div>
-              <h3 className="text-xl font-bold text-emerald-900">Zakat Certificate</h3>
-              <p className="text-sm text-emerald-700">Official Donation Receipt</p>
+              <h3 className="text-xl font-bold text-primary">Zakat Certificate</h3>
+              <p className="text-sm text-primary">Official Donation Receipt</p>
             </div>
 
-            <div className="border-t border-emerald-200 pt-4 space-y-2 text-sm">
+            <div className="border-t border-primary/20 pt-4 space-y-2 text-sm">
               <div className="flex justify-between">
-                <span className="text-emerald-700">Certificate ID:</span>
-                <span className="font-mono font-semibold text-emerald-900">
+                <span className="text-primary">Certificate ID:</span>
+                <span className="font-mono font-semibold text-foreground">
                   {certificate ? certificate.id : "ZAKT-XXXXXXXXX"}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-emerald-700">Donation Amount:</span>
-                <span className="font-semibold text-emerald-900">
+                <span className="text-primary">Donation Amount:</span>
+                <span className="font-semibold text-foreground">
                   {donationDetails.amount.toLocaleString('id-ID')} IDRX
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-emerald-700">Campaign:</span>
-                <span className="font-semibold text-emerald-900 max-w-[200px] truncate">
+                <span className="text-primary">Campaign:</span>
+                <span className="font-semibold text-foreground max-w-[200px] truncate">
                   {donationDetails.campaignTitle}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-emerald-700">Type:</span>
-                <span className="font-semibold text-emerald-900">
+                <span className="text-primary">Type:</span>
+                <span className="font-semibold text-foreground">
                   {donationDetails.campaignType === 1 ? 'Zakat Compliant' : 'General Donation'}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-emerald-700">Transaction:</span>
-                <span className="font-mono text-xs text-emerald-600 truncate max-w-[200px]">
+                <span className="text-primary">Transaction:</span>
+                <span className="font-mono text-xs text-primary truncate max-w-[200px]">
                   {donationDetails.transactionHash}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-emerald-700">Valid Until:</span>
-                <span className="font-semibold text-emerald-900">
+                <span className="text-primary">Valid Until:</span>
+                <span className="font-semibold text-foreground">
                   {certificate
                     ? new Date(certificate.expiresAt).toLocaleDateString('id-ID', {
                         year: 'numeric',
@@ -139,17 +139,17 @@ export function ZakatCertificateModal({
           </div>
 
           {/* Privacy Notice */}
-          <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 space-y-2">
+          <div className="bg-accent border border-primary/20 rounded-lg p-4 space-y-2">
             <div className="flex items-start gap-2">
-              <Shield className="h-4 w-4 text-amber-600 mt-0.5 flex-shrink-0" />
+              <Shield className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
               <div>
-                <p className="text-sm font-semibold text-amber-900">
+                <p className="text-sm font-semibold text-foreground">
                   Privacy Notice
                 </p>
-                <p className="text-xs text-amber-800 mt-1">
+                <p className="text-xs text-muted-foreground mt-1">
                   To generate this certificate, the following information will be stored in a secure database:
                 </p>
-                <ul className="list-disc list-inside text-xs text-amber-800 mt-1 space-y-0.5 ml-4">
+                <ul className="list-disc list-inside text-xs text-muted-foreground mt-1 space-y-0.5 ml-4">
                   <li>Your wallet address ({formatAddress(donationDetails.donorAddress)})</li>
                   <li>Donation amount and campaign details</li>
                   <li>Transaction hash for verification</li>
@@ -160,8 +160,8 @@ export function ZakatCertificateModal({
           </div>
 
           {/* Purpose Notice */}
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-            <p className="text-xs text-blue-800">
+          <div className="bg-accent border border-primary/20 rounded-lg p-3">
+            <p className="text-xs text-muted-foreground">
               <strong>Why this data?</strong> Zakat certificates may be used for tax purposes
               or official documentation. Your data is only stored when you explicitly consent
               to certificate generation.
@@ -201,7 +201,7 @@ export function ZakatCertificateModal({
               Skip
             </Button>
             <Button
-              className="flex-1 bg-emerald-600 hover:bg-emerald-700"
+              className="flex-1 bg-primary hover:bg-primary/90"
               onClick={handleGenerateCertificate}
               disabled={!hasConsented || isGenerating}
             >
@@ -227,12 +227,12 @@ export function ZakatCertificateModal({
           {/* Success Message */}
           {certificate && (
             <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-3 flex items-start gap-2">
-              <Shield className="h-5 w-5 text-emerald-600 flex-shrink-0" />
+              <Shield className="h-5 w-5 text-primary flex-shrink-0" />
               <div>
-                <p className="text-sm font-semibold text-emerald-900">
+                <p className="text-sm font-semibold text-foreground">
                   Certificate Generated Successfully!
                 </p>
-                <p className="text-xs text-emerald-700 mt-1">
+                <p className="text-xs text-primary mt-1">
                   Your certificate ID is <span className="font-mono">{certificate.id}</span>.
                   Keep this for your tax records.
                 </p>

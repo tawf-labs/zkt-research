@@ -21,7 +21,7 @@ function CardGradient({ className, ...props }: React.ComponentProps<'div'>) {
     <div
       data-slot="card"
       className={cn(
-        'bg-gradient-to-br from-card to-primary/5 text-card-foreground flex flex-col gap-6 rounded-2xl border border-primary/10 shadow-sm hover:shadow-md transition-shadow duration-200',
+        'bg-card text-card-foreground flex flex-col gap-6 rounded-2xl border border-primary/10 shadow-sm hover:shadow-md transition-shadow duration-200',
         className,
       )}
       {...props}

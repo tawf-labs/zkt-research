@@ -192,10 +192,10 @@ export default function GovernancePage() {
           <div className="flex items-center gap-3">
             <Dialog>
               <DialogTrigger asChild>
-                <button className="flex items-center gap-2 px-4 py-2 rounded-md bg-white text-black shadow-md border border-black">
-                  <Plus className="h-4 w-4" />
+                <Button className="bg-white text-black shadow-md border border-black hover:bg-gray-50">
+                  <Plus className="h-4 w-4 mr-2" />
                   New Proposal
-                </button>
+                </Button>
               </DialogTrigger>
               <DialogContent className="sm:max-w-[600px]">
                 <DialogHeader>
@@ -534,29 +534,34 @@ function ProposalCard({
           {/* Active - Vote Buttons (only show if not voted) */}
           {proposal.status === "Active" && !hasVoted && (
             <>
-              <button
-                className="flex items-center gap-1 px-3 py-1 text-xs font-medium rounded-md border border-green-600 text-green-600 hover:bg-green-600 hover:text-white bg-transparent disabled:opacity-50"
+              <Button
+                size="sm"
+                variant="default"
+                className="bg-green-600 hover:bg-green-700 text-white"
                 onClick={() => onVote("for")}
                 disabled={isLoading}
               >
-                <ThumbsUp className="h-3 w-3" />
+                <ThumbsUp className="h-3 w-3 mr-1" />
                 Vote For
-              </button>
-              <button
-                className="flex items-center gap-1 px-3 py-1 text-xs font-medium rounded-md border border-red-600 text-red-600 hover:bg-red-600 hover:text-white bg-transparent disabled:opacity-50"
+              </Button>
+              <Button
+                size="sm"
+                variant="destructive"
+                className="bg-red-600 hover:bg-red-700 text-white"
                 onClick={() => onVote("against")}
                 disabled={isLoading}
               >
-                <ThumbsDown className="h-3 w-3" />
+                <ThumbsDown className="h-3 w-3 mr-1" />
                 Against
-              </button>
-              <button
-                className="flex items-center gap-1 px-3 py-1 text-xs font-medium rounded-md border border-gray-600 text-gray-600 hover:bg-gray-600 hover:text-white bg-transparent disabled:opacity-50"
+              </Button>
+              <Button
+                size="sm"
+                variant="outline"
                 onClick={() => onVote("abstain")}
                 disabled={isLoading}
               >
                 Abstain
-              </button>
+              </Button>
             </>
           )}
 
@@ -652,20 +657,24 @@ function ShariaReviewCard({
           Requires Sharia Council approval
         </div>
         <div className="flex gap-2">
-          <button
-            className="flex items-center gap-1 px-3 py-1 text-xs font-medium rounded-md border border-green-600 text-green-600 hover:bg-green-600 hover:text-white bg-transparent disabled:opacity-50"
+          <Button
+            size="sm"
+            variant="default"
+            className="bg-green-600 hover:bg-green-700 text-white"
             disabled={isLoading}
           >
-            <ThumbsUp className="h-3 w-3" />
+            <ThumbsUp className="h-3 w-3 mr-1" />
             Approve
-          </button>
-          <button
-            className="flex items-center gap-1 px-3 py-1 text-xs font-medium rounded-md border border-red-600 text-red-600 hover:bg-red-600 hover:text-white bg-transparent disabled:opacity-50"
+          </Button>
+          <Button
+            size="sm"
+            variant="destructive"
+            className="bg-red-600 hover:bg-red-700 text-white"
             disabled={isLoading}
           >
-            <ThumbsDown className="h-3 w-3" />
+            <ThumbsDown className="h-3 w-3 mr-1" />
             Reject
-          </button>
+          </Button>
         </div>
       </div>
     </div>

@@ -20,7 +20,7 @@ export default function HomePage() {
       <Trusted />
 
       {/* Role-based entry section - updated spacing per guidelines */}
-      <section className="py-16 md:py-24 px-4 sm:px-6 bg-gradient-to-b from-secondary/5 to-transparent">
+      <section className="py-16 md:py-24 px-4 sm:px-6 bg-accent">
         <div className="max-w-6xl mx-auto">
           {/* Updated H2 size per guidelines: 40px/36px */}
           <h2 className="font-serif text-[36px] md:text-[40px] font-bold text-center mb-4 text-foreground">

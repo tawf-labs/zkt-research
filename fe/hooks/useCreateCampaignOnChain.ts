@@ -132,7 +132,7 @@ export const useCreateCampaignOnChain = (
           safeAddress: address,
         });
 
-        console.log("✅ Safe wallet detected:", {
+        console.log("Safe wallet detected:", {
           address,
           owners,
           threshold: thresholdValue,
@@ -195,7 +195,7 @@ export const useCreateCampaignOnChain = (
           }
         }
 
-        console.log("🚀 Creating proposal on-chain:", {
+        console.log("Creating proposal on-chain:", {
           title: params.title,
           fundingGoal: params.fundingGoal,
           isEmergency: params.isEmergency,
@@ -230,7 +230,7 @@ export const useCreateCampaignOnChain = (
           description: "Waiting for confirmation...",
         });
 
-        console.log("✅ Transaction submitted:", hash);
+        console.log("Transaction submitted:", hash);
 
         options?.onSuccess?.(hash);
 
@@ -238,7 +238,7 @@ export const useCreateCampaignOnChain = (
           txHash: hash,
         };
       } catch (error: any) {
-        console.error("❌ Error creating campaign on-chain:", error);
+        console.error("Error creating campaign on-chain:", error);
 
         // Parse common errors
         let errorMessage = "Failed to create campaign on blockchain";

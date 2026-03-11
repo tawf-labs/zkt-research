@@ -76,7 +76,7 @@ export const useShariaReview = (options?: UseShariaReviewOptions) => {
         });
 
         toast({
-          title: 'KYC Status Updated ✅',
+          title: 'KYC Status Updated',
           description: `Proposal ${proposalId} KYC status: ${getKYCStatusLabel(newStatus)}`,
         });
 
@@ -166,7 +166,7 @@ export const useShariaReview = (options?: UseShariaReviewOptions) => {
         });
 
         toast({
-          title: approved ? 'Proposal Approved ✅' : 'Proposal Rejected ❌',
+          title: approved ? 'Proposal Approved' : 'Proposal Rejected',
           description: `Proposal ${proposalId} has been ${approved ? 'approved' : 'rejected'} by Sharia Council.`,
         });
 
@@ -232,7 +232,7 @@ export const useShariaReview = (options?: UseShariaReviewOptions) => {
         });
 
         toast({
-          title: 'Bundle Finalized ✅',
+          title: 'Bundle Finalized',
           description: `Sharia bundle ${bundleId} has been finalized.`,
         });
 
@@ -371,7 +371,7 @@ export const useShariaReview = (options?: UseShariaReviewOptions) => {
       });
 
       toast({
-        title: 'ZK Proof Verified! ✅',
+        title: 'ZK Proof Verified',
         description: `Sharia proof for proposal ${proposalId} has been verified and recorded.`,
       });
 
@@ -463,7 +463,7 @@ export const useShariaReview = (options?: UseShariaReviewOptions) => {
       });
 
       toast({
-        title: 'Batch Proof Submitted! ✅',
+        title: 'Batch Proof Submitted',
         description: `ZK proofs for ${proposalIds.length} proposals have been verified.`,
       });
 

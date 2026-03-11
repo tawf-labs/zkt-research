@@ -3,7 +3,7 @@ import { getAllCampaignPools, calculateDaysLeft } from '@/lib/contract-client';
 
 export async function GET(request: NextRequest) {
   try {
-    console.log('📡 [API] Fetching campaigns from contract...');
+    console.log('[API] Fetching campaigns from contract...');
 
     // Fetch all campaigns from contract
     const campaigns = await getAllCampaignPools();
@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
         daysLeft: calculateDaysLeft(c.endTime),
       }));
 
-    console.log(`✅ [API] Returning ${activeCampaigns.length} active campaigns`);
+    console.log(`[API] Returning ${activeCampaigns.length} active campaigns`);
 
     return NextResponse.json(
       {

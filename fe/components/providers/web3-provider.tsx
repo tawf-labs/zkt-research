@@ -313,7 +313,7 @@ function WalletStateController({ children }: { children: ReactNode }) {
       });
 
       toast({
-        title: "Donation Successful! 🎉",
+        title: "Donation Successful",
         description: `You donated ${amountIDRX.toString()} IDRX to ${campaignTitle}`,
       });
 
@@ -322,7 +322,7 @@ function WalletStateController({ children }: { children: ReactNode }) {
 
       return { txHash: donateTxHash };
     } catch (error: any) {
-      console.error("❌ Donation error details:", {
+      console.error("Donation error details:", {
         message: error?.message,
         code: error?.code,
         reason: error?.reason,

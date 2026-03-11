@@ -59,7 +59,7 @@ export default function OrganizerApplyPage() {
   // If already verified, show redirect to dashboard
   if (isVerified) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-white to-secondary/20 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-accent flex items-center justify-center p-4">
         <Card className="max-w-md w-full">
           <CardContent className="p-8 text-center space-y-4">
             <CheckCircle2 className="h-16 w-16 text-green-600 mx-auto mb-4" />

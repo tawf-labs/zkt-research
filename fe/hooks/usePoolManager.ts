@@ -176,7 +176,7 @@ export const usePoolManager = (options?: UsePoolManagerOptions) => {
         setTxHash(hash);
 
         toast({
-          title: 'Funds Withdrawn! 💰',
+          title: 'Funds Withdrawn',
           description: `Raised funds from pool ${poolId} have been transferred.`,
         });
 

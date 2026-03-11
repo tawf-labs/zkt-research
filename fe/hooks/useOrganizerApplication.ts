@@ -122,7 +122,7 @@ export const useOrganizerApplication = (options?: UseOrganizerApplicationOptions
         });
 
         toast({
-          title: 'Application Submitted! 📝',
+          title: 'Application Submitted',
           description: 'Your organizer application has been submitted. It will be reviewed by KYC oracle and then voted on by the community.',
         });
 
@@ -187,7 +187,7 @@ export const useOrganizerApplication = (options?: UseOrganizerApplicationOptions
         });
 
         toast({
-          title: 'Submitted for Voting! 🗳️',
+          title: 'Submitted for Voting',
           description: `Application ${applicationId} is now open for community voting.`,
         });
 

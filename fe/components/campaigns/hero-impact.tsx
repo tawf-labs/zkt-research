@@ -30,7 +30,7 @@ export function HeroImpact({
   const progress = Math.min((raised / goal) * 100, 100);
 
   return (
-    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary/10 via-background to-secondary/20 border border-primary/20">
+    <div className="relative overflow-hidden rounded-2xl bg-primary/10 border border-primary/20">
       <div className="grid md:grid-cols-2 gap-6 p-6 lg:p-8">
         {/* Beneficiary Photo */}
         <div className="relative aspect-[4/3] rounded-xl overflow-hidden">
@@ -40,6 +40,7 @@ export function HeroImpact({
             fill
             className="object-cover"
             sizes="(max-width: 768px) 100vw, 50vw"
+            priority  // This is above-the-fold content, should load immediately
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
           <div className="absolute bottom-4 left-4 right-4">
@@ -92,7 +93,7 @@ export function HeroImpact({
               </div>
               <div className="w-full h-3 bg-secondary/50 rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-gradient-to-r from-primary to-primary/80 rounded-full transition-all duration-500"
+                  className="h-full bg-primary rounded-full transition-all duration-500"
                   style={{ width: `${progress}%` }}
                 />
               </div>

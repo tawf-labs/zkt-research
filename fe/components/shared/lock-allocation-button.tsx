@@ -86,7 +86,7 @@ export function LockAllocationButton({
                 disabled={isLoading}
                 className="flex-1"
               >
-                {isLoading ? '⏳ Locking...' : '🔒 Lock'}
+                {isLoading ? 'Locking...' : 'Lock'}
               </Button>
             </div>
           </div>

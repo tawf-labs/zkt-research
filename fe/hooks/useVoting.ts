@@ -74,7 +74,7 @@ export const useVoting = (options?: UseVotingOptions) => {
         });
 
         toast({
-          title: 'Vote Cast! 🗳️',
+          title: 'Vote Cast',
           description: `You voted ${getVoteSupportLabel(support).toLowerCase()} on proposal ${proposalId}`,
         });
 
@@ -145,7 +145,7 @@ export const useVoting = (options?: UseVotingOptions) => {
         });
 
         toast({
-          title: 'Vote Finalized! 🏁',
+          title: 'Vote Finalized',
           description: `Community voting for proposal ${proposalId} has ended.`,
         });
 
@@ -216,7 +216,7 @@ export const useVoting = (options?: UseVotingOptions) => {
         console.log({hash})
 
         toast({
-          title: 'Submitted for Voting! 📢',
+          title: 'Submitted for Voting',
           description: `Proposal ${proposalId} is now open for community voting.`,
         });
 

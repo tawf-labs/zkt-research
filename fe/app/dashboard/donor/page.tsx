@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Award, FileText, Vote, Wallet, ShieldCheck, Download, ExternalLink, TrendingUp, CheckCircle2, XCircle, Clock, Settings } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/components/providers/language-provider';
 
 interface NFTReceipt {
@@ -81,50 +82,46 @@ const DonorDashboard: React.FC = () => {
                     <Wallet className="h-3 w-3" />
                     0x71C...92F
                   </div>
-                  <button className="w-full inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all border border-black shadow-xs hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2 bg-transparent">
+                  <Button variant="outline" className="w-full">
                     {t("dashboard.editProfile")}
-                  </button>
+                  </Button>
                 </div>
               </div>
 
               {/* Navigation */}
               <nav className="space-y-1">
-                <button
+                <Button
+                  variant="ghost"
                   onClick={() => setSidebarTab('overview')}
-                  className={`w-full inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm transition-all hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2 justify-start ${
-                    sidebarTab === 'overview' ? 'bg-secondary/50 font-semibold' : 'text-muted-foreground hover:text-foreground'
-                  }`}
+                  className={`w-full justify-start ${sidebarTab === 'overview' ? 'bg-secondary/50 font-semibold' : ''}`}
                 >
                   <Award className="mr-2 h-4 w-4" />
                   {t("dashboard.overview")}
-                </button>
-                <button
+                </Button>
+                <Button
+                  variant="ghost"
                   onClick={() => setSidebarTab('tax-reports')}
-                  className={`w-full inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all hover:bg-accent h-9 px-4 py-2 justify-start ${
-                    sidebarTab === 'tax-reports' ? 'bg-secondary/50 font-semibold' : 'text-muted-foreground hover:text-foreground'
-                  }`}
+                  className={`w-full justify-start ${sidebarTab === 'tax-reports' ? 'bg-secondary/50 font-semibold' : ''}`}
                 >
                   <FileText className="mr-2 h-4 w-4" />
                   {t("dashboard.taxReports")}
-                </button>
-                <button
+                </Button>
+                <Button
+                  variant="ghost"
                   onClick={() => setSidebarTab('governance-dao')}
-                  className={`w-full inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all hover:bg-accent h-9 px-4 py-2 justify-start ${
-                    sidebarTab === 'governance-dao' ? 'bg-secondary/50 font-semibold' : 'text-muted-foreground hover:text-foreground'
-                  }`}
+                  className={`w-full justify-start ${sidebarTab === 'governance-dao' ? 'bg-secondary/50 font-semibold' : ''}`}
                 >
                   <Vote className="mr-2 h-4 w-4" />
                   {t("dashboard.governanceDao")}
-                </button>
-                <button
+                </Button>
+                <Button
+                  variant="ghost"
                   onClick={() => setSidebarTab('wallet-settings')}
-                  className={`w-full inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all hover:bg-accent h-9 px-4 py-2 justify-start ${
-                    sidebarTab === 'wallet-settings' ? 'bg-secondary/50 font-semibold' : 'text-muted-foreground hover:text-foreground'
-                  }`}
+                  className={`w-full justify-start ${sidebarTab === 'wallet-settings' ? 'bg-secondary/50 font-semibold' : ''}`}
                 >
                   <Settings className="mr-2 h-4 w-4" />
                   {t("dashboard.walletSettings")}
-                </button>
+                </Button>
               </nav>
             </aside>
 
@@ -198,7 +195,7 @@ const DonorDashboard: React.FC = () => {
                           className="bg-white text-card-foreground rounded-xl border shadow-sm overflow-hidden border-black/60 hover:shadow-md transition-shadow group cursor-pointer"
                         >
                           {/* Receipt Visual */}
-                          <div className="relative aspect-square bg-gradient-to-br from-secondary to-background p-6 flex flex-col items-center justify-center border-b border-black/60">
+                          <div className="relative aspect-square bg-secondary p-6 flex flex-col items-center justify-center border-b border-black/60">
                             <div className="absolute inset-0 opacity-10 bg-white [background-size:16px_16px]"></div>
                             <div className="h-16 w-16 rounded-full bg-white/10 flex items-center justify-center text-primary mb-4 shadow-sm group-hover:scale-110 transition-transform">
                               <ShieldCheck className="h-8 w-8" />
@@ -413,14 +410,21 @@ const DonorDashboard: React.FC = () => {
                               <div className="flex items-center justify-between pt-2 border-t border-border">
                                 <span className="text-xs text-muted-foreground">{t("dashboard.endsIn")} 3 days</span>
                                 <div className="flex gap-2">
-                                  <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all border shadow-xs h-9 px-4 py-2 bg-green-500 text-white border-green-600 hover:bg-green-600">
+                                  <Button
+                                    size="sm"
+                                    className="bg-green-500 hover:bg-green-600 text-white border-green-600"
+                                  >
                                     <CheckCircle2 className="h-4 w-4" />
                                     {t("dashboard.voteFor")}
-                                  </button>
-                                  <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all border shadow-xs h-9 px-4 py-2 bg-white border-black hover:bg-gray-50">
+                                  </Button>
+                                  <Button
+                                    size="sm"
+                                    variant="outline"
+                                    className="bg-white border-black hover:bg-gray-50"
+                                  >
                                     <XCircle className="h-4 w-4" />
                                     {t("dashboard.voteAgainst")}
-                                  </button>
+                                  </Button>
                                 </div>
                               </div>
                             </div>
@@ -456,14 +460,21 @@ const DonorDashboard: React.FC = () => {
                               <div className="flex items-center justify-between pt-2 border-t border-border">
                                 <span className="text-xs text-muted-foreground">{t("dashboard.endsIn")} 5 days</span>
                                 <div className="flex gap-2">
-                                  <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all border shadow-xs h-9 px-4 py-2 bg-green-500 text-white border-green-600 hover:bg-green-600">
+                                  <Button
+                                    size="sm"
+                                    className="bg-green-500 hover:bg-green-600 text-white border-green-600"
+                                  >
                                     <CheckCircle2 className="h-4 w-4" />
                                     {t("dashboard.voteFor")}
-                                  </button>
-                                  <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all border shadow-xs h-9 px-4 py-2 bg-white border-black hover:bg-gray-50">
+                                  </Button>
+                                  <Button
+                                    size="sm"
+                                    variant="outline"
+                                    className="bg-white border-black hover:bg-gray-50"
+                                  >
                                     <XCircle className="h-4 w-4" />
                                     {t("dashboard.voteAgainst")}
-                                  </button>
+                                  </Button>
                                 </div>
                               </div>
                             </div>
@@ -566,10 +577,10 @@ const DonorDashboard: React.FC = () => {
                               {year === '2025' ? t("dashboard.inProgressYtd") : t("dashboard.complete")}
                             </div>
                           </div>
-                          <button className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-black hover:bg-gray-50 text-sm font-medium">
-                            <Download className="h-4 w-4" />
+                          <Button variant="outline" className="border-black hover:bg-gray-50">
+                            <Download className="h-4 w-4 mr-2" />
                             {t("dashboard.downloadPdf")}
-                          </button>
+                          </Button>
                         </div>
                       ))}
                     </div>
@@ -694,11 +705,11 @@ const DonorDashboard: React.FC = () => {
                       <div className="flex items-center justify-between mb-4 p-4 bg-accent/30 rounded-lg">
                         <div>
                           <div className="text-sm text-muted-foreground mb-1">{t("dashboard.walletAddress")}</div>
-                          <div className="font-mono font-semibold">0x71C7656EC7ab88b098defB751B7401B5f6d8976F</div>
+                          <div className="font-mono font-semibold text-primary">0x71C7656EC7ab88b098defB751B7401B5f6d8976F</div>
                         </div>
-                        <button className="px-4 py-2 rounded-md border border-black hover:bg-gray-50 text-sm font-medium">
+                        <Button variant="outline" className="border-black hover:bg-gray-50">
                           {t("dashboard.disconnect")}
-                        </button>
+                        </Button>
                       </div>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="p-4 border border-border rounded-lg">
@@ -730,9 +741,9 @@ const DonorDashboard: React.FC = () => {
                             <div className="font-semibold">{item.label}</div>
                             <div className="text-sm text-muted-foreground mt-1">{item.desc}</div>
                           </div>
-                          <button className="px-4 py-2 rounded-md bg-primary text-white text-sm font-medium hover:bg-primary/90">
+                          <Button size="sm">
                             {t("dashboard.enabled")}
-                          </button>
+                          </Button>
                         </div>
                       ))}
                     </div>

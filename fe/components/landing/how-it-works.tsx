@@ -1,6 +1,6 @@
 export function HowItWorks() {
   return (
-    <section className="py-16 md:py-24 px-4 sm:px-6 bg-gradient-to-b from-transparent to-secondary/5">
+    <section className="py-16 md:py-24 px-4 sm:px-6 bg-accent">
       <div className="container mx-auto">
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
 
@@ -70,12 +70,12 @@ export function HowItWorks() {
           </div>
 
           {/* Right Box */}
-          <div className="lg:w-1/2 bg-gradient-to-br from-white to-primary/5 rounded-2xl p-6 lg:p-8 border border-primary/10 shadow-md">
+          <div className="lg:w-1/2 bg-card rounded-2xl p-6 lg:p-8 border border-primary/10 shadow-md">
             <div className="space-y-4">
 
               <div className="bg-background p-5 rounded-2xl border border-primary/10 flex items-center justify-between">
                 <span className="font-medium">Donation Sent</span>
-                <span className="text-primary font-mono font-bold">Confirmed ✓</span>
+                <span className="text-primary font-mono font-bold">Confirmed</span>
               </div>
 
               <div className="flex justify-center">

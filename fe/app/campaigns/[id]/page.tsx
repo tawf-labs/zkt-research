@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Clock, CircleCheck, Share2, Heart, MapPin, Calendar, Target, TrendingUp, Shield, FileText, Loader2, AlertTriangle, Timer, ExternalLink, Vote, CheckCircle2, XCircle, MinusCircle } from 'lucide-react';
 import { DonationDialog } from '@/components/donations/donation-dialog';
+import { Button } from '@/components/ui/button';
 import dynamic from 'next/dynamic';
 import { useMilestones, useMilestoneActions, useHasVotedOnMilestone } from '@/hooks/useMilestones';
 import { useAccount } from 'wagmi';
@@ -169,12 +170,11 @@ export default function CampaignDetail() {
           <div className="flex flex-col items-center justify-center py-12">
             <p className="text-red-500 font-semibold mb-4">Error loading campaign</p>
             <p className="text-muted-foreground mb-4">{error}</p>
-            <button
+            <Button
               onClick={() => window.location.reload()}
-              className="px-4 py-2 rounded-md bg-primary text-primary-foreground hover:bg-primary/90"
             >
               Retry
-            </button>
+            </Button>
           </div>
         </div>
       </main>
@@ -288,12 +288,12 @@ export default function CampaignDetail() {
 
                 {/* Action Buttons */}
                 <div className="flex gap-2">
-                  <button className="inline-flex items-center justify-center rounded-md border border-border bg-transparent hover:bg-accent hover:text-accent-foreground h-9 w-9">
+                  <Button variant="outline" size="icon" className="h-9 w-9">
                     <Share2 className="h-4 w-4" />
-                  </button>
-                  <button className="inline-flex items-center justify-center rounded-md border border-border bg-transparent hover:bg-accent hover:text-accent-foreground h-9 w-9">
+                  </Button>
+                  <Button variant="outline" size="icon" className="h-9 w-9">
                     <Heart className="h-4 w-4" />
-                  </button>
+                  </Button>
                 </div>
               </div>
 
@@ -468,27 +468,32 @@ export default function CampaignDetail() {
                             {/* Voting Buttons */}
                             {isConnected && milestone.isVotingActive && (
                               <div className="flex gap-2 pt-2">
-                                <button
+                                <Button
+                                  size="sm"
+                                  variant="default"
+                                  className="flex-1 bg-green-600 hover:bg-green-700 text-white"
                                   onClick={() => voteMilestone(campaignDetail.proposalId!, idx, VoteSupport.For)}
                                   disabled={votingLoading}
-                                  className="flex-1 text-xs py-2 px-3 rounded-md bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 transition-colors flex items-center justify-center gap-1"
                                 >
-                                  <CheckCircle2 className="h-3 w-3" /> Approve
-                                </button>
-                                <button
+                                  <CheckCircle2 className="h-3 w-3 mr-1" /> Approve
+                                </Button>
+                                <Button
+                                  size="sm"
+                                  variant="destructive"
+                                  className="flex-1 bg-red-600 hover:bg-red-700 text-white"
                                   onClick={() => voteMilestone(campaignDetail.proposalId!, idx, VoteSupport.Against)}
                                   disabled={votingLoading}
-                                  className="flex-1 text-xs py-2 px-3 rounded-md bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 transition-colors flex items-center justify-center gap-1"
                                 >
-                                  <XCircle className="h-3 w-3" /> Reject
-                                </button>
-                                <button
+                                  <XCircle className="h-3 w-3 mr-1" /> Reject
+                                </Button>
+                                <Button
+                                  size="sm"
+                                  variant="outline"
                                   onClick={() => voteMilestone(campaignDetail.proposalId!, idx, VoteSupport.Abstain)}
                                   disabled={votingLoading}
-                                  className="text-xs py-2 px-3 rounded-md border border-border hover:bg-accent disabled:opacity-50 transition-colors"
                                 >
                                   Abstain
-                                </button>
+                                </Button>
                               </div>
                             )}
                           </div>
@@ -650,9 +655,9 @@ export default function CampaignDetail() {
                     <div className="font-mono text-xs bg-background p-3 rounded border border-border break-all">
                       0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb7
                     </div>
-                    <button className="w-full border border-border rounded-md h-9 px-4 text-sm font-semibold hover:bg-accent transition-all">
+                    <Button variant="outline" className="w-full">
                       View on Block Explorer
-                    </button>
+                    </Button>
                   </div>
                 </div>
 
@@ -749,12 +754,13 @@ export default function CampaignDetail() {
                 </p>
 
                 {/* Donate Button - Opens Dialog Directly */}
-                <button
+                <Button
                   onClick={() => setShowDonationDialog(true)}
-                  className="w-full bg-primary text-primary-foreground hover:bg-primary/90 border border-transparent rounded-md h-11 px-4 text-sm font-bold transition-all shadow-sm"
+                  className="w-full"
+                  size="lg"
                 >
                   Donate Now
-                </button>
+                </Button>
               </div>
 
               {/* NEW: Impact Calculator */}
@@ -790,9 +796,9 @@ export default function CampaignDetail() {
                     <p className="text-sm text-muted-foreground">Verified Organization</p>
                   </div>
                 </div>
-                <button className="w-full border border-border rounded-md h-9 px-4 text-sm font-semibold hover:bg-accent transition-all">
+                <Button variant="outline" className="w-full">
                   View Profile
-                </button>
+                </Button>
               </div>
             </div>
           </div>

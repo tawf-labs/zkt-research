@@ -93,61 +93,46 @@ const AuditorDashboard = () => {
 
           {/* Navigation */}
           <nav className="space-y-2">
-            <button
+            <Button
               onClick={() => setSidebarTab('overview')}
-              className={`w-full flex items-center gap-2 px-4 py-2 rounded-md text-sm font-semibold transition-colors ${
-                sidebarTab === 'overview'
-                  ? 'bg-black text-white'
-                  : 'text-black hover:text-white hover:bg-gray-800'
-              }`}
+              variant={sidebarTab === 'overview' ? 'default' : 'ghost'}
+              className={`w-full justify-start ${sidebarTab === 'overview' ? 'bg-black text-white hover:bg-black' : 'text-black hover:text-white hover:bg-gray-800'}`}
             >
-              <LayoutDashboard className="h-4 w-4" />
+              <LayoutDashboard className="h-4 w-4 mr-2" />
               {t("auditor.ecosystemOverview")}
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={() => setSidebarTab('kyc')}
-              className={`w-full flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                sidebarTab === 'kyc'
-                  ? 'bg-black text-white'
-                  : 'text-black hover:text-white hover:bg-gray-800'
-              }`}
+              variant={sidebarTab === 'kyc' ? 'default' : 'ghost'}
+              className={`w-full justify-start ${sidebarTab === 'kyc' ? 'bg-black text-white hover:bg-black' : 'text-black hover:text-white hover:bg-gray-800'}`}
             >
-              <FileText className="h-4 w-4" />
+              <FileText className="h-4 w-4 mr-2" />
               {t("auditor.kycVerification")}
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={() => setSidebarTab('organizations')}
-              className={`w-full flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                sidebarTab === 'organizations'
-                  ? 'bg-black text-white'
-                  : 'text-black hover:text-white hover:bg-gray-800'
-              }`}
+              variant={sidebarTab === 'organizations' ? 'default' : 'ghost'}
+              className={`w-full justify-start ${sidebarTab === 'organizations' ? 'bg-black text-white hover:bg-black' : 'text-black hover:text-white hover:bg-gray-800'}`}
             >
-              <Building2 className="h-4 w-4" />
+              <Building2 className="h-4 w-4 mr-2" />
               {t("auditor.organizationsNav")}
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={() => setSidebarTab('audit')}
-              className={`w-full flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                sidebarTab === 'audit'
-                  ? 'bg-black text-white'
-                  : 'text-black hover:text-white hover:bg-gray-800'
-              }`}
+              variant={sidebarTab === 'audit' ? 'default' : 'ghost'}
+              className={`w-full justify-start ${sidebarTab === 'audit' ? 'bg-black text-white hover:bg-black' : 'text-black hover:text-white hover:bg-gray-800'}`}
             >
-              <FileCheck className="h-4 w-4" />
+              <FileCheck className="h-4 w-4 mr-2" />
               {t("auditor.auditLogs")}
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={() => setSidebarTab('alerts')}
-              className={`w-full flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                sidebarTab === 'alerts'
-                  ? 'bg-black text-white'
-                  : 'text-black hover:text-white hover:bg-gray-800'
-              }`}
+              variant={sidebarTab === 'alerts' ? 'default' : 'ghost'}
+              className={`w-full justify-start ${sidebarTab === 'alerts' ? 'bg-black text-white hover:bg-black' : 'text-black hover:text-white hover:bg-gray-800'}`}
             >
-              <TriangleAlert className="h-4 w-4" />
+              <TriangleAlert className="h-4 w-4 mr-2" />
               {t("auditor.riskAlerts")}
-            </button>
+            </Button>
           </nav>
         </div>
       </aside>
@@ -303,7 +288,7 @@ const AuditorDashboard = () => {
                     </code>
                   </div>
                   <p className="text-xs text-slate-500">
-                    ⚠️ {t("auditor.roleWarning")}
+                    {t("auditor.roleWarning")}
                   </p>
                 </CardContent>
               </Card>
@@ -339,16 +324,16 @@ const AuditorDashboard = () => {
           <div className="flex items-center gap-3">
             <div className="relative w-64 hidden md:block">
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-black" />
-              <input
+              <Input
                 type="search"
                 placeholder={t("auditor.searchOrgHash")}
-                className="w-full pl-9 pr-3 py-2 border border-black rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                className="pl-9 border-black focus-visible:ring-black"
               />
             </div>
-            <button className="flex items-center gap-2 px-4 py-2 bg-white border border-black rounded-md text-sm font-medium hover:bg-gray-50 transition-colors">
-              <Download className="h-4 w-4" />
+            <Button variant="outline" className="bg-white border-black hover:bg-gray-50">
+              <Download className="h-4 w-4 mr-2" />
               {t("auditor.exportReport")}
-            </button>
+            </Button>
           </div>
         </div>
 
@@ -445,9 +430,9 @@ const AuditorDashboard = () => {
                             </div>
                           </td>
                           <td className="py-3 px-2">
-                            <button className="text-xs font-medium text-black hover:text-black px-3 py-1 rounded-md hover:bg-slate-100 transition-colors">
+                            <Button variant="ghost" size="sm" className="text-xs h-8 hover:bg-slate-100">
                               {t("auditor.details")}
-                            </button>
+                            </Button>
                           </td>
                         </tr>
                       ))}
@@ -504,10 +489,10 @@ const AuditorDashboard = () => {
               </div>
               <div className="relative w-64">
                 <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-black" />
-                <input
+                <Input
                   type="search"
                   placeholder={t("auditor.searchOrg")}
-                  className="w-full pl-9 pr-3 py-2 border border-black rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                  className="pl-9 border-black focus-visible:ring-black"
                 />
               </div>
             </div>
@@ -547,9 +532,9 @@ const AuditorDashboard = () => {
                             </div>
                           </td>
                           <td className="py-3 px-2">
-                            <button className="text-xs font-medium text-black hover:text-black px-3 py-1 rounded-md hover:bg-slate-100 transition-colors">
+                            <Button variant="ghost" size="sm" className="text-xs h-8 hover:bg-slate-100">
                               {t("auditor.viewDetails")}
-                            </button>
+                            </Button>
                           </td>
                         </tr>
                       ))}
@@ -648,12 +633,12 @@ const AuditorDashboard = () => {
                       </span>
                     </div>
                     <div className="flex gap-2">
-                      <button className="px-3 py-1 text-xs font-medium rounded-md border border-black hover:bg-gray-50">
+                      <Button variant="outline" size="sm" className="border-black hover:bg-gray-50 text-xs h-7">
                         {t("auditor.investigate")}
-                      </button>
-                      <button className="px-3 py-1 text-xs font-medium rounded-md bg-primary text-white hover:bg-primary/90">
+                      </Button>
+                      <Button size="sm" className="text-xs h-7">
                         {t("auditor.resolve")}
-                      </button>
+                      </Button>
                     </div>
                   </div>
                 ))}

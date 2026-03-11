@@ -6,7 +6,7 @@ import { Card, CardContent } from '@/components/ui/card'
 
 export default function ContactUsPage() {
   return (
-    <main className="min-h-dvh relative overflow-hidden bg-gradient-to-br from-white via-secondary/30 to-accent">
+    <main className="min-h-dvh relative overflow-hidden bg-accent">
       {/* Background Grid */}
       <div className="absolute inset-0 bg-grid-slate-200 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.5))] -z-10" style={{backgroundSize: '40px 40px', backgroundImage: 'linear-gradient(to right, rgb(203 213 225 / 0.2) 1px, transparent 1px), linear-gradient(to bottom, rgb(203 213 225 / 0.2) 1px, transparent 1px)'}}></div>
       
@@ -38,7 +38,7 @@ export default function ContactUsPage() {
                   <div className="text-center space-y-4">
                     <div className="relative inline-block">
                       <div className="absolute inset-0 bg-primary/20 rounded-full blur-xl"></div>
-                      <div className="relative w-20 h-20 rounded-full bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center shadow-lg shadow-primary/30 mx-auto">
+                      <div className="relative w-20 h-20 rounded-full bg-primary flex items-center justify-center shadow-lg shadow-primary/30 mx-auto">
                         <Mail className="w-10 h-10 text-white" />
                       </div>
                     </div>

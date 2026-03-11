@@ -91,7 +91,7 @@ export function usePrivateDonate(): PrivateDonateResult {
         // Generate Pedersen commitment for amount privacy
         const commitment = generateCommitment(params.amount);
 
-        console.log('🔒 Initiating private donation:', {
+        console.log('Initiating private donation:', {
           poolId: params.poolId.toString(),
           amount: params.amount.toString(),
           commitment,
@@ -119,7 +119,7 @@ export function usePrivateDonate(): PrivateDonateResult {
           description: 'Your private donation is being processed...',
         });
 
-        console.log('✅ Private donation submitted:', txHash);
+        console.log('Private donation submitted:', txHash);
 
         return {
           txHash,

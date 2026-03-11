@@ -7,6 +7,12 @@ import { useLanguage } from "@/components/providers/language-provider";
 import { campaigns, formatCurrency } from "@/data/campaigns";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Switch } from "@/components/ui/switch";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 
 export default function ZakatPage() {
@@ -106,7 +112,7 @@ export default function ZakatPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-secondary/20 py-12 px-4">
+    <div className="min-h-screen bg-accent py-12 px-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
@@ -119,189 +125,191 @@ export default function ZakatPage() {
           <div className="lg:col-span-2">
             {/* Wallet Balance Card */}
             {isConnected && (
-              <div className="bg-gradient-to-r from-primary to-primary/90 rounded-2xl shadow-lg shadow-primary/20 p-6 mb-6 text-white">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-2">
-                    <Wallet className="h-5 w-5" />
-                    <h3 className="text-lg font-semibold">{t("zakat.walletBalance")}</h3>
+              <Card className="mb-6 bg-primary border-primary/20 shadow-lg shadow-primary/20 text-white before:pointer-events-none before:fixed before:inset-0 before:z-[1]">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-2">
+                      <Wallet className="h-5 w-5" />
+                      <h3 className="text-lg font-semibold">{t("zakat.walletBalance")}</h3>
+                    </div>
+                    <code className="text-sm font-mono bg-white/20 px-3 py-1 rounded-full">
+                      {address ? `${address.slice(0, 6)}...${address.slice(-4)}` : ''}
+                    </code>
                   </div>
-                  <code className="text-sm font-mono bg-white/20 px-3 py-1 rounded">
-                    {address ? `${address.slice(0, 6)}...${address.slice(-4)}` : ''}
-                  </code>
-                </div>
-                <div className="flex items-baseline gap-2">
-                  <span className="text-3xl font-bold">{idrxBalance ? Number(idrxBalance / BigInt(1e18)).toLocaleString('id-ID', { maximumFractionDigits: 0 }) : '0'}</span>
-                  <span className="text-white/90 font-medium">IDRX</span>
-                </div>
-                <p className="text-sm text-white/90 mt-1">Available for Zakat payment</p>
-              </div>
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-3xl font-bold">{idrxBalance ? Number(idrxBalance / BigInt(1e18)).toLocaleString('id-ID', { maximumFractionDigits: 0 }) : '0'}</span>
+                    <span className="text-white/90 font-medium">IDRX</span>
+                  </div>
+                  <p className="text-sm text-white/90 mt-1">Available for Zakat payment</p>
+                </CardContent>
+              </Card>
             )}
 
             {/* Nisab Information Card */}
-            <div className="bg-white rounded-2xl border border-border shadow-sm p-6 mb-6">
-              <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center gap-2">
-                  <Wallet className="h-5 w-5 text-primary" />
-                  <h3 className="text-lg font-semibold">Live Nisab Threshold</h3>
+            <Card className="mb-6">
+              <CardHeader className="pb-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Calculator className="h-5 w-5 text-primary" />
+                    <CardTitle className="text-lg">Live Nisab Threshold</CardTitle>
+                  </div>
+                  <Button variant="ghost" size="sm" className="h-8 gap-2 text-primary hover:text-primary">
+                    <Loader2 className="h-3.5 w-3.5" />
+                    Refresh
+                  </Button>
                 </div>
-                <button className="inline-flex items-center gap-2 text-sm text-primary hover:underline">
-                  <Loader2 className="h-4 w-4" />
-                  Refresh
-                </button>
-              </div>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="text-center p-4 bg-accent rounded-xl border border-border">
+                    <div className="text-xs text-muted-foreground mb-1">Gold Price</div>
+                    <div className="text-lg font-bold text-primary">${goldPrice.toFixed(2)}/oz</div>
+                    <span className="inline-flex items-center justify-center rounded-full px-2 py-0.5 text-xs font-semibold bg-primary/10 text-primary mt-1">
+                      Live
+                    </span>
+                  </div>
 
-              <div className="grid grid-cols-3 gap-4">
-                <div className="text-center p-4 bg-secondary rounded-lg border border-border">
-                  <div className="text-xs text-muted-foreground mb-1">Gold Price</div>
-                  <div className="text-lg font-bold">${goldPrice.toFixed(2)}/oz</div>
-                  <span className="inline-flex items-center justify-center rounded-md px-2 py-0.5 text-xs font-semibold bg-primary/10 text-primary mt-1">
-                    Live
-                  </span>
+                  <div className="text-center p-4 bg-accent rounded-xl border border-border">
+                    <div className="text-xs text-muted-foreground mb-1">Nisab (85g Gold)</div>
+                    <div className="text-lg font-bold text-primary">${nisabThreshold.toFixed(2)}</div>
+                  </div>
+
+                  <div className="text-center p-4 bg-accent rounded-xl border border-border">
+                    <div className="text-xs text-muted-foreground mb-1">Zakat Rate</div>
+                    <div className="text-lg font-bold text-primary">{zakatRate}%</div>
+                  </div>
                 </div>
 
-                <div className="text-center p-4 bg-secondary rounded-lg border border-border">
-                  <div className="text-xs text-muted-foreground mb-1">Nisab (85g Gold)</div>
-                  <div className="text-lg font-bold">${nisabThreshold.toFixed(2)}</div>
-                </div>
-
-                <div className="text-center p-4 bg-secondary rounded-lg border border-border">
-                  <div className="text-xs text-muted-foreground mb-1">Zakat Rate</div>
-                  <div className="text-lg font-bold">{zakatRate}%</div>
-                </div>
-              </div>
-
-              <p className="text-xs text-muted-foreground mt-4 text-center">
-                Nisab threshold based on live gold prices (85 grams). Updates every 5 minutes.
-              </p>
-            </div>
+                <p className="text-xs text-muted-foreground mt-4 text-center">
+                  Nisab threshold based on live gold prices (85 grams). Updates every 5 minutes.
+                </p>
+              </CardContent>
+            </Card>
 
             {/* Tabs */}
-            <div className="bg-white rounded-2xl border border-border shadow-sm overflow-hidden">
+            <Card>
               {/* Tab Headers */}
               <div className="grid grid-cols-2 border-b border-border">
-                <button
+                <Button
+                  variant="ghost"
                   onClick={() => setSelectedTab("maal")}
-                  className={`px-6 py-4 text-sm font-medium transition-colors ${
+                  className={`rounded-none border-b-2 h-14 ${
                     selectedTab === "maal"
-                      ? "bg-primary/5 text-primary border-b-2 border-primary"
-                      : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
+                      ? "border-primary text-primary bg-primary/5"
+                      : "border-transparent text-muted-foreground hover:text-foreground"
                   }`}
                 >
                   Wealth Zakat
-                </button>
-                <button
+                </Button>
+                <Button
+                  variant="ghost"
                   onClick={() => setSelectedTab("fitrah")}
-                  className={`px-6 py-4 text-sm font-medium transition-colors ${
+                  className={`rounded-none border-b-2 h-14 ${
                     selectedTab === "fitrah"
-                      ? "bg-primary/5 text-primary border-b-2 border-primary"
-                      : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
+                      ? "border-primary text-primary bg-primary/5"
+                      : "border-transparent text-muted-foreground hover:text-foreground"
                   }`}
                 >
                   Fitrah Zakat
-                </button>
+                </Button>
               </div>
 
               {/* Tab Content */}
-              <div className="p-6">
+              <CardContent className="p-6">
                 {selectedTab === "maal" ? (
                   <div className="space-y-6">
                     {/* Zakat Type Selector */}
-                    <div>
-                      <label className="block text-sm font-medium mb-2">Zakat Type</label>
-                      <select
-                        value={zakatType}
-                        onChange={(e) => setZakatType(e.target.value)}
-                        className="w-full px-4 py-2.5 bg-white border border-input rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                      >
-                        <option value="income">Income Zakat - For salary & wages</option>
-                        <option value="trade">Trade Zakat - For business assets</option>
-                        <option value="savings">Savings Zakat - For liquid assets</option>
-                        <option value="gold">Gold & Silver Zakat</option>
-                      </select>
+                    <div className="space-y-2">
+                      <Label htmlFor="zakat-type">Zakat Type</Label>
+                      <Select value={zakatType} onValueChange={setZakatType}>
+                        <SelectTrigger id="zakat-type" className="w-full h-11">
+                          <SelectValue placeholder="Select zakat type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="income">Income Zakat - For salary & wages</SelectItem>
+                          <SelectItem value="trade">Trade Zakat - For business assets</SelectItem>
+                          <SelectItem value="savings">Savings Zakat - For liquid assets</SelectItem>
+                          <SelectItem value="gold">Gold & Silver Zakat</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
 
                     {zakatType === "income" && (
                       <>
                         {/* Income Period */}
-                        <div>
-                          <label className="block text-sm font-medium mb-3">Income Calculation Period</label>
-                          <div className="flex gap-4">
-                            <label className="flex items-center gap-2 cursor-pointer">
-                              <input
-                                type="radio"
-                                value="monthly"
-                                checked={incomeType === "monthly"}
-                                onChange={(e) => setIncomeType(e.target.value)}
-                                className="w-4 h-4"
-                              />
-                              <span className="text-sm">Monthly</span>
-                            </label>
-                            <label className="flex items-center gap-2 cursor-pointer">
-                              <input
-                                type="radio"
-                                value="yearly"
-                                checked={incomeType === "yearly"}
-                                onChange={(e) => setIncomeType(e.target.value)}
-                                className="w-4 h-4"
-                              />
-                              <span className="text-sm">Yearly</span>
-                            </label>
-                          </div>
+                        <div className="space-y-3">
+                          <Label>Income Calculation Period</Label>
+                          <RadioGroup value={incomeType} onValueChange={(value: "monthly" | "yearly") => setIncomeType(value)}>
+                            <div className="flex items-center space-x-2">
+                              <RadioGroupItem value="monthly" id="monthly" />
+                              <Label htmlFor="monthly" className="font-normal cursor-pointer">Monthly</Label>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <RadioGroupItem value="yearly" id="yearly" />
+                              <Label htmlFor="yearly" className="font-normal cursor-pointer">Yearly</Label>
+                            </div>
+                          </RadioGroup>
                         </div>
 
                         {/* Income Input */}
-                        <div>
-                          <label className="block text-sm font-medium mb-2">
+                        <div className="space-y-2">
+                          <Label htmlFor="income-input">
                             {incomeType === "monthly" ? "Monthly Income*" : "Yearly Income*"}
-                          </label>
-                          <input
-                            type="number"
-                            value={monthlyIncome}
-                            onChange={(e) => setMonthlyIncome(e.target.value)}
-                            placeholder={`Enter your ${incomeType} income in USD`}
-                            className="w-full px-4 py-2.5 bg-background border border-input rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                          />
+                          </Label>
+                          <div className="relative">
+                            <Calculator className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                            <Input
+                              id="income-input"
+                              type="number"
+                              value={monthlyIncome}
+                              onChange={(e) => setMonthlyIncome(e.target.value)}
+                              placeholder={`Enter your ${incomeType} income in USD`}
+                              className="pl-10 h-11"
+                            />
+                          </div>
                         </div>
 
                         {/* Advanced Options Toggle */}
-                        <button
+                        <Button
+                          type="button"
+                          variant="ghost"
                           onClick={() => setShowAdvanced(!showAdvanced)}
-                          className="flex items-center gap-2 text-sm text-primary hover:underline"
+                          className="h-auto p-0 text-primary hover:text-primary"
                         >
                           {showAdvanced ? "Hide" : "Show"} advanced options
                           <ChevronDown className={`h-4 w-4 transition-transform ${showAdvanced ? "rotate-180" : ""}`} />
-                        </button>
+                        </Button>
 
                         {showAdvanced && (
                           <div className="space-y-4 pt-2">
                             {/* Deduction Toggle */}
-                            <div className="flex items-center justify-between p-4 bg-orange-50 rounded-lg border border-orange-200">
-                              <span className="text-sm font-medium text-orange-900">
+                            <div className="flex items-center justify-between p-4 bg-card rounded-xl border border-border">
+                              <Label htmlFor="deductions" className="cursor-pointer">
                                 Apply work-related deductions
-                              </span>
-                              <label className="relative inline-flex items-center cursor-pointer">
-                                <input
-                                  type="checkbox"
-                                  checked={hasDeductions}
-                                  onChange={(e) => setHasDeductions(e.target.checked)}
-                                  className="sr-only peer"
-                                />
-                                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-500"></div>
-                              </label>
+                              </Label>
+                              <Switch
+                                id="deductions"
+                                checked={hasDeductions}
+                                onCheckedChange={setHasDeductions}
+                              />
                             </div>
 
                             {/* Expenses Input */}
                             {hasDeductions && (
-                              <div>
-                                <label className="block text-sm font-medium mb-2">Expenses (USD)</label>
-                                <input
-                                  type="number"
-                                  value={expenses}
-                                  onChange={(e) => setExpenses(e.target.value)}
-                                  placeholder="Enter your expenses in USD"
-                                  className="w-full px-4 py-2.5 bg-background border border-input rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                                />
-                                <p className="text-xs text-muted-foreground mt-1">
+                              <div className="space-y-2">
+                                <Label htmlFor="expenses">Expenses (USD)</Label>
+                                <div className="relative">
+                                  <Wallet className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                  <Input
+                                    id="expenses"
+                                    type="number"
+                                    value={expenses}
+                                    onChange={(e) => setExpenses(e.target.value)}
+                                    placeholder="Enter your expenses in USD"
+                                    className="pl-10 h-11"
+                                  />
+                                </div>
+                                <p className="text-xs text-muted-foreground">
                                   Optional: Enter your work-related or other deductible expenses
                                 </p>
                               </div>
@@ -310,9 +318,9 @@ export default function ZakatPage() {
                         )}
 
                         {/* Payment Obligation */}
-                        <div className="p-4 bg-secondary rounded-lg border border-border">
-                          <div className="text-sm font-medium mb-1">Payment Obligation</div>
-                          <div className={`text-sm ${calculatedZakat > 0 ? "text-primary font-medium" : "text-muted-foreground"}`}>
+                        <div className={`p-4 rounded-xl border ${calculatedZakat > 0 ? "bg-primary/5 border-primary/20" : "bg-accent border-border"}`}>
+                          <div className="text-sm font-medium text-primary mb-1">Payment Obligation</div>
+                          <div className={`text-sm ${calculatedZakat > 0 ? "text-primary font-semibold" : "text-muted-foreground"}`}>
                             {calculatedZakat > 0
                               ? "Required to Pay Zakat"
                               : "Not Required to Pay Zakat, but Can Give Charity"}
@@ -323,7 +331,7 @@ export default function ZakatPage() {
 
                     {/* Calculated Amount */}
                     {calculatedZakat > 0 && (
-                      <div className="p-6 rounded-lg border border-primary/30 bg-primary/5 shadow-sm">
+                      <div className="p-6 rounded-xl border border-primary/30 bg-primary/5 shadow-sm">
                         <div className="text-center">
                           <p className="text-sm text-muted-foreground mb-2">Your Zakat Amount:</p>
                           <p className="text-4xl font-bold text-primary mb-1">
@@ -337,22 +345,23 @@ export default function ZakatPage() {
                     )}
 
                     {/* Pay Button */}
-                    <button
+                    <Button
                       onClick={handlePayZakatClick}
                       disabled={!isConnected || calculatedZakat === 0}
-                      className="w-full py-3.5 px-4 bg-primary text-white rounded-lg font-semibold hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                      size="lg"
+                      className="w-full"
                     >
                       <Wallet className="h-4 w-4" />
                       {!isConnected ? "Connect Wallet to Pay" : "Pay Zakat"}
-                    </button>
+                    </Button>
                   </div>
                 ) : (
                   <div className="space-y-6">
                     {/* Fitrah Amount Display */}
-                    <div className="p-6 bg-secondary rounded-lg border border-border">
+                    <div className="p-6 bg-accent rounded-xl border border-border">
                       <div className="text-center">
                         <p className="text-sm text-muted-foreground mb-2">Fitrah Zakat per person:</p>
-                        <p className="text-3xl font-bold mb-1">
+                        <p className="text-3xl font-bold text-primary mb-1">
                           Rp {fitrahPerPerson.toLocaleString()}
                         </p>
                         <p className="text-xs text-muted-foreground">Equivalent to 2.5kg rice</p>
@@ -360,16 +369,20 @@ export default function ZakatPage() {
                     </div>
 
                     {/* People Count Input */}
-                    <div>
-                      <label className="block text-sm font-medium mb-2">Number of People</label>
-                      <input
-                        type="number"
-                        value={peopleCount}
-                        onChange={(e) => setPeopleCount(e.target.value)}
-                        placeholder="Enter number of people"
-                        min="1"
-                        className="w-full px-4 py-2.5 bg-background border border-input rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                      />
+                    <div className="space-y-2">
+                      <Label htmlFor="people-count">Number of People</Label>
+                      <div className="relative">
+                        <Users className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                        <Input
+                          id="people-count"
+                          type="number"
+                          value={peopleCount}
+                          onChange={(e) => setPeopleCount(e.target.value)}
+                          placeholder="Enter number of people"
+                          min="1"
+                          className="pl-10 h-11"
+                        />
+                      </div>
                     </div>
 
                     {/* Calculation Breakdown */}
@@ -390,93 +403,100 @@ export default function ZakatPage() {
                     </div>
 
                     {/* Pay Button */}
-                    <button
+                    <Button
                       onClick={handlePayFitrahClick}
                       disabled={!isConnected || !peopleCount || totalFitrah === 0}
-                      className="w-full py-3.5 px-4 bg-primary text-white rounded-lg font-semibold hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                      size="lg"
+                      className="w-full"
                     >
                       <Wallet className="h-4 w-4" />
                       {!isConnected ? "Connect Wallet to Pay" : "Pay Zakat Fitrah"}
-                    </button>
+                    </Button>
                   </div>
                 )}
-              </div>
-            </div>
+              </CardContent>
+            </Card>
           </div>
 
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Impact Areas */}
-            <div className="bg-white rounded-2xl border border-border shadow-sm overflow-hidden">
-              <div className="p-4 border-b border-border">
-                <h3 className="font-semibold text-sm">Impact Areas</h3>
-              </div>
-              <div className="p-4 space-y-3">
-                <div className="flex items-center gap-3 p-3 bg-secondary rounded-lg hover:bg-primary/5 transition-colors">
-                  <Heart className="h-5 w-5 text-primary flex-shrink-0" />
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-sm">Impact Areas</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="flex items-center gap-3 p-3 bg-accent rounded-xl hover:bg-primary/5 transition-colors cursor-pointer">
+                  <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <Heart className="h-5 w-5 text-primary" />
+                  </div>
                   <div>
                     <div className="text-sm font-medium">Orphans</div>
                     <div className="text-xs text-muted-foreground">Supporting orphaned children</div>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3 p-3 bg-accent rounded-lg hover:bg-primary/5 transition-colors">
-                  <Users className="h-5 w-5 text-primary flex-shrink-0" />
+                <div className="flex items-center gap-3 p-3 bg-accent rounded-xl hover:bg-primary/5 transition-colors cursor-pointer">
+                  <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <Users className="h-5 w-5 text-primary" />
+                  </div>
                   <div>
                     <div className="text-sm font-medium">Refugees</div>
                     <div className="text-xs text-muted-foreground">Helping displaced families</div>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3 p-3 bg-secondary rounded-lg hover:bg-primary/5 transition-colors">
-                  <Home className="h-5 w-5 text-primary flex-shrink-0" />
+                <div className="flex items-center gap-3 p-3 bg-accent rounded-xl hover:bg-primary/5 transition-colors cursor-pointer">
+                  <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <Home className="h-5 w-5 text-primary" />
+                  </div>
                   <div>
                     <div className="text-sm font-medium">Local Aid</div>
                     <div className="text-xs text-muted-foreground">Community support programs</div>
                   </div>
                 </div>
-              </div>
-            </div>
+              </CardContent>
+            </Card>
 
             {/* Transparency Guarantee */}
-            <div className="bg-white rounded-2xl border border-border shadow-sm overflow-hidden">
-              <div className="p-4 border-b border-border">
-                <h3 className="font-semibold text-sm">Transparency Guarantee</h3>
-              </div>
-              <div className="p-4 space-y-3">
-                <div className="flex items-center gap-2">
-                  <span className="inline-flex items-center justify-center rounded-md px-2 py-0.5 text-xs font-semibold bg-primary/10 text-primary">
-                    ✓
-                  </span>
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-sm">Transparency Guarantee</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <Check className="h-3.5 w-3.5 text-primary" />
+                  </div>
                   <span className="text-xs text-muted-foreground">Blockchain verified</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <span className="inline-flex items-center justify-center rounded-md px-2 py-0.5 text-xs font-semibold bg-primary/10 text-primary">
-                    ✓
-                  </span>
+                <div className="flex items-center gap-3">
+                  <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <Check className="h-3.5 w-3.5 text-primary" />
+                  </div>
                   <span className="text-xs text-muted-foreground">Real-time tracking</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <span className="inline-flex items-center justify-center rounded-md px-2 py-0.5 text-xs font-semibold bg-primary/10 text-primary">
-                    ✓
-                  </span>
+                <div className="flex items-center gap-3">
+                  <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <Check className="h-3.5 w-3.5 text-primary" />
+                  </div>
                   <span className="text-xs text-muted-foreground">Impact reports</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <span className="inline-flex items-center justify-center rounded-md px-2 py-0.5 text-xs font-semibold bg-primary/10 text-primary">
-                    ✓
-                  </span>
+                <div className="flex items-center gap-3">
+                  <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <Check className="h-3.5 w-3.5 text-primary" />
+                  </div>
                   <span className="text-xs text-muted-foreground">NFT certificates</span>
                 </div>
-              </div>
-            </div>
+              </CardContent>
+            </Card>
 
             {/* Global Impact */}
-            <div className="bg-white rounded-2xl border border-border shadow-sm overflow-hidden">
-              <div className="p-4 border-b border-border">
-                <h3 className="font-semibold text-sm">Global Impact</h3>
-              </div>
-              <div className="p-4 space-y-3 text-sm">
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-sm">Global Impact</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3 text-sm">
                 <div className="flex items-center justify-between">
                   <span className="text-muted-foreground">Total Donated:</span>
                   <span className="font-semibold">2.4B IDR</span>
@@ -489,32 +509,33 @@ export default function ZakatPage() {
                   <span className="text-muted-foreground">Active Donors:</span>
                   <span className="font-semibold">1,856</span>
                 </div>
-              </div>
-            </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
 
         {/* Campaign Selection Dialog */}
         <Dialog open={showCampaignDialog} onOpenChange={setShowCampaignDialog}>
-          <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto bg-white">
+          <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>{t("campaignSelect.title")}</DialogTitle>
               <DialogDescription>
                 {t("campaignSelect.description")} Rp {(paymentType === "maal" ? calculatedZakat : totalFitrah).toLocaleString('id-ID', { maximumFractionDigits: 0 })}
               </DialogDescription>
             </DialogHeader>
-            
+
             <div className="grid gap-4 py-4">
               {campaigns.map((campaign) => (
-                <button
+                <Button
                   key={campaign.id}
+                  variant="outline"
                   onClick={() => handleCampaignSelect(campaign)}
-                  className="flex items-start gap-4 p-4 border border-border rounded-lg hover:bg-accent hover:border-primary/30 transition-colors text-left"
+                  className="h-auto p-4 flex items-start gap-4 justify-start hover:border-primary/30 hover:bg-accent"
                 >
                   <img
                     src={campaign.image}
                     alt={campaign.title}
-                    className="w-24 h-24 object-cover rounded-lg flex-shrink-0"
+                    className="w-20 h-20 object-cover rounded-xl flex-shrink-0"
                   />
                   <div className="flex-1 min-w-0">
                     <h4 className="font-semibold text-sm mb-1 line-clamp-2">{campaign.title}</h4>
@@ -523,17 +544,17 @@ export default function ZakatPage() {
                       <span className="text-primary font-medium">{formatCurrency(campaign.raised)} raised</span>
                       <span className="text-muted-foreground">of {formatCurrency(campaign.goal)}</span>
                     </div>
-                    <div className="mt-2 h-1.5 bg-secondary rounded-full overflow-hidden">
+                    <div className="mt-2 h-1.5 bg-accent rounded-full overflow-hidden">
                       <div
-                        className="h-full bg-gradient-to-r from-primary to-primary/80 transition-all"
+                        className="h-full bg-primary transition-all"
                         style={{ width: `${Math.min((campaign.raised / campaign.goal) * 100, 100)}%` }}
                       />
                     </div>
                   </div>
-                  <span className="inline-flex items-center justify-center rounded-md px-2 py-1 text-xs font-semibold bg-primary/10 text-primary">
+                  <span className="inline-flex items-center justify-center rounded-full px-3 py-1 text-xs font-semibold bg-primary/10 text-primary">
                     {campaign.category}
                   </span>
-                </button>
+                </Button>
               ))}
             </div>
           </DialogContent>
@@ -541,37 +562,39 @@ export default function ZakatPage() {
 
         {/* Confirmation Dialog */}
         <Dialog open={showConfirmDialog} onOpenChange={setShowConfirmDialog}>
-          <DialogContent className="bg-white">
+          <DialogContent>
             <DialogHeader>
               <DialogTitle>{t("confirm.title")}</DialogTitle>
               <DialogDescription>
                 {t("confirm.description")}
               </DialogDescription>
             </DialogHeader>
-            
+
             {selectedCampaign && (
               <div className="space-y-4 py-4">
-                <div className="p-4 bg-secondary rounded-lg border border-border">
-                  <div className="text-sm font-medium mb-2">{t("confirm.campaign")}</div>
+                <div className="p-4 bg-accent rounded-xl border border-border">
+                  <div className="text-sm font-medium text-primary mb-2">{t("confirm.campaign")}</div>
                   <div className="text-sm text-muted-foreground">{selectedCampaign.title}</div>
                   <div className="text-xs text-muted-foreground mt-1">{selectedCampaign.organization}</div>
                 </div>
-                
+
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="p-4 bg-secondary rounded-lg border border-border">
+                  <div className="p-4 bg-accent rounded-xl border border-border">
                     <div className="text-xs text-muted-foreground mb-1">{t("confirm.amount")}</div>
                     <div className="text-xl font-bold text-primary">Rp {(paymentType === "maal" ? calculatedZakat : totalFitrah).toLocaleString('id-ID', { maximumFractionDigits: 0 })}</div>
                   </div>
-                  
-                  <div className="p-4 bg-secondary rounded-lg border border-border">
+
+                  <div className="p-4 bg-accent rounded-xl border border-border">
                     <div className="text-xs text-muted-foreground mb-1">{t("confirm.currentBalance")}</div>
-                    <div className="text-xl font-bold">{idrxBalance ? Number(idrxBalance / BigInt(1e18)).toLocaleString('id-ID', { maximumFractionDigits: 0 }) : '0'} IDRX</div>
+                    <div className="text-xl font-bold text-primary">{idrxBalance ? Number(idrxBalance / BigInt(1e18)).toLocaleString('id-ID', { maximumFractionDigits: 0 }) : '0'} IDRX</div>
                   </div>
                 </div>
 
-                <div className="p-4 bg-primary/5 border border-primary/20 rounded-lg">
-                  <div className="flex items-start gap-2">
-                    <Check className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                <div className="p-4 bg-primary/5 border border-primary/20 rounded-xl">
+                  <div className="flex items-start gap-3">
+                    <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <Check className="h-3.5 w-3.5 text-primary" />
+                    </div>
                     <div>
                       <div className="text-sm font-medium text-primary">{t("confirm.blockchain")}</div>
                       <div className="text-xs text-muted-foreground mt-1">
@@ -583,7 +606,7 @@ export default function ZakatPage() {
               </div>
             )}
 
-            <DialogFooter className="flex gap-2">
+            <DialogFooter className="flex gap-3">
               <Button
                 variant="outline"
                 onClick={() => setShowConfirmDialog(false)}
@@ -594,7 +617,6 @@ export default function ZakatPage() {
               <Button
                 onClick={handleConfirmPayment}
                 disabled={isProcessing}
-                className="bg-primary text-white hover:bg-primary/90 shadow-md shadow-primary/20"
               >
                 {isProcessing ? (
                   <>

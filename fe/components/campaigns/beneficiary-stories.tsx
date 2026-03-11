@@ -4,6 +4,9 @@ import { useState } from "react";
 import Image from "next/image";
 import { MapPin, Calendar, ChevronDown, ChevronUp } from "lucide-react";
 
+// Blur placeholder for smoother image loading
+const BLUR_PLACEHOLDER = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRMv/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+xOJPrsHn1lkfU+nBlpWEXii0PH/iH8WIa/SPzH5IVeVP/xPF";
+
 interface Beneficiary {
   name: string;
   age: number;
@@ -59,8 +62,11 @@ export function BeneficiaryStories({ beneficiaries }: BeneficiaryStoriesProps) {
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, 33vw"
+                placeholder="blur"
+                blurDataURL={BLUR_PLACEHOLDER}
+                priority={index < 3}  // Priority for first 3 images
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-black/60" />
 
               {/* Name overlay */}
               <div className="absolute bottom-4 left-4 right-4">

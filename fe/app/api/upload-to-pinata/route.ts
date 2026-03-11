@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
     const gatewayUrl = `https://${gatewayDomain.replace(/^https?:\/\//, '')}`;
     const url = `${gatewayUrl}/ipfs/${upload.IpfsHash}`;
 
-    console.log(`✅ Uploaded to Pinata: ${url}`);
+    console.log(`Uploaded to Pinata: ${url}`);
 
     return NextResponse.json({
       success: true,

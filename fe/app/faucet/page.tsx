@@ -177,10 +177,10 @@ export default function FaucetPage() {
                 {isCheckingEligibility ? (
                   "Checking eligibility..."
                 ) : canClaim ? (
-                  "✅ You can claim from the faucet"
+                  "You can claim from the faucet"
                 ) : countdown !== null ? (
                   <>
-                    ⏳ Next claim available in: <strong>{formatCountdown(countdown)}</strong>
+                    Next claim available in: <strong>{formatCountdown(countdown)}</strong>
                   </>
                 ) : (
                   "You must wait 24 hours between claims"

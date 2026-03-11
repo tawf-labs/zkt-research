@@ -34,7 +34,7 @@ export function useZakatCertificate() {
       setCertificate(null);
 
       try {
-        console.log('📜 Generating Zakat certificate:', params);
+        console.log('Generating Zakat certificate:', params);
 
         const response = await fetch('/api/certificates', {
           method: 'POST',
@@ -56,11 +56,11 @@ export function useZakatCertificate() {
         setCertificate(data.certificate || null);
 
         toast({
-          title: 'Certificate Generated! 📜',
+          title: 'Certificate Generated',
           description: `Your Zakat certificate (${data.certificate?.id}) is ready for download.`,
         });
 
-        console.log('✅ Certificate generated:', data.certificate);
+        console.log('Certificate generated:', data.certificate);
 
         return data.certificate || null;
       } catch (err) {

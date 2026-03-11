@@ -8,6 +8,13 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { useToast } from "@/hooks/use-toast"
 import { CONTRACT_ADDRESSES, ZKTCoreABI } from "@/lib/abi"
 import { handleTransactionError, handleWalletError } from "@/lib/errors"
@@ -184,10 +191,10 @@ ${formData.proposalDescription}
 **Project Duration:** ${formData.projectDuration} days
 
 ### Documents Submitted
-- ✓ Registration Document
-- ✓ Tax Document
-- ✓ Bank Statement
-- ✓ Proof of Address
+- Registration Document
+- Tax Document
+- Bank Statement
+- Proof of Address
 
 ### Verification Process
 This proposal requests the community and Sharia Council to:
@@ -212,7 +219,7 @@ This proposal requests the community and Sharia Council to:
       })
 
       toast({
-        title: "Organization Verification Proposal Submitted! 🎉",
+        title: "Organization Verification Proposal Submitted",
         description: "Your application has been submitted for community and Sharia Council review.",
       })
 
@@ -227,7 +234,7 @@ This proposal requests the community and Sharia Council to:
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12">
+    <div className="min-h-screen bg-accent py-12">
       <div className="container mx-auto px-4 max-w-4xl">
         {/* Header */}
         <div className="text-center mb-12">
@@ -466,21 +473,23 @@ This proposal requests the community and Sharia Council to:
 
               <div className="space-y-2">
                 <Label htmlFor="orgType">Organization Type *</Label>
-                <select
-                  id="orgType"
+                <Select
                   value={formData.organizationType}
-                  onChange={(e) => handleInputChange("organizationType", e.target.value)}
-                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                  onValueChange={(value) => handleInputChange("organizationType", value)}
                 >
-                  <option value="">Select type...</option>
-                  <option value="NGO">Non-Governmental Organization (NGO)</option>
-                  <option value="Foundation">Foundation</option>
-                  <option value="Religious">Religious Organization</option>
-                  <option value="Community">Community Organization</option>
-                  <option value="Healthcare">Healthcare Organization</option>
-                  <option value="Education">Educational Institution</option>
-                  <option value="Other">Other</option>
-                </select>
+                  <SelectTrigger id="orgType" className="w-full">
+                    <SelectValue placeholder="Select type..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="NGO">Non-Governmental Organization (NGO)</SelectItem>
+                    <SelectItem value="Foundation">Foundation</SelectItem>
+                    <SelectItem value="Religious">Religious Organization</SelectItem>
+                    <SelectItem value="Community">Community Organization</SelectItem>
+                    <SelectItem value="Healthcare">Healthcare Organization</SelectItem>
+                    <SelectItem value="Education">Educational Institution</SelectItem>
+                    <SelectItem value="Other">Other</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               <div className="space-y-2">

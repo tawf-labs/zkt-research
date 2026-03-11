@@ -131,7 +131,7 @@ export function DonationDialog({
           setShowCertificateModal(true);
 
           toast({
-            title: "Private Donation Successful! 🎉",
+            title: "Private Donation Successful",
             description: `Your private donation of ${donationAmount.toLocaleString('id-ID')} IDRX to ${campaignTitle} is complete.`,
           });
         }
@@ -151,7 +151,7 @@ export function DonationDialog({
           setShowCertificateModal(true);
 
           toast({
-            title: "Donation Successful! 🎉",
+            title: "Donation Successful",
             description: `You donated ${donationAmount.toLocaleString('id-ID')} IDRX to ${campaignTitle}`,
           });
         }
@@ -165,7 +165,7 @@ export function DonationDialog({
         onSuccess();
       }
     } catch (error: any) {
-      console.error("❌ Donation error details:", {
+      console.error("Donation error details:", {
         message: error?.message,
         cause: error?.cause,
         reason: error?.reason,
@@ -257,7 +257,7 @@ export function DonationDialog({
               <Shield className="h-4 w-4 text-purple-600 mt-0.5 flex-shrink-0" />
               <div className="flex-1">
                 <p className="text-sm font-semibold text-purple-800">
-                  🔒 Privacy Mode Enabled
+                  Privacy Mode Enabled
                 </p>
                 <p className="text-xs text-purple-700 mt-1">
                   Your donation will use Pedersen commitments to hide the amount. You'll still receive an NFT receipt for your records.

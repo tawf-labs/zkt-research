@@ -122,13 +122,13 @@ export function UrgencyBanner({ urgency }: UrgencyBannerProps) {
       </div>
 
       {/* Matching Banner (Optional - can be enabled per campaign) */}
-      <div className="hidden sm:flex items-center gap-3 p-3 rounded-lg bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/20">
-        <Flame className="h-5 w-5 text-green-600 flex-shrink-0" />
+      <div className="hidden sm:flex items-center gap-3 p-3 rounded-lg bg-primary/10 border border-primary/20">
+        <Flame className="h-5 w-5 text-primary flex-shrink-0" />
         <div className="flex-1">
-          <p className="text-sm font-medium text-green-700">
+          <p className="text-sm font-medium text-foreground">
             Your donation has immediate impact
           </p>
-          <p className="text-xs text-green-600">
+          <p className="text-xs text-muted-foreground">
             Funds go directly to beneficiaries — transparently on-chain
           </p>
         </div>

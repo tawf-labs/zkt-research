@@ -103,7 +103,7 @@ export const useCreateProposal = (options?: UseCreateProposalOptions) => {
         setTxHash(hash);
 
         toast({
-          title: 'Proposal Created! 🎉',
+          title: 'Proposal Created',
           description: 'Your proposal has been submitted to the blockchain.',
         });
 

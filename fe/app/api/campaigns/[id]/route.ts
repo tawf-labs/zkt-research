@@ -84,9 +84,9 @@ export async function GET(
         childrenSupported: Math.floor(campaign.raised / 300)
       } as ImpactMetrics,
       impactCalculator: [
-        { amount: 10000, impact: 'Basic support', icon: '❤️' },
-        { amount: 50000, impact: '5x impact', icon: '💝' },
-        { amount: 100000, impact: '10x impact', icon: '💖' }
+        { amount: 10000, impact: 'Basic support', icon: 'Love' },
+        { amount: 50000, impact: '5x impact', icon: 'Gift' },
+        { amount: 100000, impact: '10x impact', icon: 'Heart' }
       ] as ImpactCalculator[],
       journey: [
         {

@@ -47,7 +47,7 @@ export function Header() {
         <div className="flex items-center gap-4">
 
           {/* SEARCH BAR */}
-          <div className="relative hidden lg:block w-40">
+          <div className="relative hidden lg:block w-64">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
 
             <input
@@ -90,7 +90,7 @@ export function Header() {
             </button>
           </div>
 
-          <Link href="/campaigns/new" className="hidden sm:flex items-center gap-2 border border-primary/20 h-10 px-6 rounded-full hover:bg-primary hover:text-primary-foreground transition-all text-xs font-medium uppercase tracking-wide-label">
+          <Link href="/organizer" className="hidden sm:flex items-center gap-2 border border-primary/20 h-10 px-6 rounded-full hover:bg-primary hover:text-primary-foreground transition-all text-xs font-medium uppercase tracking-wide-label">
             {t("header.start_campaign")}
           </Link>
 

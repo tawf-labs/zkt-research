@@ -21,7 +21,7 @@ export function OrganizerMessage({
   organizationName,
 }: OrganizerMessageProps) {
   return (
-    <div className="bg-gradient-to-br from-primary/5 via-card to-secondary/20 border border-primary/20 rounded-xl p-6 lg:p-8">
+    <div className="bg-card border border-primary/20 rounded-xl p-6 lg:p-8">
       <div className="flex flex-col lg:flex-row gap-6">
         {/* Photo */}
         <div className="flex-shrink-0">

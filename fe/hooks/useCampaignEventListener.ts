@@ -26,7 +26,7 @@ export const useCampaignEventListener = () => {
 
     const setupListener = async () => {
       try {
-        console.log('🎧 Setting up campaign event listener...')
+        console.log('Setting up campaign event listener...')
 
         // Get the initial block number
         const currentBlock = await publicClient.getBlockNumber()
@@ -42,7 +42,7 @@ export const useCampaignEventListener = () => {
             }
 
             console.log(
-              `📡 Polling CampaignCreated events: blocks ${lastBlockRef.current} → ${latestBlock}`
+              `Polling CampaignCreated events: blocks ${lastBlockRef.current} → ${latestBlock}`
             )
             const logs = await (publicClient as any).getLogs({
               address: CONTRACT_ADDRESSES.ZKTCore as `0x${string}`,
@@ -62,7 +62,7 @@ export const useCampaignEventListener = () => {
             lastBlockRef.current = latestBlock
 
             if (logs.length > 0) {
-              console.log(`✅ Found ${logs.length} CampaignPoolCreated event(s)`)
+              console.log(`Found ${logs.length} CampaignPoolCreated event(s)`)
             }
 
             // Process each event - just log, no database needed
@@ -71,20 +71,20 @@ export const useCampaignEventListener = () => {
               const proposalId = log.args?.proposalId as bigint
               const campaignType = log.args?.campaignType as number
 
-              console.log('📢 CampaignPoolCreated event detected:', {
+              console.log('CampaignPoolCreated event detected:', {
                 poolId: poolId.toString(),
                 proposalId: proposalId.toString(),
                 campaignType: campaignType === 1 ? 'Zakat' : 'Normal',
               })
             }
           } catch (pollError) {
-            console.error('❌ Error polling for events:', pollError)
+            console.error('Error polling for events:', pollError)
           }
         }, 15000) // Poll every 15 seconds
 
-        console.log('✅ Campaign event listener setup complete')
+        console.log('Campaign event listener setup complete')
       } catch (err) {
-        console.error('❌ Failed to setup event listener:', err)
+        console.error('Failed to setup event listener:', err)
       }
     }
 
@@ -94,7 +94,7 @@ export const useCampaignEventListener = () => {
     return () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current)
-        console.log('🛑 Campaign event listener stopped')
+        console.log('Campaign event listener stopped')
       }
     }
   }, [publicClient])

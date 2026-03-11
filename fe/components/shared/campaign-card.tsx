@@ -12,6 +12,7 @@ import { useLanguage } from "@/components/providers/language-provider";
 interface CampaignCardProps {
   campaign: Campaign;
   onDonationSuccess?: () => void;
+  priority?: boolean;  // Enable priority loading for above-the-fold images
 }
 
 const calculateProgress = (raised: number, goal: number) => {
@@ -30,13 +31,17 @@ const calculateRealTimeDaysLeft = (endDate: number): number => {
   return Math.max(daysLeft, 0);
 };
 
-export function CampaignCard({ campaign, onDonationSuccess }: CampaignCardProps) {
+export function CampaignCard({ campaign, onDonationSuccess, priority = false }: CampaignCardProps) {
   const { t } = useLanguage()
   const router = useRouter();
   const [showDonationDialog, setShowDonationDialog] = useState(false);
   const [daysLeft, setDaysLeft] = useState(calculateRealTimeDaysLeft(campaign.endDate));
   const [raisedAmount, setRaisedAmount] = useState(campaign.raised);
+  const [isImageLoading, setIsImageLoading] = useState(true);
+  const [imageError, setImageError] = useState(false);
   const progress = calculateProgress(raisedAmount, campaign.goal);
+
+  const imageUrl = campaign.image || campaign.imageUrl || "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?w=500";
 
   const handleCardClick = () => {
     // Use slug-based URL for cleaner campaign links
@@ -69,15 +74,27 @@ export function CampaignCard({ campaign, onDonationSuccess }: CampaignCardProps)
       className="bg-card text-card-foreground rounded-2xl gap-6 border border-primary/10 hover:shadow-xl hover:border-primary/30 transition-all duration-300 group h-full flex flex-col cursor-pointer overflow-hidden"
     >
       <div className="relative h-56 overflow-hidden rounded-t-2xl bg-secondary/20">
+        {isImageLoading && !imageError && (
+          <div className="absolute inset-0 bg-primary/10 animate-pulse" />
+        )}
         <Image
-          src={campaign.image || campaign.imageUrl || "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?w=500"}
+          src={imageError ? "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?w=500" : imageUrl}
           alt={campaign.title}
           fill
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          className={`object-cover transition-all duration-500 group-hover:scale-105 ${isImageLoading ? 'opacity-0' : 'opacity-100'}`}
+          placeholder="blur"
+          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRMv/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+xOJPrsHn1lkfU+nBlpWEXii0PH/iH8WIa/SPzH5IVeVP/xPF"
+          priority={priority}
+          onLoad={() => setIsImageLoading(false)}
+          onError={() => {
+            setImageError(true);
+            setIsImageLoading(false);
+          }}
         />
 
         {/* Better overlay gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+        <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity" />
 
         <div className="absolute top-4 left-4 flex flex-col gap-2">
           {/* Updated with uppercase tracking-wide-label per guidelines */}
@@ -127,7 +144,7 @@ export function CampaignCard({ campaign, onDonationSuccess }: CampaignCardProps)
 
           <div className="w-full h-2.5 bg-secondary/20 rounded-full overflow-hidden shadow-inner">
             <div
-              className="bg-gradient-to-r from-primary to-primary/80 h-full rounded-full transition-all duration-500"
+              className="bg-primary h-full rounded-full transition-all duration-500"
               style={{ width: `${Math.min((campaign.raised / campaign.goal) * 100, 100)}%` }}
             />
           </div>

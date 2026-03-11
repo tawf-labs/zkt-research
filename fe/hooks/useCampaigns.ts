@@ -32,6 +32,8 @@ export interface Campaign {
   metadataURI?: string;
   // NEW: Storytelling fields
   familiesHelped?: number;
+  // URL slug for clean campaign links
+  slug?: string;
 }
 
 /**
@@ -74,6 +76,7 @@ export function useCampaigns() {
           imageUrls: d.image ? [d.image] : [],
           tags: [],
           familiesHelped: d.familiesHelped,
+          slug: d.slug,
         }));
 
         setCampaigns(converted);
@@ -140,6 +143,7 @@ export function useCampaigns() {
           imageUrls: d.image ? [d.image] : [],
           tags: [],
           familiesHelped: d.familiesHelped,
+          slug: d.slug,
         }));
 
         setCampaigns(converted);

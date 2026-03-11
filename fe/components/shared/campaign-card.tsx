@@ -39,7 +39,9 @@ export function CampaignCard({ campaign, onDonationSuccess }: CampaignCardProps)
   const progress = calculateProgress(raisedAmount, campaign.goal);
 
   const handleCardClick = () => {
-    router.push(`/campaigns/${campaign.id}`);
+    // Use slug-based URL for cleaner campaign links
+    const slug = campaign.slug || `c-${campaign.id}`;
+    router.push(`/zakat/${slug}`);
   };
 
   const handleDonateClick = (e: React.MouseEvent) => {

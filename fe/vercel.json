@@ -1,0 +1,16 @@
+{
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "zakat.tawf.foundation" }],
+      "destination": "https://ziswaf.tawf.foundation/zakat/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "zkt.tawf.foundation" }],
+      "destination": "https://ziswaf.tawf.foundation/zakat/:path*",
+      "permanent": true
+    }
+  ]
+}

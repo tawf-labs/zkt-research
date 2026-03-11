@@ -13,6 +13,8 @@ export type Campaign = {
   familiesHelped?: number;
   endDate?: number;
   isVerified?: boolean;
+  // URL slug for clean campaign URLs
+  slug: string;
 };
 
 // Beneficiary story interface
@@ -78,7 +80,8 @@ export const campaigns: Campaign[] = [
     image: "https://www.ypp.co.id/site/uploads/slides/6391630281061-header-cianjur-2.jpeg",
     location: "Indonesia",
     familiesHelped: 237,
-    isVerified: true
+    isVerified: true,
+    slug: "cianjur"
   },
   {
     id: 2,
@@ -92,7 +95,8 @@ export const campaigns: Campaign[] = [
     image: "https://waterwellsforafrica.org/wp-content/uploads/2023/11/home-helping-kids-02-1200x800-1-768x512.jpg",
     location: "Global",
     familiesHelped: 45,
-    isVerified: true
+    isVerified: true,
+    slug: "water-well"
   },
   {
     id: 3,
@@ -106,7 +110,8 @@ export const campaigns: Campaign[] = [
     image: "https://orphanlifefoundation.org/wp-content/uploads/2021/07/Children-smiling.png",
     location: "Indonesia",
     familiesHelped: 87,
-    isVerified: true
+    isVerified: true,
+    slug: "orphans"
   },
   {
     id: 4,
@@ -120,7 +125,8 @@ export const campaigns: Campaign[] = [
     image: "https://www.globalgiving.org/pfil/50448/pict_large.jpg",
     location: "Indonesia",
     familiesHelped: 120,
-    isVerified: true
+    isVerified: true,
+    slug: "food-packages"
   },
   {
     id: 5,
@@ -134,7 +140,8 @@ export const campaigns: Campaign[] = [
     image: "https://iwifoundation.org/wp-content/uploads/2019/07/Reaching-Rural-Communities.png",
     location: "Indonesia",
     familiesHelped: 56,
-    isVerified: true
+    isVerified: true,
+    slug: "medical-aid"
   },
   {
     id: 6,
@@ -148,7 +155,8 @@ export const campaigns: Campaign[] = [
     image: "https://ychef.files.bbci.co.uk/1280x720/p08ytl9r.jpg",
     location: "Global",
     familiesHelped: 200,
-    isVerified: true
+    isVerified: true,
+    slug: "mosque"
   }
 ];
 
@@ -556,4 +564,8 @@ export const formatCurrency = (amount: number) => {
 
 export const getCampaignById = (id: number) => {
   return campaigns.find((campaign) => campaign.id === id);
+};
+
+export const getCampaignBySlug = (slug: string) => {
+  return campaigns.find((campaign) => campaign.slug === slug);
 };

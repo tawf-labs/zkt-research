@@ -73,7 +73,7 @@ export async function GET(
       campaignIdHash: `pool-${demo.id}`,
       slug: demo.slug,
       title: demo.title,
-      description: `${demo.title} — Support provided by ${demo.organizationName}.`,
+      description: `${demo.title} - Support provided by ${demo.organizationName}.`,
       organization: {
         name: demo.organizationName,
         verified: demo.isVerified || false,

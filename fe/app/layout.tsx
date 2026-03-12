@@ -1,6 +1,6 @@
 // app/layout.tsx
 import type { ReactNode } from "react";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import { Suspense } from "react";
 import { Cormorant_Garamond, Inter } from "next/font/google";
@@ -31,6 +31,18 @@ export const metadata: Metadata = {
   title: "zkt.app - Transparent and Traceable donation",
   description: "Private, verifiable Zakat with ZK proofs",
   generator: "v0.app",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  viewportFit: "cover",
+  interactiveWidget: "resizes-content",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#F9F6F0" },
+    { media: "(prefers-color-scheme: dark)", color: "#1A1A1A" },
+  ],
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

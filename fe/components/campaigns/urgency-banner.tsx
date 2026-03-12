@@ -129,7 +129,7 @@ export function UrgencyBanner({ urgency }: UrgencyBannerProps) {
             Your donation has immediate impact
           </p>
           <p className="text-xs text-muted-foreground">
-            Funds go directly to beneficiaries — transparently on-chain
+            Funds go directly to beneficiaries - transparently on-chain
           </p>
         </div>
       </div>

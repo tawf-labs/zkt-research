@@ -203,7 +203,7 @@ export const campaignStoryData: Record<number, {
       name: "Ahmad Rahman",
       role: "Field Director",
       photo: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
-      message: "I've visited Cianjur 3 times since the earthquake. The resilience of these families inspires me every day. Your support goes directly to those who need it most — transparently, on-chain. Every donation makes a real difference in rebuilding lives.",
+      message: "I've visited Cianjur 3 times since the earthquake. The resilience of these families inspires me every day. Your support goes directly to those who need it most - transparently, on-chain. Every donation makes a real difference in rebuilding lives.",
       verified: true
     },
     impactMetrics: {
@@ -229,7 +229,7 @@ export const campaignStoryData: Record<number, {
       {
         date: "Dec 28, 2024",
         title: "First Distribution",
-        description: "First distribution — 50 families received food packages and emergency supplies.",
+        description: "First distribution - 50 families received food packages and emergency supplies.",
         status: "completed"
       },
       {

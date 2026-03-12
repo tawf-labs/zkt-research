@@ -96,42 +96,42 @@ export function CampaignCard({ campaign, onDonationSuccess, priority = false }: 
         {/* Better overlay gradient */}
         <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity" />
 
-        <div className="absolute top-4 left-4 flex flex-col gap-2">
+        <div className="absolute top-3 left-3 flex flex-col gap-1.5 sm:gap-2 sm:top-4 sm:left-4">
           {/* Updated with uppercase tracking-wide-label per guidelines */}
-          <span className="inline-flex items-center justify-center rounded-full px-4 py-1.5 text-xs font-semibold bg-white/95 backdrop-blur-sm border border-primary/10 text-primary w-fit uppercase tracking-wide-label">
+          <span className="inline-flex items-center justify-center rounded-full px-3 py-1 sm:px-4 sm:py-1.5 text-xs font-semibold bg-white/95 backdrop-blur-sm border border-primary/10 text-primary w-fit uppercase tracking-wide-label">
             {campaign.category || "General"}
           </span>
           {/* NEW: Families Helped Badge */}
           {campaign.familiesHelped && (
-            <span className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-primary/95 backdrop-blur-sm text-white text-xs font-medium shadow-md">
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full bg-primary/95 backdrop-blur-sm text-white text-xs font-medium shadow-md">
               <Heart className="h-3 w-3 fill-white" />
-              {campaign.familiesHelped} {t("campaign.familiesHelped")}
+              <span className="truncate max-w-[100px]">{campaign.familiesHelped} {t("campaign.familiesHelped")}</span>
             </span>
           )}
         </div>
 
-        <div className="absolute bottom-4 right-4">
+        <div className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4">
           {/* Updated with uppercase tracking-wide-label per guidelines */}
-          <span className="inline-flex items-center gap-1.5 bg-primary text-primary-foreground px-3 py-1.5 rounded-full text-xs font-medium shadow-md uppercase tracking-wide-label">
+          <span className="inline-flex items-center gap-1 bg-primary text-primary-foreground px-2.5 py-1.5 sm:px-3 sm:py-1.5 rounded-full text-xs font-medium shadow-md uppercase tracking-wide-label">
             <CircleCheck className="h-3 w-3" /> {campaign.isVerified ? t("campaign.verified") : t("campaign.unverified")}
           </span>
         </div>
       </div>
 
-      <div className="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 p-6 pb-2 space-y-2">
+      <div className="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 p-4 sm:p-6 pb-2 space-y-2">
         <div className="text-xs text-muted-foreground font-medium flex items-center gap-1">
           {t("campaign.by")}{" "}
-          <span className="text-primary font-semibold hover:underline cursor-pointer">
+          <span className="text-primary font-semibold hover:underline cursor-pointer line-clamp-1">
             {campaign.organizationName || "Unknown"}
           </span>
         </div>
 
-        <h3 className="font-serif font-extrabold text-lg leading-snug line-clamp-2 group-hover:text-primary transition-colors">
+        <h3 className="font-serif font-extrabold text-base sm:text-lg leading-snug line-clamp-2 group-hover:text-primary transition-colors">
           {campaign.title}
         </h3>
       </div>
 
-      <div className="p-6 pt-2 flex-1">
+      <div className="p-4 sm:p-6 pt-2 flex-1">
         <div className="space-y-3">
           <div className="flex justify-between text-sm">
             <span className="font-bold text-foreground">
@@ -166,11 +166,11 @@ export function CampaignCard({ campaign, onDonationSuccess, priority = false }: 
         </div>
       </div>
 
-      <div className="p-6 pt-0">
+      <div className="p-4 sm:p-6 pt-0">
         {/* Updated with uppercase tracking-wide-label per guidelines */}
         <button
           onClick={handleDonateClick}
-          className="w-full h-12 rounded-full bg-primary text-primary-foreground font-semibold hover:bg-primary/90 hover:shadow-md hover:shadow-primary/20 transition-all uppercase tracking-wide-label"
+          className="btn-touch-target w-full h-12 rounded-full bg-primary text-primary-foreground font-semibold hover:bg-primary/90 hover:shadow-md hover:shadow-primary/20 transition-all uppercase tracking-wide-label"
         >
           {t("campaign.donate")}
         </button>

@@ -1,13 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { Menu, Search } from "lucide-react";
+import { useState } from "react";
+import { Menu, Search, X } from "lucide-react";
 import { useSearch } from "@/components/shared/SearchContext";
 import { SearchDropdown } from "@/components/shared/SearchDropdown";
 import { ConnectWalletButton } from "@/components/wallet/connect-wallet-button";
 import { useLanguage } from "@/components/providers/language-provider";
+import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
+import { Input } from "@/components/ui/input";
 
 export function Header() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { searchQuery, setSearchQuery, isSearchOpen, setIsSearchOpen } =
     useSearch();
   const { language, setLanguage, t } = useLanguage();
@@ -70,7 +74,7 @@ export function Header() {
           <div className="hidden sm:flex items-center gap-1 border border-primary/10 rounded-full p-1 bg-white/50">
             <button
               onClick={() => setLanguage("id")}
-              className={`px-4 py-2 rounded-full text-xs font-medium uppercase tracking-wide-label transition-all ${
+              className={`btn-touch-target px-4 py-2 rounded-full text-xs font-medium uppercase tracking-wide-label transition-all ${
                 language === "id"
                   ? "bg-primary text-primary-foreground shadow-sm"
                   : "text-foreground/60 hover:text-foreground hover:bg-white/50"
@@ -80,7 +84,7 @@ export function Header() {
             </button>
             <button
               onClick={() => setLanguage("en")}
-              className={`px-4 py-2 rounded-full text-xs font-medium uppercase tracking-wide-label transition-all ${
+              className={`btn-touch-target px-4 py-2 rounded-full text-xs font-medium uppercase tracking-wide-label transition-all ${
                 language === "en"
                   ? "bg-primary text-primary-foreground shadow-sm"
                   : "text-foreground/60 hover:text-foreground hover:bg-white/50"
@@ -96,9 +100,99 @@ export function Header() {
 
           <ConnectWalletButton />
 
-          <button className="md:hidden size-10 flex items-center justify-center rounded-full hover:bg-accent transition-colors">
-            <Menu className="w-5 h-5" />
-          </button>
+          {/* Mobile Menu Sheet */}
+          <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+            <SheetTrigger asChild>
+              <button className="md:hidden size-11 flex items-center justify-center rounded-full hover:bg-accent transition-colors" aria-label="Open menu">
+                <Menu className="w-5 h-5" />
+              </button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-[280px] sm:w-[320px] p-0">
+              <div className="flex flex-col h-full">
+                {/* Mobile Menu Header */}
+                <div className="flex items-center justify-between p-4 border-b border-border">
+                  <span className="font-serif text-lg font-medium text-primary">Tawf</span>
+                  <span className="w-2 h-2 rounded-full bg-secondary"></span>
+                </div>
+
+                {/* Mobile Search */}
+                <div className="p-4 border-b border-border">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      type="search"
+                      placeholder={t("header.search")}
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault();
+                          setIsMobileMenuOpen(false);
+                          window.location.href = `/campaigns?search=${encodeURIComponent(searchQuery)}`;
+                        }
+                      }}
+                      className="w-full pl-10 h-11 bg-background border-border"
+                    />
+                  </div>
+                </div>
+
+                {/* Navigation Links */}
+                <nav className="flex flex-col p-4 gap-1">
+                  <SheetClose asChild>
+                    <Link href="/campaigns" className="btn-touch-target flex items-center px-4 py-3.5 text-base font-medium rounded-lg hover:bg-accent transition-colors">
+                      {t("header.campaigns")}
+                    </Link>
+                  </SheetClose>
+                  <SheetClose asChild>
+                    <Link href="/governance" className="btn-touch-target flex items-center px-4 py-3.5 text-base font-medium rounded-lg hover:bg-accent transition-colors">
+                      {t("header.governance")}
+                    </Link>
+                  </SheetClose>
+                  <SheetClose asChild>
+                    <Link href="/explorer" className="btn-touch-target flex items-center px-4 py-3.5 text-base font-medium rounded-lg hover:bg-accent transition-colors">
+                      {t("header.explorer")}
+                    </Link>
+                  </SheetClose>
+                </nav>
+
+                {/* Start Campaign Button */}
+                <div className="px-4 py-2 border-t border-border">
+                  <SheetClose asChild>
+                    <Link href="/organizer" className="btn-touch-target flex items-center justify-center gap-2 border border-primary/20 h-12 px-6 rounded-full hover:bg-primary hover:text-primary-foreground transition-all text-xs font-medium uppercase tracking-wide-label">
+                      {t("header.start_campaign")}
+                    </Link>
+                  </SheetClose>
+                </div>
+
+                {/* Language Toggle */}
+                <div className="mt-auto p-4 border-t border-border">
+                  <p className="text-xs text-muted-foreground mb-3 uppercase tracking-wide-label">Language</p>
+                  <div className="flex items-center gap-1 border border-primary/10 rounded-full p-1 bg-background">
+                    <button
+                      onClick={() => setLanguage("id")}
+                      className={`btn-touch-target flex-1 py-2.5 rounded-full text-xs font-medium uppercase tracking-wide-label transition-all ${
+                        language === "id"
+                          ? "bg-primary text-primary-foreground shadow-sm"
+                          : "text-foreground/60 hover:text-foreground"
+                      }`}
+                    >
+                      ID
+                    </button>
+                    <button
+                      onClick={() => setLanguage("en")}
+                      className={`btn-touch-target flex-1 py-2.5 rounded-full text-xs font-medium uppercase tracking-wide-label transition-all ${
+                        language === "en"
+                          ? "bg-primary text-primary-foreground shadow-sm"
+                          : "text-foreground/60 hover:text-foreground"
+                      }`}
+                    >
+                      EN
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
     </header>

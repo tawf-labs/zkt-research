@@ -115,7 +115,7 @@ export function HeroImpact({
               </blockquote>
               <div className="relative pr-6 mt-2 text-right">
                 <cite className="text-sm font-semibold text-primary not-italic">
-                  — {beneficiaryName}
+                  - {beneficiaryName}
                 </cite>
               </div>
             </div>

@@ -96,6 +96,8 @@ const translations = {
     "campaigns.campaignCount": "kampanye",
     "campaigns.findAndSupport": "Temukan dan dukung penyebab terverifikasi yang penting bagi Anda.",
     "campaigns.clearFilters": "Hapus Semua Filter",
+    "campaigns.filters": "Filter",
+    "campaigns.applyFilters": "Terapkan",
 
     // Footer
     "footer.poweredBy": "Ditenagai oleh",
@@ -456,6 +458,8 @@ const translations = {
     "campaigns.campaignCount": "campaigns",
     "campaigns.findAndSupport": "Find and support verified causes that matter to you.",
     "campaigns.clearFilters": "Clear All Filters",
+    "campaigns.filters": "Filters",
+    "campaigns.applyFilters": "Apply",
 
     // Footer
     "footer.poweredBy": "Powered by",

@@ -38,7 +38,7 @@ export async function GET(
         campaign = {
           poolId: demo.id,
           title: demo.title,
-          description: `${demo.title} — Support provided by ${demo.organizationName}.`,
+          description: `${demo.title} - Support provided by ${demo.organizationName}.`,
           imageUrl: demo.image,
           imageUrls: demo.image ? [demo.image] : [],
           organizationName: demo.organizationName,

@@ -358,4 +358,82 @@
     border-radius: 50% / 40%;
     overflow: hidden;
   }
+
+  /* ========================================
+     Mobile Responsiveness Utilities
+     ======================================== */
+
+  /* iOS Safe Area Support for notch phones */
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .safe-left {
+    padding-left: env(safe-area-inset-left);
+  }
+
+  .safe-right {
+    padding-right: env(safe-area-inset-right);
+  }
+
+  /* Touch-friendly tap targets (44x44px minimum per WCAG) */
+  .tap-target-min {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* Ensure buttons meet minimum touch target size */
+  .btn-touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Mobile scrollbar hiding */
+  .hide-scrollbar-mobile {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .hide-scrollbar-mobile::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Touch action utilities for better mobile interaction */
+  .touch-manipulation {
+    touch-action: manipulation;
+  }
+
+  /* Mobile-specific horizontal scroll with snap */
+  .scroll-snap-x {
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .scroll-snap-start {
+    scroll-snap-align: start;
+  }
+
+  /* Table overflow wrapper for mobile */
+  .table-wrapper-mobile {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-inline: calc(-1 * max(0px, env(safe-area-inset-left)));
+    padding-inline: max(0px, env(safe-area-inset-left));
+  }
+
+  /* Prevent horizontal scroll on body level */
+  body {
+    overflow-x: hidden;
+    position: relative;
+    width: 100%;
+  }
+
+  /* Ensure all containers respect viewport width */
+  * {
+    max-width: 100vw;
+  }
 }

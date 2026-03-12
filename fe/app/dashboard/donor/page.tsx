@@ -63,26 +63,26 @@ const DonorDashboard: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      <main className="flex-1 py-8">
+      <main className="flex-1 py-4 sm:py-8">
         <div className="container px-4 mx-auto">
-          <div className="flex flex-col md:flex-row gap-8">
+          <div className="flex flex-col md:flex-row gap-6 md:gap-8">
             {/* Sidebar */}
             <aside className="w-full md:w-64 flex-shrink-0 space-y-6">
               {/* Profile Card */}
               <div className="bg-card text-card-foreground rounded-xl border border-black/60 shadow-sm">
-                <div className="p-6 flex flex-col items-center text-center">
-                  <div className="relative flex h-20 w-20 shrink-0 overflow-hidden rounded-full mb-4 border-2 border-black/20">
-                    <div className="aspect-square h-full w-full bg-white flex items-center justify-center text-2xl font-bold text-primary border-black">
+                <div className="p-4 sm:p-6 flex flex-col items-center text-center">
+                  <div className="relative flex h-16 w-16 sm:h-20 sm:w-20 shrink-0 overflow-hidden rounded-full mb-4 border-2 border-black/20">
+                    <div className="aspect-square h-full w-full bg-white flex items-center justify-center text-xl sm:text-2xl font-bold text-primary border-black">
                       JD
                     </div>
                   </div>
-                  <h2 className="font-bold text-xl">John Doe</h2>
+                  <h2 className="font-bold text-lg sm:text-xl">John Doe</h2>
                   <p className="text-sm text-muted-foreground mb-4">@johndoe</p>
-                  <div className="flex items-center gap-2 bg-white/50 px-3 py-1.5 rounded-full text-xs font-mono text-muted-foreground mb-6">
+                  <div className="flex items-center gap-2 bg-white/50 px-3 py-1.5 rounded-full text-xs font-mono text-muted-foreground mb-4 sm:mb-6">
                     <Wallet className="h-3 w-3" />
                     0x71C...92F
                   </div>
-                  <Button variant="outline" className="w-full">
+                  <Button variant="outline" className="btn-touch-target w-full">
                     {t("dashboard.editProfile")}
                   </Button>
                 </div>
@@ -93,7 +93,7 @@ const DonorDashboard: React.FC = () => {
                 <Button
                   variant="ghost"
                   onClick={() => setSidebarTab('overview')}
-                  className={`w-full justify-start ${sidebarTab === 'overview' ? 'bg-secondary/50 font-semibold' : ''}`}
+                  className={`btn-touch-target w-full justify-start ${sidebarTab === 'overview' ? 'bg-secondary/50 font-semibold' : ''}`}
                 >
                   <Award className="mr-2 h-4 w-4" />
                   {t("dashboard.overview")}
@@ -101,7 +101,7 @@ const DonorDashboard: React.FC = () => {
                 <Button
                   variant="ghost"
                   onClick={() => setSidebarTab('tax-reports')}
-                  className={`w-full justify-start ${sidebarTab === 'tax-reports' ? 'bg-secondary/50 font-semibold' : ''}`}
+                  className={`btn-touch-target w-full justify-start ${sidebarTab === 'tax-reports' ? 'bg-secondary/50 font-semibold' : ''}`}
                 >
                   <FileText className="mr-2 h-4 w-4" />
                   {t("dashboard.taxReports")}
@@ -109,7 +109,7 @@ const DonorDashboard: React.FC = () => {
                 <Button
                   variant="ghost"
                   onClick={() => setSidebarTab('governance-dao')}
-                  className={`w-full justify-start ${sidebarTab === 'governance-dao' ? 'bg-secondary/50 font-semibold' : ''}`}
+                  className={`btn-touch-target w-full justify-start ${sidebarTab === 'governance-dao' ? 'bg-secondary/50 font-semibold' : ''}`}
                 >
                   <Vote className="mr-2 h-4 w-4" />
                   {t("dashboard.governanceDao")}
@@ -117,7 +117,7 @@ const DonorDashboard: React.FC = () => {
                 <Button
                   variant="ghost"
                   onClick={() => setSidebarTab('wallet-settings')}
-                  className={`w-full justify-start ${sidebarTab === 'wallet-settings' ? 'bg-secondary/50 font-semibold' : ''}`}
+                  className={`btn-touch-target w-full justify-start ${sidebarTab === 'wallet-settings' ? 'bg-secondary/50 font-semibold' : ''}`}
                 >
                   <Settings className="mr-2 h-4 w-4" />
                   {t("dashboard.walletSettings")}
@@ -126,25 +126,25 @@ const DonorDashboard: React.FC = () => {
             </aside>
 
             {/* Main Content */}
-            <div className="flex-1 space-y-8">
+            <div className="flex-1 space-y-6 sm:space-y-8">
               {/* Overview Tab */}
               {sidebarTab === 'overview' && (
                 <>
               {/* Stats Cards */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="text-card-foreground rounded-xl border shadow-sm bg-white/5 border-black p-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
+                <div className="text-card-foreground rounded-xl border shadow-sm bg-white/5 border-black p-4 sm:p-6">
                   <div className="text-sm font-medium text-muted-foreground mb-2">{t("dashboard.totalDonated")}</div>
-                  <div className="text-2xl font-bold text-primary">$1,250.00</div>
+                  <div className="text-xl sm:text-2xl font-bold text-primary">$1,250.00</div>
                   <p className="text-xs text-muted-foreground mt-1">+12% from last month</p>
                 </div>
-                <div className="bg-white text-card-foreground rounded-xl border border-black shadow-sm p-6">
+                <div className="bg-white text-card-foreground rounded-xl border border-black shadow-sm p-4 sm:p-6">
                   <div className="text-sm font-medium text-muted-foreground mb-2">{t("dashboard.campaignsSupported")}</div>
-                  <div className="text-2xl font-bold">14</div>
+                  <div className="text-xl sm:text-2xl font-bold">14</div>
                   <p className="text-xs text-muted-foreground mt-1">Across 3 categories</p>
                 </div>
-                <div className="bg-white text-card-foreground rounded-xl border border-black shadow-sm p-6">
+                <div className="bg-white text-card-foreground rounded-xl border border-black shadow-sm p-4 sm:p-6">
                   <div className="text-sm font-medium text-muted-foreground mb-2">{t("dashboard.governancePower")}</div>
-                  <div className="text-2xl font-bold text-purple-600">850 vZKT</div>
+                  <div className="text-xl sm:text-2xl font-bold text-purple-600">850 vZKT</div>
                   <p className="text-xs text-muted-foreground mt-1">Top 15% of donors</p>
                 </div>
               </div>
@@ -152,10 +152,10 @@ const DonorDashboard: React.FC = () => {
               {/* Tabs */}
               <div className="flex flex-col gap-2 w-full">
                 {/* Tab List */}
-                <div className="inline-flex items-center w-full justify-start border-b border-black/60 space-x-6">
+                <div className="inline-flex items-center w-full justify-start border-b border-black/60 overflow-x-auto hide-scrollbar-mobile">
                   <button
                     onClick={() => setActiveTab('receipts')}
-                    className={`inline-flex h-full items-center justify-center gap-1.5 border-b-2 text-sm font-medium whitespace-nowrap transition-all px-0 py-3 ${
+                    className={`btn-touch-target inline-flex h-full items-center justify-center gap-1.5 border-b-2 text-sm font-medium whitespace-nowrap transition-all px-2 sm:px-0 py-3 ${
                       activeTab === 'receipts'
                         ? 'border-primary text-foreground'
                         : 'border-transparent text-muted-foreground hover:text-foreground'
@@ -165,7 +165,7 @@ const DonorDashboard: React.FC = () => {
                   </button>
                   <button
                     onClick={() => setActiveTab('history')}
-                    className={`inline-flex h-full items-center justify-center gap-1.5 border-b-2 text-sm font-medium whitespace-nowrap transition-all px-0 py-3 ${
+                    className={`btn-touch-target inline-flex h-full items-center justify-center gap-1.5 border-b-2 text-sm font-medium whitespace-nowrap transition-all px-2 sm:px-0 py-3 ${
                       activeTab === 'history'
                         ? 'border-primary text-foreground'
                         : 'border-transparent text-muted-foreground hover:text-foreground'
@@ -175,7 +175,7 @@ const DonorDashboard: React.FC = () => {
                   </button>
                   <button
                     onClick={() => setActiveTab('governance')}
-                    className={`inline-flex h-full items-center justify-center gap-1.5 border-b-2 text-sm font-medium whitespace-nowrap transition-all px-0 py-3 ${
+                    className={`btn-touch-target inline-flex h-full items-center justify-center gap-1.5 border-b-2 text-sm font-medium whitespace-nowrap transition-all px-2 sm:px-0 py-3 ${
                       activeTab === 'governance'
                         ? 'border-primary text-foreground'
                         : 'border-transparent text-muted-foreground hover:text-foreground'
@@ -186,9 +186,9 @@ const DonorDashboard: React.FC = () => {
                 </div>
 
                 {/* Tab Content */}
-                <div className="pt-6">
+                <div className="pt-4 sm:pt-6">
                   {activeTab === 'receipts' && (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                       {receipts.map((receipt) => (
                         <div
                           key={receipt.id}
@@ -215,14 +215,15 @@ const DonorDashboard: React.FC = () => {
                           </div>
 
                           {/* Receipt Info */}
-                          <div className="p-4">
-                            <h3 className="font-semibold truncate">{receipt.campaign}</h3>
-                            <div className="flex justify-between items-center mt-4">
+                          <div className="p-3 sm:p-4">
+                            <h3 className="font-semibold truncate text-sm">{receipt.campaign}</h3>
+                            <div className="flex justify-between items-center mt-3 sm:mt-4">
                               <span className="text-xs font-mono text-muted-foreground">
                                 {receipt.address}
                               </span>
-                              <button className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all hover:bg-accent hover:text-accent-foreground rounded-md h-8 w-8 p-0">
+                              <button className="btn-touch-target inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all hover:bg-accent hover:text-accent-foreground rounded-md h-11 w-11 sm:h-8 sm:w-8 p-0">
                                 <Download className="h-4 w-4" />
+                                <span className="sr-only">Download receipt</span>
                               </button>
                             </div>
                           </div>
@@ -231,25 +232,25 @@ const DonorDashboard: React.FC = () => {
                     </div>
                   )}
                   {activeTab === 'history' && (
-                    <div className="space-y-6">
+                    <div className="space-y-4 sm:space-y-6">
                       {/* Monthly Summary */}
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div className="bg-white text-card-foreground rounded-xl border border-black shadow-sm p-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
+                        <div className="bg-white text-card-foreground rounded-xl border border-black shadow-sm p-3 sm:p-4">
                           <div className="text-sm text-muted-foreground mb-1">{t("dashboard.thisMonth")}</div>
-                          <div className="text-2xl font-bold">Rp 790.000</div>
+                          <div className="text-xl sm:text-2xl font-bold">Rp 790.000</div>
                           <div className="flex items-center gap-1 text-xs text-green-600 mt-1">
                             <TrendingUp className="h-3 w-3" />
                             +25% vs last month
                           </div>
                         </div>
-                        <div className="bg-white text-card-foreground rounded-xl border border-black shadow-sm p-4">
+                        <div className="bg-white text-card-foreground rounded-xl border border-black shadow-sm p-3 sm:p-4">
                           <div className="text-sm text-muted-foreground mb-1">{t("dashboard.totalImpact")}</div>
-                          <div className="text-2xl font-bold">542 people</div>
+                          <div className="text-xl sm:text-2xl font-bold">542 people</div>
                           <div className="text-xs text-muted-foreground mt-1">Directly helped</div>
                         </div>
-                        <div className="bg-white text-card-foreground rounded-xl border border-black shadow-sm p-4">
+                        <div className="bg-white text-card-foreground rounded-xl border border-black shadow-sm p-3 sm:p-4">
                           <div className="text-sm text-muted-foreground mb-1">{t("dashboard.categories")}</div>
-                          <div className="flex gap-2 mt-2">
+                          <div className="flex flex-wrap gap-1.5 sm:gap-2 mt-2">
                             <span className="inline-flex items-center rounded-md border px-2 py-1 text-xs font-medium bg-primary/10 text-primary border-primary/20">Zakat</span>
                             <span className="inline-flex items-center rounded-md border px-2 py-1 text-xs font-medium bg-purple-100 text-purple-700 border-purple-200">Education</span>
                             <span className="inline-flex items-center rounded-md border px-2 py-1 text-xs font-medium bg-blue-100 text-blue-700 border-blue-200">Health</span>
@@ -259,85 +260,85 @@ const DonorDashboard: React.FC = () => {
 
                       {/* Transaction History Table */}
                       <div className="bg-white text-card-foreground rounded-xl border border-black shadow-sm">
-                        <div className="p-6">
-                          <h3 className="font-semibold text-lg mb-4">{t("dashboard.recentDonations")}</h3>
-                          <div className="overflow-x-auto">
-                            <table className="w-full">
+                        <div className="p-4 sm:p-6">
+                          <h3 className="font-semibold text-base sm:text-lg mb-4">{t("dashboard.recentDonations")}</h3>
+                          <div className="table-wrapper-mobile rounded-lg border border-border">
+                            <table className="w-full min-w-[600px]">
                               <thead>
-                                <tr className="border-b border-border">
-                                  <th className="text-left text-sm font-medium text-muted-foreground py-3 px-4">{t("dashboard.date")}</th>
-                                  <th className="text-left text-sm font-medium text-muted-foreground py-3 px-4">{t("dashboard.campaignColumn")}</th>
-                                  <th className="text-left text-sm font-medium text-muted-foreground py-3 px-4">{t("dashboard.amount")}</th>
-                                  <th className="text-left text-sm font-medium text-muted-foreground py-3 px-4">{t("dashboard.type")}</th>
-                                  <th className="text-left text-sm font-medium text-muted-foreground py-3 px-4">{t("dashboard.transaction")}</th>
+                                <tr className="border-b border-border bg-muted/30">
+                                  <th className="text-left text-xs sm:text-sm font-medium text-muted-foreground py-3 px-3 sm:px-4">{t("dashboard.date")}</th>
+                                  <th className="text-left text-xs sm:text-sm font-medium text-muted-foreground py-3 px-3 sm:px-4">{t("dashboard.campaignColumn")}</th>
+                                  <th className="text-left text-xs sm:text-sm font-medium text-muted-foreground py-3 px-3 sm:px-4">{t("dashboard.amount")}</th>
+                                  <th className="text-left text-xs sm:text-sm font-medium text-muted-foreground py-3 px-3 sm:px-4">{t("dashboard.type")}</th>
+                                  <th className="text-left text-xs sm:text-sm font-medium text-muted-foreground py-3 px-3 sm:px-4">{t("dashboard.transaction")}</th>
                                 </tr>
                               </thead>
                               <tbody>
                                 <tr className="border-b border-border hover:bg-accent/50">
-                                  <td className="py-4 px-4 text-sm">Nov 20, 2025</td>
-                                  <td className="py-4 px-4 text-sm font-medium">Emergency Relief Fund</td>
-                                  <td className="py-4 px-4 text-sm font-semibold">Rp 158.000</td>
-                                  <td className="py-4 px-4">
+                                  <td className="py-3 sm:py-4 px-3 sm:px-4 text-xs sm:text-sm">Nov 20, 2025</td>
+                                  <td className="py-3 sm:py-4 px-3 sm:px-4 text-xs sm:text-sm font-medium">Emergency Relief Fund</td>
+                                  <td className="py-3 sm:py-4 px-3 sm:px-4 text-xs sm:text-sm font-semibold">Rp 158.000</td>
+                                  <td className="py-3 sm:py-4 px-3 sm:px-4">
                                     <span className="inline-flex items-center rounded-md border px-2 py-1 text-xs font-medium bg-primary/10 text-primary border-primary/20">Zakat</span>
                                   </td>
-                                  <td className="py-4 px-4">
-                                    <a href="#" className="inline-flex items-center gap-1 text-sm text-primary hover:underline">
+                                  <td className="py-3 sm:py-4 px-3 sm:px-4">
+                                    <a href="#" className="inline-flex items-center gap-1 text-xs sm:text-sm text-primary hover:underline">
                                       0x7f3d...a21c
                                       <ExternalLink className="h-3 w-3" />
                                     </a>
                                   </td>
                                 </tr>
                                 <tr className="border-b border-border hover:bg-accent/50">
-                                  <td className="py-4 px-4 text-sm">Nov 18, 2025</td>
-                                  <td className="py-4 px-4 text-sm font-medium">Children Education Fund</td>
-                                  <td className="py-4 px-4 text-sm font-semibold">Rp 316.000</td>
-                                  <td className="py-4 px-4">
+                                  <td className="py-3 sm:py-4 px-3 sm:px-4 text-xs sm:text-sm">Nov 18, 2025</td>
+                                  <td className="py-3 sm:py-4 px-3 sm:px-4 text-xs sm:text-sm font-medium">Children Education Fund</td>
+                                  <td className="py-3 sm:py-4 px-3 sm:px-4 text-xs sm:text-sm font-semibold">Rp 316.000</td>
+                                  <td className="py-3 sm:py-4 px-3 sm:px-4">
                                     <span className="inline-flex items-center rounded-md border px-2 py-1 text-xs font-medium bg-purple-100 text-purple-700 border-purple-200">Education</span>
                                   </td>
-                                  <td className="py-4 px-4">
-                                    <a href="#" className="inline-flex items-center gap-1 text-sm text-primary hover:underline">
+                                  <td className="py-3 sm:py-4 px-3 sm:px-4">
+                                    <a href="#" className="inline-flex items-center gap-1 text-xs sm:text-sm text-primary hover:underline">
                                       0x9e2a...b34f
                                       <ExternalLink className="h-3 w-3" />
                                     </a>
                                   </td>
                                 </tr>
                                 <tr className="border-b border-border hover:bg-accent/50">
-                                  <td className="py-4 px-4 text-sm">Nov 15, 2025</td>
-                                  <td className="py-4 px-4 text-sm font-medium">Clean Water Initiative</td>
-                                  <td className="py-4 px-4 text-sm font-semibold">Rp 158.000</td>
-                                  <td className="py-4 px-4">
+                                  <td className="py-3 sm:py-4 px-3 sm:px-4 text-xs sm:text-sm">Nov 15, 2025</td>
+                                  <td className="py-3 sm:py-4 px-3 sm:px-4 text-xs sm:text-sm font-medium">Clean Water Initiative</td>
+                                  <td className="py-3 sm:py-4 px-3 sm:px-4 text-xs sm:text-sm font-semibold">Rp 158.000</td>
+                                  <td className="py-3 sm:py-4 px-3 sm:px-4">
                                     <span className="inline-flex items-center rounded-md border px-2 py-1 text-xs font-medium bg-blue-100 text-blue-700 border-blue-200">Health</span>
                                   </td>
-                                  <td className="py-4 px-4">
-                                    <a href="#" className="inline-flex items-center gap-1 text-sm text-primary hover:underline">
+                                  <td className="py-3 sm:py-4 px-3 sm:px-4">
+                                    <a href="#" className="inline-flex items-center gap-1 text-xs sm:text-sm text-primary hover:underline">
                                       0x4c8e...d92a
                                       <ExternalLink className="h-3 w-3" />
                                     </a>
                                   </td>
                                 </tr>
                                 <tr className="border-b border-border hover:bg-accent/50">
-                                  <td className="py-4 px-4 text-sm">Nov 12, 2025</td>
-                                  <td className="py-4 px-4 text-sm font-medium">Emergency Relief Fund</td>
-                                  <td className="py-4 px-4 text-sm font-semibold">Rp 79.000</td>
-                                  <td className="py-4 px-4">
+                                  <td className="py-3 sm:py-4 px-3 sm:px-4 text-xs sm:text-sm">Nov 12, 2025</td>
+                                  <td className="py-3 sm:py-4 px-3 sm:px-4 text-xs sm:text-sm font-medium">Emergency Relief Fund</td>
+                                  <td className="py-3 sm:py-4 px-3 sm:px-4 text-xs sm:text-sm font-semibold">Rp 79.000</td>
+                                  <td className="py-3 sm:py-4 px-3 sm:px-4">
                                     <span className="inline-flex items-center rounded-md border px-2 py-1 text-xs font-medium bg-primary/10 text-primary border-primary/20">Zakat</span>
                                   </td>
-                                  <td className="py-4 px-4">
-                                    <a href="#" className="inline-flex items-center gap-1 text-sm text-primary hover:underline">
+                                  <td className="py-3 sm:py-4 px-3 sm:px-4">
+                                    <a href="#" className="inline-flex items-center gap-1 text-xs sm:text-sm text-primary hover:underline">
                                       0x1b5f...e87d
                                       <ExternalLink className="h-3 w-3" />
                                     </a>
                                   </td>
                                 </tr>
                                 <tr className="hover:bg-accent/50">
-                                  <td className="py-4 px-4 text-sm">Nov 8, 2025</td>
-                                  <td className="py-4 px-4 text-sm font-medium">Medical Equipment Fund</td>
-                                  <td className="py-4 px-4 text-sm font-semibold">Rp 79.000</td>
-                                  <td className="py-4 px-4">
+                                  <td className="py-3 sm:py-4 px-3 sm:px-4 text-xs sm:text-sm">Nov 8, 2025</td>
+                                  <td className="py-3 sm:py-4 px-3 sm:px-4 text-xs sm:text-sm font-medium">Medical Equipment Fund</td>
+                                  <td className="py-3 sm:py-4 px-3 sm:px-4 text-xs sm:text-sm font-semibold">Rp 79.000</td>
+                                  <td className="py-3 sm:py-4 px-3 sm:px-4">
                                     <span className="inline-flex items-center rounded-md border px-2 py-1 text-xs font-medium bg-blue-100 text-blue-700 border-blue-200">Health</span>
                                   </td>
-                                  <td className="py-4 px-4">
-                                    <a href="#" className="inline-flex items-center gap-1 text-sm text-primary hover:underline">
+                                  <td className="py-3 sm:py-4 px-3 sm:px-4">
+                                    <a href="#" className="inline-flex items-center gap-1 text-xs sm:text-sm text-primary hover:underline">
                                       0x6a9c...f13b
                                       <ExternalLink className="h-3 w-3" />
                                     </a>
@@ -345,6 +346,10 @@ const DonorDashboard: React.FC = () => {
                                 </tr>
                               </tbody>
                             </table>
+                          </div>
+                          {/* Mobile scroll indicator */}
+                          <div className="md:hidden mt-2 text-xs text-muted-foreground text-center">
+                            Swipe to see more →
                           </div>
                         </div>
                       </div>
@@ -412,7 +417,7 @@ const DonorDashboard: React.FC = () => {
                                 <div className="flex gap-2">
                                   <Button
                                     size="sm"
-                                    className="bg-green-500 hover:bg-green-600 text-white border-green-600"
+                                    className="btn-touch-target bg-green-500 hover:bg-green-600 text-white border-green-600 min-h-[44px]"
                                   >
                                     <CheckCircle2 className="h-4 w-4" />
                                     {t("dashboard.voteFor")}
@@ -420,7 +425,7 @@ const DonorDashboard: React.FC = () => {
                                   <Button
                                     size="sm"
                                     variant="outline"
-                                    className="bg-white border-black hover:bg-gray-50"
+                                    className="btn-touch-target bg-white border-black hover:bg-gray-50 min-h-[44px]"
                                   >
                                     <XCircle className="h-4 w-4" />
                                     {t("dashboard.voteAgainst")}
@@ -462,7 +467,7 @@ const DonorDashboard: React.FC = () => {
                                 <div className="flex gap-2">
                                   <Button
                                     size="sm"
-                                    className="bg-green-500 hover:bg-green-600 text-white border-green-600"
+                                    className="btn-touch-target bg-green-500 hover:bg-green-600 text-white border-green-600 min-h-[44px]"
                                   >
                                     <CheckCircle2 className="h-4 w-4" />
                                     {t("dashboard.voteFor")}
@@ -470,7 +475,7 @@ const DonorDashboard: React.FC = () => {
                                   <Button
                                     size="sm"
                                     variant="outline"
-                                    className="bg-white border-black hover:bg-gray-50"
+                                    className="btn-touch-target bg-white border-black hover:bg-gray-50 min-h-[44px]"
                                   >
                                     <XCircle className="h-4 w-4" />
                                     {t("dashboard.voteAgainst")}

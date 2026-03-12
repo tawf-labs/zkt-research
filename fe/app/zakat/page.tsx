@@ -199,7 +199,8 @@ export default function ZakatPage() {
                       : "border-transparent text-muted-foreground hover:text-foreground"
                   }`}
                 >
-                  <span className="hidden sm:inline">Wealth</span> Zakat
+                  <span className="hidden sm:inline">Wealth Zakat</span>
+                  <span className="sm:hidden">Wealth</span>
                 </Button>
                 <Button
                   variant="ghost"
@@ -210,7 +211,8 @@ export default function ZakatPage() {
                       : "border-transparent text-muted-foreground hover:text-foreground"
                   }`}
                 >
-                  <span className="hidden sm:inline">Fitrah</span> Zakat
+                  <span className="hidden sm:inline">Fitrah Zakat</span>
+                  <span className="sm:hidden">Fitrah</span>
                 </Button>
               </div>
 

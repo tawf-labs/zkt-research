@@ -115,9 +115,9 @@ export default function ZakatPage() {
     <div className="min-h-screen bg-accent py-12 px-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold tracking-tight mb-3">{t("zakat.title")}</h1>
-          <p className="text-muted-foreground text-lg">{t("zakat.subtitle")}</p>
+        <div className="text-center mb-8 sm:mb-12">
+          <h1 className="text-2xl sm:text-4xl font-bold tracking-tight mb-2 sm:mb-3">{t("zakat.title")}</h1>
+          <p className="text-muted-foreground text-sm sm:text-lg">{t("zakat.subtitle")}</p>
         </div>
 
         <div className="grid lg:grid-cols-3 gap-8">
@@ -132,8 +132,8 @@ export default function ZakatPage() {
                       <Wallet className="h-5 w-5" />
                       <h3 className="text-lg font-semibold">{t("zakat.walletBalance")}</h3>
                     </div>
-                    <code className="text-sm font-mono bg-white/20 px-3 py-1 rounded-full">
-                      {address ? `${address.slice(0, 6)}...${address.slice(-4)}` : ''}
+                    <code className="text-[10px] sm:text-sm font-mono bg-white/20 px-2 sm:px-3 py-1 rounded-full truncate max-w-[100px] sm:max-w-none">
+                      {address ? `${address.slice(0, 4)}...${address.slice(-4)}` : ''}
                     </code>
                   </div>
                   <div className="flex items-baseline gap-2">
@@ -160,8 +160,8 @@ export default function ZakatPage() {
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-3 gap-4">
-                  <div className="text-center p-4 bg-accent rounded-xl border border-border">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+                  <div className="text-center p-3 sm:p-4 bg-accent rounded-xl border border-border">
                     <div className="text-xs text-muted-foreground mb-1">Gold Price</div>
                     <div className="text-lg font-bold text-primary">${goldPrice.toFixed(2)}/oz</div>
                     <span className="inline-flex items-center justify-center rounded-full px-2 py-0.5 text-xs font-semibold bg-primary/10 text-primary mt-1">
@@ -169,12 +169,12 @@ export default function ZakatPage() {
                     </span>
                   </div>
 
-                  <div className="text-center p-4 bg-accent rounded-xl border border-border">
+                  <div className="text-center p-3 sm:p-4 bg-accent rounded-xl border border-border">
                     <div className="text-xs text-muted-foreground mb-1">Nisab (85g Gold)</div>
                     <div className="text-lg font-bold text-primary">${nisabThreshold.toFixed(2)}</div>
                   </div>
 
-                  <div className="text-center p-4 bg-accent rounded-xl border border-border">
+                  <div className="text-center p-3 sm:p-4 bg-accent rounded-xl border border-border">
                     <div className="text-xs text-muted-foreground mb-1">Zakat Rate</div>
                     <div className="text-lg font-bold text-primary">{zakatRate}%</div>
                   </div>
@@ -199,7 +199,7 @@ export default function ZakatPage() {
                       : "border-transparent text-muted-foreground hover:text-foreground"
                   }`}
                 >
-                  Wealth Zakat
+                  <span className="hidden sm:inline">Wealth</span> Zakat
                 </Button>
                 <Button
                   variant="ghost"
@@ -210,7 +210,7 @@ export default function ZakatPage() {
                       : "border-transparent text-muted-foreground hover:text-foreground"
                   }`}
                 >
-                  Fitrah Zakat
+                  <span className="hidden sm:inline">Fitrah</span> Zakat
                 </Button>
               </div>
 
@@ -226,9 +226,9 @@ export default function ZakatPage() {
                           <SelectValue placeholder="Select zakat type" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="income">Income Zakat - For salary & wages</SelectItem>
-                          <SelectItem value="trade">Trade Zakat - For business assets</SelectItem>
-                          <SelectItem value="savings">Savings Zakat - For liquid assets</SelectItem>
+                          <SelectItem value="income">Income Zakat</SelectItem>
+                          <SelectItem value="trade">Trade Zakat</SelectItem>
+                          <SelectItem value="savings">Savings Zakat</SelectItem>
                           <SelectItem value="gold">Gold & Silver Zakat</SelectItem>
                         </SelectContent>
                       </Select>
@@ -331,10 +331,10 @@ export default function ZakatPage() {
 
                     {/* Calculated Amount */}
                     {calculatedZakat > 0 && (
-                      <div className="p-6 rounded-xl border border-primary/30 bg-primary/5 shadow-sm">
+                      <div className="p-4 sm:p-6 rounded-xl border border-primary/30 bg-primary/5 shadow-sm">
                         <div className="text-center">
-                          <p className="text-sm text-muted-foreground mb-2">Your Zakat Amount:</p>
-                          <p className="text-4xl font-bold text-primary mb-1">
+                          <p className="text-xs sm:text-sm text-muted-foreground mb-2">Your Zakat Amount:</p>
+                          <p className="text-2xl sm:text-4xl font-bold text-primary mb-1 break-all">
                             ${calculatedZakat.toFixed(2)}
                           </p>
                           <p className="text-xs text-muted-foreground">
@@ -358,10 +358,10 @@ export default function ZakatPage() {
                 ) : (
                   <div className="space-y-6">
                     {/* Fitrah Amount Display */}
-                    <div className="p-6 bg-accent rounded-xl border border-border">
+                    <div className="p-4 sm:p-6 bg-accent rounded-xl border border-border">
                       <div className="text-center">
-                        <p className="text-sm text-muted-foreground mb-2">Fitrah Zakat per person:</p>
-                        <p className="text-3xl font-bold text-primary mb-1">
+                        <p className="text-xs sm:text-sm text-muted-foreground mb-2">Fitrah Zakat per person:</p>
+                        <p className="text-2xl sm:text-3xl font-bold text-primary mb-1 break-all">
                           Rp {fitrahPerPerson.toLocaleString()}
                         </p>
                         <p className="text-xs text-muted-foreground">Equivalent to 2.5kg rice</p>
@@ -396,9 +396,9 @@ export default function ZakatPage() {
                         <span className="font-medium">{peopleCount || 0}</span>
                       </div>
                       <div className="h-px bg-border" />
-                      <div className="flex justify-between text-lg font-bold">
+                      <div className="flex justify-between items-center gap-2 text-base sm:text-lg font-bold">
                         <span>Total:</span>
-                        <span className="text-primary">Rp {totalFitrah.toLocaleString()}</span>
+                        <span className="text-primary break-all text-right">Rp {totalFitrah.toLocaleString()}</span>
                       </div>
                     </div>
 
@@ -516,44 +516,48 @@ export default function ZakatPage() {
 
         {/* Campaign Selection Dialog */}
         <Dialog open={showCampaignDialog} onOpenChange={setShowCampaignDialog}>
-          <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
+          <DialogContent className="max-w-3xl w-[95vw] sm:w-full max-h-[85vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>{t("campaignSelect.title")}</DialogTitle>
-              <DialogDescription>
-                {t("campaignSelect.description")} Rp {(paymentType === "maal" ? calculatedZakat : totalFitrah).toLocaleString('id-ID', { maximumFractionDigits: 0 })}
+              <DialogDescription className="break-words">
+                <span className="hidden sm:inline">{t("campaignSelect.description")} </span>
+                <span className="sm:hidden">{t("campaignSelect.description")}</span>
+                Rp {(paymentType === "maal" ? calculatedZakat : totalFitrah).toLocaleString('id-ID', { maximumFractionDigits: 0, notation: "compact" })}
               </DialogDescription>
             </DialogHeader>
 
-            <div className="grid gap-4 py-4">
+            <div className="grid gap-3 sm:gap-4 py-4">
               {campaigns.map((campaign) => (
                 <Button
                   key={campaign.id}
                   variant="outline"
                   onClick={() => handleCampaignSelect(campaign)}
-                  className="h-auto p-4 flex items-start gap-4 justify-start hover:border-primary/30 hover:bg-accent"
+                  className="h-auto p-3 sm:p-4 flex items-start gap-3 sm:gap-4 justify-start hover:border-primary/30 hover:bg-accent text-left"
                 >
                   <img
                     src={campaign.image}
                     alt={campaign.title}
-                    className="w-20 h-20 object-cover rounded-xl flex-shrink-0"
+                    className="w-14 h-14 sm:w-20 sm:h-20 object-cover rounded-xl flex-shrink-0"
                   />
-                  <div className="flex-1 min-w-0">
-                    <h4 className="font-semibold text-sm mb-1 line-clamp-2">{campaign.title}</h4>
-                    <p className="text-xs text-muted-foreground mb-2">{campaign.organization}</p>
-                    <div className="flex items-center gap-4 text-xs">
+                  <div className="flex-1 min-w-0 flex flex-col gap-1.5 sm:gap-2">
+                    <div className="flex items-start justify-between gap-2">
+                      <h4 className="font-semibold text-sm sm:text-base mb-0 line-clamp-2 flex-1 pr-2">{campaign.title}</h4>
+                      <span className="inline-flex items-center justify-center rounded-full px-2 py-0.5 text-[10px] sm:text-xs font-semibold bg-primary/10 text-primary flex-shrink-0">
+                        {campaign.category}
+                      </span>
+                    </div>
+                    <p className="text-xs text-muted-foreground truncate">{campaign.organizationName}</p>
+                    <div className="flex flex-wrap items-center gap-x-2 sm:gap-x-3 gap-y-1 text-xs">
                       <span className="text-primary font-medium">{formatCurrency(campaign.raised)} raised</span>
                       <span className="text-muted-foreground">of {formatCurrency(campaign.goal)}</span>
                     </div>
-                    <div className="mt-2 h-1.5 bg-accent rounded-full overflow-hidden">
+                    <div className="mt-1 sm:mt-2 h-1.5 bg-accent rounded-full overflow-hidden">
                       <div
                         className="h-full bg-primary transition-all"
                         style={{ width: `${Math.min((campaign.raised / campaign.goal) * 100, 100)}%` }}
                       />
                     </div>
                   </div>
-                  <span className="inline-flex items-center justify-center rounded-full px-3 py-1 text-xs font-semibold bg-primary/10 text-primary">
-                    {campaign.category}
-                  </span>
                 </Button>
               ))}
             </div>
@@ -575,18 +579,18 @@ export default function ZakatPage() {
                 <div className="p-4 bg-accent rounded-xl border border-border">
                   <div className="text-sm font-medium text-primary mb-2">{t("confirm.campaign")}</div>
                   <div className="text-sm text-muted-foreground">{selectedCampaign.title}</div>
-                  <div className="text-xs text-muted-foreground mt-1">{selectedCampaign.organization}</div>
+                  <div className="text-xs text-muted-foreground mt-1">{selectedCampaign.organizationName}</div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="p-4 bg-accent rounded-xl border border-border">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                  <div className="p-3 sm:p-4 bg-accent rounded-xl border border-border">
                     <div className="text-xs text-muted-foreground mb-1">{t("confirm.amount")}</div>
-                    <div className="text-xl font-bold text-primary">Rp {(paymentType === "maal" ? calculatedZakat : totalFitrah).toLocaleString('id-ID', { maximumFractionDigits: 0 })}</div>
+                    <div className="text-lg sm:text-xl font-bold text-primary break-words">Rp {(paymentType === "maal" ? calculatedZakat : totalFitrah).toLocaleString('id-ID', { maximumFractionDigits: 0 })}</div>
                   </div>
 
-                  <div className="p-4 bg-accent rounded-xl border border-border">
+                  <div className="p-3 sm:p-4 bg-accent rounded-xl border border-border">
                     <div className="text-xs text-muted-foreground mb-1">{t("confirm.currentBalance")}</div>
-                    <div className="text-xl font-bold text-primary">{idrxBalance ? Number(idrxBalance / BigInt(1e18)).toLocaleString('id-ID', { maximumFractionDigits: 0 }) : '0'} IDRX</div>
+                    <div className="text-lg sm:text-xl font-bold text-primary break-words">{idrxBalance ? Number(idrxBalance / BigInt(1e18)).toLocaleString('id-ID', { maximumFractionDigits: 0 }) : '0'} IDRX</div>
                   </div>
                 </div>
 

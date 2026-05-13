@@ -12,7 +12,7 @@ import {
 import { ZKTCoreABI, CONTRACT_ADDRESSES } from "@/lib/abi";
 import { toast } from "@/components/ui/use-toast";
 import { pad, toHex, keccak256, stringToBytes } from "viem";
-import { baseSepolia } from "viem/chains";
+import { sepolia } from "viem/chains";
 
 interface UseCreateCampaignOnChainParams {
   title: string;
@@ -175,19 +175,19 @@ export const useCreateCampaignOnChain = (
       setIsLoading(true);
 
       try {
-        // Ensure we are on Base Sepolia
-        if (chainId !== baseSepolia.id) {
+        // Ensure we are on Ethereum Sepolia
+        if (chainId !== sepolia.id) {
           try {
             toast({
               title: "Switching Network",
-              description: "Please confirm switching to Base Sepolia...",
+              description: "Please confirm switching to Ethereum Sepolia...",
             });
-            await switchChainAsync({ chainId: baseSepolia.id });
+            await switchChainAsync({ chainId: sepolia.id });
           } catch (switchError) {
             console.error("Failed to switch network:", switchError);
             toast({
               title: "Network Switch Failed",
-              description: "Please manually switch your wallet to Base Sepolia.",
+              description: "Please manually switch your wallet to Ethereum Sepolia.",
               variant: "destructive",
             });
             setIsLoading(false);

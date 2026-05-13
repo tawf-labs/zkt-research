@@ -1,0 +1,6 @@
+[package]
+name = "zkat_eligibility"
+type = "bin"
+authors = [""]
+
+[dependencies]

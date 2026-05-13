@@ -42,6 +42,10 @@ contract ZKTCoreTest is Test {
         // Deploy Groth16Verifier
         Groth16Verifier groth16Verifier = new Groth16Verifier();
 
+        // Deploy ZK verifier and nullifier registry
+        HonkVerifier honkVerifier = new HonkVerifier();
+        NullifierRegistry nullifierRegistry = new NullifierRegistry();
+
         // Deploy Managers
         ProposalManager proposalManager = new ProposalManager();
         VotingManager votingManager = new VotingManager(
@@ -79,7 +83,9 @@ contract ZKTCoreTest is Test {
             address(shariaReviewManager),
             address(poolManager),
             address(zakatEscrowManager),
-            address(milestoneManager)
+            address(milestoneManager),
+            address(honkVerifier),
+            address(nullifierRegistry)
         );
 
         // --- Wiring Permissions (Admin & Functional Roles) ---
@@ -107,6 +113,7 @@ contract ZKTCoreTest is Test {
 
         // Grant ZKTCore roles on PoolManager
         poolManager.grantRole(poolManager.ADMIN_ROLE(), address(dao));
+        poolManager.grantRole(poolManager.CORE_ROLE(), address(dao));
         poolManager.grantRole(dao.DEFAULT_ADMIN_ROLE(), address(dao));
 
         // Grant ZKTCore roles on ZakatEscrowManager

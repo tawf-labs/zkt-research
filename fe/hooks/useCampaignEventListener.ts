@@ -32,7 +32,7 @@ export const useCampaignEventListener = () => {
         const currentBlock = await publicClient.getBlockNumber()
         lastBlockRef.current = currentBlock
 
-        // Poll for events every 15 seconds instead of using filters (which expire on Base Sepolia)
+        // Poll for events every 15 seconds instead of using filters (which expire on Ethereum Sepolia)
         intervalRef.current = setInterval(async () => {
           try {
             const latestBlock = await publicClient.getBlockNumber()

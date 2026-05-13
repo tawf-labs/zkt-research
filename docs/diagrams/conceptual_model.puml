@@ -1,0 +1,62 @@
+@startuml
+skinparam backgroundColor #FEFEFE
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam defaultFontSize 8
+skinparam packagePadding 2
+skinparam nodePadding 2
+
+header <b>ZK-PZ Protocol Architecture</b>
+
+actor Donor
+actor Recipient
+
+package "Off-Chain Proving Pipeline" {
+  rectangle "Noir Circuit\n(29 ACIR opcodes)" as Circuit
+  rectangle "Barretenberg bb\n(v4.2.1)" as BB
+  rectangle "Witness Generation\n(nargo execute)" as Witness
+  component "UltraHONK Proof\n(8,384 bytes)" as Proof
+}
+
+package "Ethereum Sepolia Settlement" {
+  rectangle "ZKVerifier" as Verifier {
+    component "verify(proof, pis)"
+    component "spentNullifiers map"
+  }
+  rectangle "ZKTCore (v5)" as Core {
+    component "donateZK()"
+    component "donate()"
+    component "castVote()"
+  }
+  rectangle "ZakatEscrowManager" as Escrow {
+    component "pool accounting"
+    component "30-day timelock"
+  }
+  rectangle "DonationReceiptNFT" as NFT {
+    component "SBT minting"
+    component "IPFS metadata"
+  }
+}
+
+package "Frontend (Next.js 15 PWA)" as FE {
+  component "usePrivateDonation hook" as Hook
+  component "Privacy Tier Toggle" as Toggle
+  component "wagmi + XellarKit wallet" as Wallet
+}
+
+Donor --> Witness : Private Inputs
+Witness --> Circuit : Prover.toml
+Circuit --> BB : ACIR bytecode
+BB --> Proof : proves (262ms avg)
+Proof --> Verifier : 8,384 bytes
+Verifier --> Core : Verified + Nullifier Spent
+Core --> Escrow : Route Funds
+Escrow --> NFT : Mint Receipt SBT
+NFT --> Recipient : Token Issued
+
+Donor -> Wallet : Connect Sepolia
+Wallet -> Hook : call donateZK()
+Hook -> Proof : Fetch Proof
+Hook -> Core : submit tx (4.2M gas)
+
+@enduml

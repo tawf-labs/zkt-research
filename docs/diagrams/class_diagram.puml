@@ -1,0 +1,68 @@
+@startuml
+skinparam backgroundColor #FEFEFE
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam defaultFontSize 8
+skinparam classPadding 2
+
+header <b>ZK-PZ Smart Contract Architecture</b>
+
+class "ZKTCore\n<<Sepolia 0xaAebE1...C04A>>" as ZKTCore {
+  + donateZK(...)
+  + donate(uint256,uint256,string)
+  + castVote(uint256,uint256)
+  + createCampaignPool(uint256)
+  - honkVerifier: IHonkVerifier
+  - nullifierRegistry: NullifierRegistry
+  - zakatEscrowManager: ZakatEscrowManager
+  - receiptNFT: DonationReceiptNFT
+}
+
+class "ZKVerifier\n<<Sepolia 0x50471F...9ca66>>" as ZKVerifier {
+  + verify(bytes,bytes32[]): bool
+  + spentNullifiers: mapping(bytes32=>bool)
+  - verifiedProofs: mapping(bytes32=>bool)
+  __Events__
+  + ProofVerified(bytes32,bytes32)
+}
+
+class "NullifierRegistry\n<<Sepolia 0x034f31...4d018>>" as NullifierRegistry {
+  + spend(bytes32): void
+  + isSpent(bytes32): bool
+  - spentNullifiers: mapping(bytes32=>bool)
+  __Events__
+  + NullifierSpent(bytes32,address,uint256)
+}
+
+class ZakatEscrowManager {
+  + donate(address,uint256,uint256,string)
+  + donatePrivate(...)
+  + withdrawFunds(address,uint256)
+  - zakatPools: mapping(uint256=>ZakatPool)
+  - poolDonations: mapping(uint256=>mapping(address=>uint256))
+  - usedCommitments: mapping(bytes32=>bool)
+}
+
+class DonationReceiptNFT {
+  + mint(address,uint256,uint256,string,string,string): uint256
+  + burn(uint256,string)
+  - tokenMetadata: mapping(uint256=>SBTMetadata)
+  - donorTokens: mapping(address=>uint256[])
+  - MINTER_ROLE: bytes32
+}
+
+class MockIDRX {
+  + adminMint(address,uint256)
+  + faucet(address)
+  + transferFrom(address,address,uint256): bool
+}
+
+ZKTCore --> ZKVerifier : verifies proof
+ZKTCore --> NullifierRegistry : spends nullifier
+ZKTCore --> ZakatEscrowManager : routes funds
+ZKTCore --> DonationReceiptNFT : mints SBT receipt
+ZakatEscrowManager --> MockIDRX : transfers
+ZakatEscrowManager --> DonationReceiptNFT : mints receipt
+DonationReceiptNFT --> MockIDRX : records amount
+
+@enduml

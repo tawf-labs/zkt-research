@@ -7,7 +7,7 @@ import { useAccount, useBalance, useDisconnect } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { XellarKitProvider, defaultConfig, darkTheme, useConnectModal } from "@xellar/kit";
 import axios from "axios";
-import { baseSepolia } from "viem/chains";
+import { sepolia } from "viem/chains";
 import { createPublicClient, http } from "viem";
 import { getClientConfig } from "@/lib/client-config";
 import { useIDRXBalance } from "@/hooks/useIDRXBalance";
@@ -51,7 +51,7 @@ const WalletContext = createContext<WalletContextType>({
 
 export const useWallet = () => useContext(WalletContext);
 
-// Component to enforce Base Sepolia chain connection
+// Component to enforce Ethereum Sepolia chain connection
 function ChainEnforcer({ children }: { children: ReactNode }) {
   const { toast } = useToast();
   const chainId = useChainId();
@@ -59,20 +59,20 @@ function ChainEnforcer({ children }: { children: ReactNode }) {
   const { switchChain, isPending: isSwitching } = useSwitchChain();
   const [showWarning, setShowWarning] = useState(false);
 
-  const isWrongChain = isConnected && chainId !== baseSepolia.id;
+  const isWrongChain = isConnected && chainId !== sepolia.id;
 
   useEffect(() => {
     if (isWrongChain) {
       setShowWarning(true);
       // Auto-attempt to switch chain when user connects with wrong chain
       switchChain(
-        { chainId: baseSepolia.id },
+        { chainId: sepolia.id },
         {
           onSuccess: () => {
             setShowWarning(false);
             toast({
               title: "Network Switched",
-              description: "Successfully connected to Base Sepolia",
+              description: "Successfully connected to Ethereum Sepolia",
             });
           },
           onError: (error) => {
@@ -80,7 +80,7 @@ function ChainEnforcer({ children }: { children: ReactNode }) {
             toast({
               variant: "destructive",
               title: "Network Switch Required",
-              description: "Please switch to Base Sepolia network to use this app",
+              description: "Please switch to Ethereum Sepolia network to use this app",
             });
           },
         }
@@ -92,13 +92,13 @@ function ChainEnforcer({ children }: { children: ReactNode }) {
 
   const handleManualSwitch = () => {
     switchChain(
-      { chainId: baseSepolia.id },
+      { chainId: sepolia.id },
       {
         onSuccess: () => {
           setShowWarning(false);
           toast({
             title: "Network Switched",
-            description: "Successfully connected to Base Sepolia",
+            description: "Successfully connected to Ethereum Sepolia",
           });
         },
         onError: (error) => {
@@ -106,7 +106,7 @@ function ChainEnforcer({ children }: { children: ReactNode }) {
           toast({
             variant: "destructive",
             title: "Switch Failed",
-            description: "Please manually switch to Base Sepolia in your wallet",
+            description: "Please manually switch to Ethereum Sepolia in your wallet",
           });
         },
       }
@@ -119,7 +119,7 @@ function ChainEnforcer({ children }: { children: ReactNode }) {
         <div className="fixed top-0 left-0 right-0 z-[100] bg-yellow-500 text-black px-4 py-3 flex items-center justify-center gap-3 shadow-lg">
           <AlertTriangle className="h-5 w-5" />
           <span className="font-medium">
-            Wrong network detected. Please switch to Base Sepolia to use this app.
+            Wrong network detected. Please switch to Ethereum Sepolia to use this app.
           </span>
           <button
             onClick={handleManualSwitch}
@@ -290,7 +290,7 @@ function WalletStateController({ children }: { children: ReactNode }) {
 
       // Get gas fees for better estimation
       const publicClient = createPublicClient({
-        chain: baseSepolia,
+        chain: sepolia,
         transport: http(),
       });
 

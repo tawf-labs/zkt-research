@@ -1,0 +1,37 @@
+@startuml
+skinparam backgroundColor #FEFEFE
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam defaultFontSize 9
+skinparam usecasePadding 2
+
+header <b>ZK-PZ Donation Flow</b>
+
+actor Donor
+actor Recipient
+
+usecase UC1 as "Connect Wallet\n(wagmi + XellarKit)"
+usecase UC2 as "Select Privacy Tier\n(Private/Semi/Public)"
+usecase UC3 as "Provide Amount\n+ Private Inputs"
+usecase UC4 as "Generate ZK Proof\n(Noir + bb prove)\n262ms, 8,384 bytes"
+usecase UC5 as "Submit donateZK()\nto Sepolia"
+usecase UC6 as "ZKVerifier\nVerify Proof\n+ Anchor Hash"
+usecase UC7 as "NullifierRegistry\nSpend Nullifier\n(double-donation)"
+usecase UC8 as "ZakatEscrowManager\nRoute Funds\n+ Pool Accounting"
+usecase UC9 as "DonationReceiptNFT\nMint SBT"
+usecase UC10 as "Recipient Receives\nNFT Receipt"
+
+Donor --> UC1
+Donor --> UC2
+Donor --> UC3
+UC3 ..> UC4 : triggers
+UC4 ..> UC5 : proof ready
+Donor --> UC5
+UC5 ..> UC6 : verify
+UC6 ..> UC7 : if valid
+UC7 ..> UC8 : nullifier spent
+UC8 ..> UC9 : fund + account
+UC9 ..> UC10 : SBT minted
+UC10 --> Recipient
+
+@enduml

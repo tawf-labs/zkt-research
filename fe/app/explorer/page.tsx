@@ -63,7 +63,7 @@ const ExplorerPage: React.FC = () => {
             <div>
               <h1 className="text-3xl font-bold mb-2">Blockchain Explorer</h1>
               <p className="text-muted-foreground">
-                Explore all transactions on the ZKT platform • Base Sepolia Network
+                Explore all transactions on the ZKT platform • Ethereum Sepolia
               </p>
             </div>
             <button

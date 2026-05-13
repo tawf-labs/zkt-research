@@ -88,7 +88,8 @@
     "vaul": "^0.9.9",
     "viem": "2.x",
     "wagmi": "^2.19.5",
-    "zod": "3.25.67"
+    "zod": "3.25.67",
+    "@aztec/sdk": "2.1.97"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.9",

@@ -1,18 +1,18 @@
-// Smart Contract ABIs and Configuration for Base Sepolia Network
+// Smart Contract ABIs and Configuration for Ethereum Sepolia Network
 // New ZKTCore Deployed Contracts
 
 export const CONTRACT_ADDRESSES = {
-  ZKTCore: (process.env.NEXT_PUBLIC_CONTRACT_ZKT_CORE || '0x7C206211F6cEB66e494515F436fB91175d390893') as `0x${string}`,
-  ProposalManager: (process.env.NEXT_PUBLIC_CONTRACT_PROPOSAL_MANAGER || '0xd6159Bd52c75C11514fDD3E6Da91D9e4Fe7255a9') as `0x${string}`,
-  VotingManager: (process.env.NEXT_PUBLIC_CONTRACT_VOTING_MANAGER || '0x1b318FC226F903bf2f0aa3a413350C00B795Ef4D') as `0x${string}`,
-  ShariaReviewManager: (process.env.NEXT_PUBLIC_CONTRACT_SHARIA_REVIEW_MANAGER || '0xa2F987cf915d4820391388B3EE71A96e1068e728') as `0x${string}`,
-  PoolManager: (process.env.NEXT_PUBLIC_CONTRACT_POOL_MANAGER || '0x7fA85242079C5cdBEDe7450A35B931E5e8450a0D') as `0x${string}`,
-  ZakatEscrowManager: (process.env.NEXT_PUBLIC_CONTRACT_ZAKAT_ESCROW_MANAGER || '0xa91e14766B5037cbf8b889F0deb824207f2BA856') as `0x${string}`,
-  MilestoneManager: (process.env.NEXT_PUBLIC_CONTRACT_MILESTONE_MANAGER || '0xf88a1bA5933F452161E5b9a2F75B8C598211399e') as `0x${string}`,
-  MockIDRX: (process.env.NEXT_PUBLIC_CONTRACT_MOCK_IDRX || '0x06317b6009e39dbcd49d6654e08363fdc17e88a9') as `0x${string}`,
-  DonationReceiptNFT: (process.env.NEXT_PUBLIC_CONTRACT_RECEIPT_NFT || '0x6d09c766c606519c5eb71cd03ac7c450fc14bb72') as `0x${string}`,
-  VotingToken: (process.env.NEXT_PUBLIC_CONTRACT_VOTING_TOKEN || '0xa7ff9fd09ed70c174ae9cb580fb6b31325869a05') as `0x${string}`,
-  Groth16Verifier: (process.env.NEXT_PUBLIC_CONTRACT_GROTH16_VERIFIER || '0xfeF43BD66FAf9B2cb787b9D5b51477129f87cA37') as `0x${string}`,
+  ZKTCore: (process.env.NEXT_PUBLIC_CONTRACT_ZKT_CORE || '0x76402828Af494C664C22E221Dd17af8BeED42325') as `0x${string}`,
+  ProposalManager: (process.env.NEXT_PUBLIC_CONTRACT_PROPOSAL_MANAGER || '0x1B5C97F90E9434EFc308A8e44e787d4df7BEDf10') as `0x${string}`,
+  VotingManager: (process.env.NEXT_PUBLIC_CONTRACT_VOTING_MANAGER || '0x629EA36994a58f48D6503B5E016AbCBDbb202FC7') as `0x${string}`,
+  ShariaReviewManager: (process.env.NEXT_PUBLIC_CONTRACT_SHARIA_REVIEW_MANAGER || '0x3bcfaaf4d1574a7A04E626e8cb92B94a68488005') as `0x${string}`,
+  PoolManager: (process.env.NEXT_PUBLIC_CONTRACT_POOL_MANAGER || '0x7407e587ce54F44832AD88100169056b027DF2f6') as `0x${string}`,
+  ZakatEscrowManager: (process.env.NEXT_PUBLIC_CONTRACT_ZAKAT_ESCROW_MANAGER || '0xf756b2faac4770ca5ead2b09E0948B2112710Df6') as `0x${string}`,
+  MilestoneManager: (process.env.NEXT_PUBLIC_CONTRACT_MILESTONE_MANAGER || '0x611B552a99352DFD905f1Ae9E9f4cfA75ea8FF5b') as `0x${string}`,
+  MockIDRX: (process.env.NEXT_PUBLIC_CONTRACT_MOCK_IDRX || '0xd30217980a35008bf00d67bc190a235cadad8759') as `0x${string}`,
+  DonationReceiptNFT: (process.env.NEXT_PUBLIC_CONTRACT_RECEIPT_NFT || '0x093d7570430f06c3744beb5d7da635e0866415c4') as `0x${string}`,
+  VotingToken: (process.env.NEXT_PUBLIC_CONTRACT_VOTING_TOKEN || '0xc5ab671dff2428f965f63a0124844c9587d8add1') as `0x${string}`,
+  Groth16Verifier: (process.env.NEXT_PUBLIC_CONTRACT_GROTH16_VERIFIER || '0xa3f8c86A27018792c32282d4156B569967Bfc32F') as `0x${string}`,
 } as const;
 
 // ZKTCore ABI - Main orchestrator contract
@@ -226,6 +226,20 @@ export const ZKTCoreABI = [
       { "name": "poolId", "type": "uint256", "internalType": "uint256" },
       { "name": "amount", "type": "uint256", "internalType": "uint256" },
       { "name": "commitment", "type": "bytes32", "internalType": "bytes32" },
+      { "name": "ipfsCID", "type": "string", "internalType": "string" }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "donateZK",
+    "inputs": [
+      { "name": "poolId", "type": "uint256", "internalType": "uint256" },
+      { "name": "amount", "type": "uint256", "internalType": "uint256" },
+      { "name": "proof", "type": "bytes", "internalType": "bytes" },
+      { "name": "publicInputs", "type": "bytes32[]", "internalType": "bytes32[]" },
+      { "name": "nullifier", "type": "bytes32", "internalType": "bytes32" },
       { "name": "ipfsCID", "type": "string", "internalType": "string" }
     ],
     "outputs": [],

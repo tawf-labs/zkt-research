@@ -68,6 +68,8 @@ contract ShariaZKProofTest is Test {
 
         // Deploy verifier
         groth16Verifier = new Groth16Verifier();
+        HonkVerifier honkVerifier = new HonkVerifier();
+        NullifierRegistry nullifierRegistry = new NullifierRegistry();
 
         // Deploy managers
         proposalManager = new ProposalManager();
@@ -92,7 +94,9 @@ contract ShariaZKProofTest is Test {
             address(shariaReviewManager),
             address(poolManager),
             address(zakatEscrowManager),
-            address(milestoneManager)
+            address(milestoneManager),
+            address(honkVerifier),
+            address(nullifierRegistry)
         );
 
         // Setup permissions

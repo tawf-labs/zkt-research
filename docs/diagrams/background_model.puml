@@ -1,0 +1,56 @@
+@startuml
+skinparam backgroundColor #FEFEFE
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam defaultFontSize 9
+skinparam packagePadding 2
+skinparam nodePadding 2
+
+header <b>Traditional Zakat vs ZK-PZ Proposed Model</b>
+
+package "Traditional Zakat Systems" {
+  actor Donor_T as "Donor"
+  actor Amil_T as "Amil"
+  actor Recipient_T as "Recipient"
+
+  rectangle "Public Blockchain Ledger" {
+    component DonorID as "Donor Identity"
+    component RecipientID as "Recipient Identity"
+    component Amount as "Donation Amount"
+    component History as "Transaction History"
+  }
+
+  Donor_T --> Amil_T : Donation
+  Amil_T --> Recipient_T : Disbursement
+  Amil_T --> DonorID : EXPOSED
+  Amil_T --> RecipientID : EXPOSED
+  Amil_T --> Amount : EXPOSED
+  Amil_T --> History : EXPOSED
+}
+
+package "ZK-PZ Proposed Model" {
+  actor Donor_Z as "Donor"
+  actor Recipient_Z as "Recipient"
+
+  rectangle "Off-Chain Proving" as Proving {
+    component NoirCircuit as "Noir Circuit\n(nisab + hawl)"
+    component BBProver as "Barretenberg\nUltraHONK Prover"
+  }
+
+  rectangle "Ethereum Sepolia" as Sepolia {
+    component ZKVerifier as "ZKVerifier\n(verify proof)"
+    component ZKTCore as "ZKTCore\n(donateZK)"
+    component Escrow as "ZakatEscrowMgr\n(pool accounting)"
+    component ReceiptNFT as "DonationReceiptNFT\n(SBT minting)"
+  }
+
+  Donor_Z --> NoirCircuit : Private Inputs
+  NoirCircuit --> BBProver : ACIR + Witness
+  BBProver --> ZKVerifier : UltraHONK Proof
+  ZKVerifier --> ZKTCore : Verified
+  ZKTCore --> Escrow : Route Funds
+  Escrow --> ReceiptNFT : Mint Receipt
+  ReceiptNFT --> Recipient_Z : SBT Issued
+}
+
+@enduml

@@ -14,11 +14,13 @@ import "../src/DAO/core/ZakatEscrowManager.sol";
 import "../src/DAO/core/MilestoneManager.sol";
 import "../src/DAO/core/ParticipationTracker.sol";
 import "../src/DAO/verifiers/Groth16Verifier.sol";
+import "../src/DAO/verifiers/HonkVerifier.sol";
+import "../src/DAO/NullifierRegistry.sol";
 
 /**
  * @title DeployZKTDAO
- * @notice Deployment script for ZKT Community DAO system on Base Sepolia
- * @dev Run with: forge script script/DeployZKT.s.sol --rpc-url <rpc> --broadcast --verify
+ * @notice Deployment script for ZKT Community DAO system on Ethereum Sepolia
+ * @dev Run with: forge script script/DeployZKT.s.sol --rpc-url sepolia --account tawf-deployer --broadcast
  */
 contract DeployZKT is Script {
     // Deployment addresses
@@ -28,6 +30,8 @@ contract DeployZKT is Script {
     OrganizerNFT public organizerNFT;
     ParticipationTracker public participationTracker;
     Groth16Verifier public groth16Verifier;
+    HonkVerifier public honkVerifier;
+    NullifierRegistry public nullifierRegistry;
 
     ProposalManager public proposalManager;
     VotingManager public votingManager;
@@ -62,6 +66,12 @@ contract DeployZKT is Script {
         console.log("\n1.5. Deploying ZK verifier...");
         groth16Verifier = new Groth16Verifier();
         console.log("Groth16Verifier deployed at:", address(groth16Verifier));
+
+        honkVerifier = new HonkVerifier();
+        console.log("HonkVerifier deployed at:", address(honkVerifier));
+
+        nullifierRegistry = new NullifierRegistry();
+        console.log("NullifierRegistry deployed at:", address(nullifierRegistry));
 
         // 2. Deploy Managers (Dependency Order)
         console.log("\n2. Deploying core managers...");
@@ -120,7 +130,9 @@ contract DeployZKT is Script {
             address(shariaReviewManager),
             address(poolManager),
             address(zakatEscrowManager),
-            address(milestoneManager)
+            address(milestoneManager),
+            address(honkVerifier),
+            address(nullifierRegistry)
         );
         console.log("ZKTCore deployed at:", address(dao));
 
@@ -149,6 +161,7 @@ contract DeployZKT is Script {
         shariaReviewManager.grantRole(dao.DEFAULT_ADMIN_ROLE(), address(dao));
 
         poolManager.grantRole(poolManager.ADMIN_ROLE(), address(dao));
+        poolManager.grantRole(poolManager.CORE_ROLE(), address(dao));
         poolManager.grantRole(dao.DEFAULT_ADMIN_ROLE(), address(dao));
 
         zakatEscrowManager.grantRole(
@@ -199,6 +212,7 @@ contract DeployZKT is Script {
             receiptNFT.MINTER_ROLE(),
             address(zakatEscrowManager)
         );
+        receiptNFT.grantRole(receiptNFT.MINTER_ROLE(), address(dao));
         votingNFT.grantRole(votingNFT.MINTER_ROLE(), address(dao));
         votingNFT.grantRole(votingNFT.ADMIN_ROLE(), address(dao));
         votingNFT.grantRole(votingNFT.UPGRADER_ROLE(), address(dao));

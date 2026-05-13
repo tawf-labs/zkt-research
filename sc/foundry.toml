@@ -7,8 +7,9 @@ optimizer = true
 optimizer_runs = 1
 via_ir = true
 
-# Base Sepolia testnet configuration
+# RPC endpoints
 [rpc_endpoints]
+sepolia = "${SEPOLIA_RPC_URL}"
 base_sepolia = "https://sepolia.base.org"
 lisk_sepolia = "https://rpc.sepolia-api.lisk.com"
 # celo_sepolia = "https://celo-sepolia.drpc.org"

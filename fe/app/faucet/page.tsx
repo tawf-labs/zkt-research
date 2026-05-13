@@ -154,7 +154,7 @@ export default function FaucetPage() {
           </div>
           <CardTitle className="text-3xl">MockIDRX Faucet</CardTitle>
           <CardDescription>
-            Get free testnet MockIDRX tokens for testing donations on Base Sepolia
+            Get free testnet MockIDRX tokens for testing donations on Ethereum Sepolia
           </CardDescription>
         </CardHeader>
 
@@ -291,7 +291,7 @@ export default function FaucetPage() {
         <p className="font-semibold text-blue-900 dark:text-blue-100">ℹ️ Faucet Information</p>
         <ul className="list-disc list-inside text-blue-800 dark:text-blue-200 space-y-1">
           <li>Claim limit: Once every 24 hours per address (MockIDRX)</li>
-          <li>Network: Base Sepolia Testnet</li>
+          <li>Network: Ethereum Sepolia</li>
           <li>Tokens are for testing purposes only</li>
           <li>Use tokens to donate to campaigns and test governance</li>
         </ul>

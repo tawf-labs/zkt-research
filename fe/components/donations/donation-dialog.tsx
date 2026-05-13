@@ -11,7 +11,7 @@ import { useWallet } from "@/components/providers/web3-provider";
 import { useToast } from "@/hooks/use-toast";
 import { parseAmount } from "@/lib/abi";
 import { useCampaignStatus } from "@/hooks/useCampaignStatus";
-import { usePrivateDonate } from "@/hooks/usePrivateDonate";
+import { usePrivateDonation } from "@/hooks/usePrivateDonation";
 import { ZakatCertificateModal } from "@/components/certificates/zakat-certificate-modal";
 
 interface DonationDialogProps {
@@ -45,7 +45,7 @@ export function DonationDialog({
   } | null>(null);
 
   const { donate, isConnected, formattedIdrxBalance, isDonating } = useWallet();
-  const { donatePrivate, isLoading: isPrivateDonating } = usePrivateDonate();
+  const { donateZK, isLoading: isPrivateDonating } = usePrivateDonation();
   const { toast } = useToast();
   const { address } = useAccount();
 
@@ -117,10 +117,9 @@ export function DonationDialog({
 
       if (isPrivate) {
         // Private donation
-        const result = await donatePrivate({
+        const result = await donateZK({
           poolId,
           amount: amountInWei,
-          campaignTitle,
         });
 
         if (result && result.txHash) {
@@ -346,7 +345,7 @@ export function DonationDialog({
               ) : (
                 <>
                   <li>Earn vZKT governance tokens (1:1 ratio)</li>
-                  <li>All transactions recorded on Base Sepolia</li>
+                  <li>All transactions recorded on Ethereum Sepolia</li>
                 </>
               )}
             </ul>

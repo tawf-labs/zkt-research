@@ -719,7 +719,7 @@ const DonorDashboard: React.FC = () => {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="p-4 border border-border rounded-lg">
                           <div className="text-sm text-muted-foreground mb-1">{t("dashboard.network")}</div>
-                          <div className="font-semibold">Base Sepolia</div>
+                          <div className="font-semibold">Ethereum Sepolia</div>
                         </div>
                         <div className="p-4 border border-border rounded-lg">
                           <div className="text-sm text-muted-foreground mb-1">{t("dashboard.balance")}</div>

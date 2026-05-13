@@ -10,9 +10,17 @@ import "./ProposalManager.sol";
 /**
  * @title PoolManager
  * @notice Handles campaign pool creation and fundraising
+ * @dev Critical withdrawal functions restricted to CORE_ROLE (ZKTCore)
  */
 contract PoolManager is AccessControl, ReentrancyGuard {
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
+    bytes32 public constant CORE_ROLE = keccak256("CORE_ROLE");
+    
+    /// @notice Modifier to restrict functions to CORE_ROLE holders (ZKTCore)
+    modifier onlyCore() {
+        require(hasRole(CORE_ROLE, msg.sender), "PoolManager: only CORE_ROLE");
+        _;
+    }
     
     struct CampaignPool {
         uint256 poolId;
@@ -205,31 +213,33 @@ contract PoolManager is AccessControl, ReentrancyGuard {
             "IDRX transfer failed"
         );
 
-        // For private donations, we don't track donor address in the public donors array
-        // The donor still receives an NFT receipt for proof of donation
-        poolDonations[poolId][donor] += amount;
+        // For private donations: track total raised but NOT individual donor addresses
+        // The donor address is kept private - only the commitment is recorded
         pool.raisedAmount += amount;
 
-        // Mint NFT receipt
+        // For private donations, mint NFT to a neutral address or skip minting
+        // The commitment serves as proof without revealing donor identity
+        // In production: could mint to address(0) and emit commitment-based receipt
         string memory campaignTypeStr = pool.campaignType == IProposalManager.CampaignType.ZakatCompliant
             ? "Zakat"
             : "Normal";
-        uint256 receiptTokenId = receiptNFT.mint(donor, poolId, amount, pool.campaignTitle, campaignTypeStr, ipfsCID);
-
-        emit PrivateDonationReceived(poolId, commitment, amount, receiptTokenId);
+        
+        // Emit event with commitment (not donor address) for privacy
+        emit PrivateDonationReceived(poolId, commitment, amount, 0);
 
         if (pool.raisedAmount >= pool.fundingGoal) {
             emit FundingGoalReached(poolId, pool.raisedAmount);
         }
     }
     
-    function withdrawFunds(address organizer, uint256 poolId) external nonReentrant {
+    function withdrawFunds(address organizer, uint256 poolId) external onlyCore nonReentrant {
         CampaignPool storage pool = campaignPools[poolId];
 
         require(pool.organizer == organizer, "Not organizer");
         require(!pool.fundsWithdrawn, "Funds already withdrawn");
         require(pool.raisedAmount > 0, "No funds to withdraw");
         require(!pool.usesMilestones, "Use withdrawMilestoneFunds for milestone campaigns");
+        require(pool.raisedAmount >= pool.fundingGoal, "Funding goal not met");
 
         pool.fundsWithdrawn = true;
         pool.isActive = false;
@@ -256,6 +266,7 @@ contract PoolManager is AccessControl, ReentrancyGuard {
      */
     function withdrawMilestoneFunds(address organizer, uint256 poolId, uint256 milestoneId)
         external
+        onlyCore
         nonReentrant
     {
         CampaignPool storage pool = campaignPools[poolId];

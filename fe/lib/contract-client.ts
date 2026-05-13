@@ -1,11 +1,11 @@
 import { createPublicClient, http, getAddress } from 'viem';
-import { baseSepolia } from 'viem/chains';
+import { sepolia } from 'viem/chains';
 import { CONTRACT_ADDRESSES, ZKTCoreABI, PoolManagerABI, ProposalManagerABI, ZakatEscrowManagerABI } from './abi';
 
 // Create a public client for reading contract data
 export const publicClient = createPublicClient({
-  chain: baseSepolia,
-  transport: http(process.env.NEXT_PUBLIC_BASE_SEPOLIA_RPC_URL || 'https://sepolia.base.org'),
+  chain: sepolia,
+  transport: http(process.env.NEXT_PUBLIC_ETHEREUM_SEPOLIA_RPC_URL || 'https://ethereum-sepolia.publicnode.com'),
 });
 
 // Campaign metadata type (stored on-chain via IPFS URI)

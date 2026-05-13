@@ -1,0 +1,11 @@
+{
+  "income": "5",
+  "assets": "10",
+  "hawl_start": "1704067200",
+  "secret": "123",
+  "nisab_threshold": "85",
+  "current_time": "1750000000",
+  "recipient_address": "10",
+  "cycle_id": "1",
+  "expected_nullifier": "142"
+}

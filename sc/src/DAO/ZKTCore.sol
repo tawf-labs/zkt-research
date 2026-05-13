@@ -9,6 +9,8 @@ import "./core/ZakatEscrowManager.sol";
 import "./core/MilestoneManager.sol";
 import "./core/ParticipationTracker.sol";
 import "./verifiers/Groth16Verifier.sol";
+import "./verifiers/HonkVerifier.sol";
+import "./NullifierRegistry.sol";
 import "../tokens/MockIDRX.sol";
 import "../tokens/DonationReceiptNFT.sol";
 import "../tokens/VotingNFT.sol";
@@ -41,6 +43,8 @@ contract ZKTCore is AccessControl {
     DonationReceiptNFT public receiptNFT;
     VotingNFT public votingNFT;
     OrganizerNFT public organizerNFT;
+    IHonkVerifier public honkVerifier;
+    NullifierRegistry public nullifierRegistry;
     
     constructor(
         address _idrxToken,
@@ -53,7 +57,9 @@ contract ZKTCore is AccessControl {
         address _shariaReviewManager,
         address _poolManager,
         address _zakatEscrowManager,
-        address _milestoneManager
+        address _milestoneManager,
+        address _honkVerifier,
+        address _nullifierRegistry
     ) {
         require(_idrxToken != address(0), "Invalid IDRX token");
         require(_receiptNFT != address(0), "Invalid receipt NFT");
@@ -66,6 +72,8 @@ contract ZKTCore is AccessControl {
         require(_poolManager != address(0), "Invalid PoolManager");
         require(_zakatEscrowManager != address(0), "Invalid ZakatEscrowManager");
         require(_milestoneManager != address(0), "Invalid MilestoneManager");
+        require(_honkVerifier != address(0), "Invalid HonkVerifier");
+        require(_nullifierRegistry != address(0), "Invalid NullifierRegistry");
 
         idrxToken = MockIDRX(_idrxToken);
         receiptNFT = DonationReceiptNFT(_receiptNFT);
@@ -79,6 +87,8 @@ contract ZKTCore is AccessControl {
         poolManager = PoolManager(_poolManager);
         zakatEscrowManager = ZakatEscrowManager(_zakatEscrowManager);
         milestoneManager = MilestoneManager(_milestoneManager);
+        honkVerifier = IHonkVerifier(_honkVerifier);
+        nullifierRegistry = NullifierRegistry(_nullifierRegistry);
 
         // Setup deployer as DEFAULT_ADMIN_ROLE to grant initial roles
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
@@ -529,6 +539,43 @@ contract ZKTCore is AccessControl {
             poolManager.donatePrivate(msg.sender, poolId, amount, commitment, ipfsCID);
         }
     }
+
+    /**
+     * @notice Make a ZK-private donation with UltraHONK proof verification
+     * @param poolId Pool receiving the donation
+     * @param amount Donation amount in IDRX tokens
+     * @param proof UltraHONK proof bytes (msgpack, ~8KB)
+     * @param publicInputs Public inputs from circuit (nisab_threshold, current_time,
+     *        recipient_address, cycle_id, expected_nullifier, + padding)
+     * @param nullifier The nullifier from the proof (checked on-chain)
+     * @param ipfsCID IPFS CID for the donation receipt
+     */
+    function donateZK(
+        uint256 poolId,
+        uint256 amount,
+        bytes calldata proof,
+        bytes32[] calldata publicInputs,
+        bytes32 nullifier,
+        string calldata ipfsCID
+    ) external {
+        require(honkVerifier.verify(proof, publicInputs), "Invalid ZK proof");
+
+        nullifierRegistry.spend(nullifier);
+
+        zakatEscrowManager.donate(msg.sender, poolId, amount, ipfsCID);
+
+        emit ZKDonationReceived(poolId, nullifier, amount, msg.sender);
+    }
+
+    /**
+     * @notice Emitted when a ZK-verified private donation is received
+     */
+    event ZKDonationReceived(
+        uint256 indexed poolId,
+        bytes32 indexed nullifier,
+        uint256 amount,
+        address indexed donor
+    );
 
     /**
      * @notice Withdraw funds from campaign pool

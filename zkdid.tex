@@ -99,6 +99,13 @@ Institutional accountability & Amil institutions verify aggregate compliance wit
 \end{center}
 \end{table}
 
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.92\columnwidth]{class_diagram.png}
+\caption{ZK-PZ Smart Contract Architecture with Sepolia addresses}
+\label{fig:classdiagram}
+\end{figure}
+
 \subsection{System Architecture and Payment Flow}
 
 The platform employs a hybrid architecture combining Noir circuits on the client side with Ethereum Sepolia for public settlement. Donors pay in stablecoins or ETH; funds flow through off-chain proof generation and on-chain verification via the \texttt{donateZK()} function. This design ensures that individual donation privacy is maintained through cryptographic proofs while institutional accountability is achieved through on-chain event emission and nullifier tracking.

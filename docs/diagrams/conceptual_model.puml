@@ -9,7 +9,6 @@ skinparam nodePadding 2
 header <b>ZK-PZ Protocol Architecture</b>
 
 actor Donor
-actor Recipient
 
 package "Off-Chain Proving Pipeline" {
   rectangle "Noir Circuit\n(29 ACIR opcodes)" as Circuit

@@ -10,7 +10,7 @@ header <b>Design Science Research Methodology</b>
 
 rectangle "Phase 1:\nProblem Identification\n--\nLiterature review: 29 papers\nBlockchain zakat [2,3,4]\nZKP frameworks [7,8,14]\nIslamic finance [20,21]" as P1 #E3F2FD
 rectangle "Phase 2:\nSolution Design\n--\nZK-PZ protocol design\nNoir circuit (nisab+hawl)\n4-tier privacy model\n5 security properties" as P2 #BBDEFB
-rectangle "Phase 3:\nImplementation\n--\nnargo v1.0.0-beta.21\nBarretenberg v4.2.1\n16 Solidity contracts\nNext.js 15 PWA frontend" as P3 #90CAF9
+rectangle "Phase 3:\nImplementation\n--\nnargo v1.0.0-beta.21\nBarretenberg v4.2.1\n15+ Solidity contracts\nNext.js 15 PWA frontend" as P3 #90CAF9
 rectangle "Phase 4:\nDemonstration\n--\nSepolia testnet deploy\nProof: 248ms, 8,384 bytes\nVerify: 12.8ms avg\nTx: 0xdfaca7...eb9f" as P4 #64B5F6
 rectangle "Phase 5:\nEvaluation\n--\nFoundry gas reports\nSecurity properties (4)\nSharia compliance review\n6-page IEEE paper" as P5 #42A5F5
 

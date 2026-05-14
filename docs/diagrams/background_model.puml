@@ -51,7 +51,7 @@ package "ZK-PZ Proposed Model" {
   ZKTCore --> Escrow : Route Funds
   Escrow --> ReceiptNFT : Mint Receipt
   ReceiptNFT --> Donor_Z : SBT Minted
-  Escrow --> Recipient_Z : Zakat Disbursement
+  Escrow ..> Recipient_Z : Amil-managed\ndisbursement
 }
 
 @enduml

@@ -30,6 +30,10 @@ muhammad.fatonie@binus.ac.id}
 Zakat, one of the five pillars of Islam, represents a mandatory annual obligation for wealth redistribution with profound social welfare implications. Despite growing interest in blockchain-based zakat platforms, existing systems expose complete donor-recipient transaction records on public ledgers, creating a fundamental tension with Islamic principles of dignity preservation. This paper proposes a Zero-Knowledge Private Zakat (ZK-PZ) protocol that enables cryptographically private donations while maintaining verifiable transparency and Sharia compliance. The proposed architecture leverages Aztec Network's private transaction infrastructure, implementing programmable privacy through Noir smart contracts, nullifier-based double-donation prevention, and selective disclosure mechanisms. Donors can contribute zakat with complete anonymity or selective disclosure while recipients receive disbursements through encrypted private notes. The protocol preserves institutional trustworthiness through on-chain verification of proof validity while eliminating public exposure of individual transaction data. A prototype implementation on Ethereum Sepolia demonstrates technical feasibility, with UltraHONK proof generation averaging 248 ms and end-to-end donation gas costs of 545K gas per transaction. This work proposes a domain-specific privacy protocol designed for Islamic social finance, directly addressing the maqasid al-shariah imperative of nafs (dignity) protection.
 \end{abstract}
 
+\begin{IEEEkeywords}
+Aztec Network, Blockchain, Ethereum Sepolia, Islamic FinTech, Noir, Nullifier Mechanism, Privacy-Preserving Donations, Sharia Compliance, Zakat, Zero-Knowledge Proofs
+\end{IEEEkeywords}
+
 \section{Introduction}
 
 Zakat management at the intersection of Islamic jurisprudence and modern blockchain infrastructure presents both an opportunity and a challenge. BAZNAS [1] reports that the annual zakat potential in Indonesia alone is estimated at Rp~327 trillion (approximately USD~20 billion), while actual collection remains a fraction of that figure.
@@ -39,10 +43,6 @@ The advent of distributed ledger technology has prompted substantial research in
 Zero-Knowledge Proofs (ZKPs) offer a cryptographic resolution to this paradox. Hameed et al. [7] survey ZKP constructions, and Wen et al. [8] analyze non-interactive variants (zk-SNARKs) suitable for blockchain deployment. The Aztec Network [9] provides an infrastructure for privacy-preserving transactions on Ethereum. Through its hybrid public-private state model, Aztec enables donors to transact with complete shielding. Only the donor, recipient, and smart contract can decrypt transaction details. The network utilizes Noir circuits [10] for programmable privacy logic and the UltraHONK proof system for efficient verification. Despite these advances, no prior work has proposed a domain-specific protocol for privacy-preserving zakat donations. This paper addresses that gap by designing, implementing, and evaluating a ZK Private Zakat (ZK-PZ) protocol. The work formalizes a private transaction model for zakat donations using Aztec's programmable privacy architecture, designs Noir circuits for Sharia-compliant eligibility verification, develops a nullifier-based double-donation prevention mechanism, and deploys a working prototype on Ethereum Sepolia. The study explores how Aztec's private transaction infrastructure can be adapted for zakat donations while maintaining institutional accountability. It examines what Noir circuit design patterns enable Sharia-compliant eligibility verification. It also investigates how the protocol satisfies the tension between nafs protection and amanah requirements in maqasid al-shariah.
 
 This paper contributes a domain-specific privacy protocol for Islamic social finance, featuring a Noir-based circuit implementing nisab and hawl eligibility verification as verifiable predicates, a nullifier mechanism preventing re-claiming without identity exposure, and a tiered donor privacy model. The prototype achieves UltraHONK proof generation averaging 248 ms and end-to-end donation gas costs of 545K gas on Ethereum Sepolia.
-
-\begin{IEEEkeywords}
-Aztec Network, Blockchain, Ethereum Sepolia, Islamic FinTech, Noir, Nullifier Mechanism, Privacy-Preserving Donations, Sharia Compliance, Zakat, Zero-Knowledge Proofs
-\end{IEEEkeywords}
 
 \section{Literature Review}
 
@@ -199,7 +199,7 @@ ShariaReviewManager   & Deploy                              & 2,114,307 \\
 
 \subsection{Sharia Compliance and Deployment}
 
-The protocol aligns with maqasid al-shariah \cite{b_maqasid_data,b_maqasid_privacy,b_maqasid_blockchain}. \textit{Nafs} (dignity) protection ensures donor/recipient financial privacy. \textit{Mal} (wealth) uses cryptographic integrity. \textit{Amanah} (trustworthiness) is satisfied through on-chain verification \cite{b_zakat_transparency}. Deployment requires Aztec integration, amil training, and OJK Sandbox alignment.
+The principle of maqasid al-shariah (objectives of Islamic law) explicitly protects \textit{nafs} (life and dignity) of individuals [5, 6]. In Islamic jurisprudence, preservation of donor and recipient privacy during charitable giving is considered a virtuous act that maintains dignity for both parties [5, 6]. This research applies privacy-preserving mechanisms to the donor side through ZK proofs and nullifier-based anonymity. Recipient privacy preservation through encrypted private notes and selective disclosure is reserved for future work by the authors. The protocol aligns with \textit{mal} (wealth) protection through cryptographic integrity guarantees against fraud and double-donation. \textit{Amanah} (trustworthiness) for amil institutions is satisfied through on-chain verification of proof validity without exposing individual transaction data \cite{b_zakat_transparency}. Deployment requires Aztec Network integration, amil staff training, and regulatory alignment with OJK Fintech Sandbox requirements.
 
 \subsection{Limitations and Future Work}
 

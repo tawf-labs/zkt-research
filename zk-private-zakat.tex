@@ -78,7 +78,7 @@ Fig.~\ref{fig:background} contrasts traditional zakat systems, where donor-recip
 
 \section{Methodology}
 
-This study adopts a Design Science Research (DSR) approach. Fig.~\ref{fig:dsr} illustrates the five-phase methodology: Phase 1 identifies the research problem through a literature search spanning blockchain zakat, ZKP privacy frameworks, and Islamic finance instruments across 29 papers published between 2021 and 2025. Phase 2 designs the ZK-PZ protocol, Noir circuit architecture encoding nisab and hawl verification, and the four-tier privacy model. Phase 3 implements the system using nargo v1.0.0-beta.21, Barretenberg v4.2.1, 15+ Solidity contracts deployed to Sepolia, and a Next.js 15 PWA frontend with wagmi/XellarKit wallet connectivity. Phase 4 demonstrates the prototype on Sepolia testnet with benchmarked performance of 248 ms proof generation and 12.8 ms verification. Phase 5 evaluates through Foundry gas reports, security properties analysis, and Sharia compliance review.
+This study adopts a Design Science Research (DSR) approach. Fig.~\ref{fig:dsr} illustrates the five-phase methodology: Phase 1 identifies the research problem through a literature search spanning blockchain zakat, ZKP privacy frameworks, and Islamic finance instruments across 29 papers published between 2021 and 2025. Phase 2 designs the ZK-PZ protocol, Noir circuit architecture encoding nisab and hawl verification, and the four-tier privacy model. Phase 3 implements the system using nargo v1.0.0-beta.21, Barretenberg v4.2.1, 17 Solidity contracts deployed to Sepolia, and a Next.js 15 PWA frontend with wagmi/XellarKit wallet connectivity. Phase 4 demonstrates the prototype on Sepolia testnet with benchmarked performance of 248 ms proof generation and 12.8 ms verification. Phase 5 evaluates through Foundry gas reports, security properties analysis, and Sharia compliance review.
 
 \begin{figure}[!ht]
 \centering
@@ -171,7 +171,7 @@ Proof size                  & 8,384 bytes \\
 
 \subsection{Sepolia Deployment and Gas Consumption}
 
-Fifteen contracts were deployed to Sepolia (chain ID 11155111). The ZKTCore (v5) routes \texttt{donateZK()} through \texttt{zakatEscrowManager.donate()} for pool accounting. An end-to-end donation (tx 0xdfaca7...eb9f) completed verification, nullifier registration, transfer, NFT minting, and event emission in 545K gas.
+17 contracts deployed to Sepolia (chain ID 11155111). The ZKTCore (v6, 0x1da632...d35a) routes \texttt{donateZK()} through \texttt{zakatEscrowManager.donate()} for pool accounting. An end-to-end donation (tx 0xdfaca7...eb9f) completed verification, nullifier registration, transfer, NFT minting, and event emission in 545K gas.
 
 Table~\ref{tab:gas} reports gas costs measured via Foundry gas reports.
 

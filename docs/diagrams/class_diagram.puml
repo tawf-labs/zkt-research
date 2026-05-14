@@ -7,7 +7,7 @@ skinparam classBorderThickness 1.5
 
 header <b>ZK-PZ Smart Contract Architecture</b>
 
-class "ZKTCore\n(v5, 0xaAebE1...C04A)" as ZKTCore {
+class "ZKTCore\n(v6, 0x1da632...d35a)" as ZKTCore {
   - honkVerifier: IHonkVerifier
   - nullifierRegistry: NullifierRegistry
   - zakatEscrowManager: ZakatEscrowManager
@@ -29,7 +29,7 @@ class "ZKVerifier\n(0x50471F...9ca66)" as ZKVerifier {
   + ProofVerified(bytes32,bytes32)
 }
 
-class "NullifierRegistry\n(0x034f31...4d018)" as NullifierRegistry {
+class "NullifierRegistry\n(0x7eC936...617b)" as NullifierRegistry {
   - spentNullifiers: mapping(bytes32=>bool)
   --
   + spend(bytes32): void
@@ -48,7 +48,7 @@ class ZakatEscrowManager {
   + withdrawFunds(address,uint256)
 }
 
-class "DonationReceiptNFT\n(0xB17c98...98a9)" as DonationReceiptNFT {
+class "DonationReceiptNFT\n(0x10310d...157d)" as DonationReceiptNFT {
   - tokenMetadata: mapping(uint256=>SBTMetadata)
   - donorTokens: mapping(address=>uint256[])
   - MINTER_ROLE: bytes32
@@ -57,7 +57,7 @@ class "DonationReceiptNFT\n(0xB17c98...98a9)" as DonationReceiptNFT {
   + burn(uint256,string)
 }
 
-class "MockIDRX\n(0x856d02...75e0)" as MockIDRX {
+class "MockIDRX\n(0x18f54a...5d4b)" as MockIDRX {
   --
   + adminMint(address,uint256)
   + faucet(address)

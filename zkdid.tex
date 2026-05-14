@@ -40,15 +40,6 @@ Zero-Knowledge Proofs (ZKPs) offer a cryptographic resolution to this paradox. H
 
 This paper contributes a domain-specific privacy protocol for Islamic social finance, featuring a Noir-based circuit implementing nisab and hawl eligibility verification as verifiable predicates, a nullifier mechanism preventing re-claiming without identity exposure, and a tiered donor privacy model. The prototype achieves UltraHONK proof generation averaging 262 ms and donation gas costs of approximately 490K gas on Ethereum Sepolia.
 
-Fig.~\ref{fig:positioning} positions this research relative to four adjacent domains. Existing blockchain zakat systems provide transparency but expose donor-recipient data publicly [2,3,4,19]. General ZKP privacy frameworks enable anonymous transactions without Islamic eligibility predicates [7,8,14]. Islamic social finance studies digitize zakat without ZK integration [20,21]. Smart contract platforms expose all state changes on public ledgers [9,18]. This paper proposes ZK-PZ, which bridges all four domains by combining zero-knowledge proofs with Sharia-compliant eligibility verification.
-
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=0.72\columnwidth]{research_positioning.png}
-\caption{Research positioning of ZK-PZ relative to four adjacent domains}
-\label{fig:positioning}
-\end{figure}
-
 \begin{IEEEkeywords}
 Aztec Network, Blockchain, Ethereum Sepolia, Islamic FinTech, Noir, Nullifier Mechanism, Privacy-Preserving Donations, Sharia Compliance, Zakat, Zero-Knowledge Proofs
 \end{IEEEkeywords}
@@ -59,7 +50,18 @@ Blockchain-based zakat management has attracted increasing research interest. Ba
 
 On the zero-knowledge proof front, Hameed et al. [7] survey ZKP constructions, and Wen et al. [8] analyze zk-SNARK variants suitable for blockchain deployment. Williams \cite{b_zkp_cacm} provides a contemporary overview of ZKPs and their expanding role within blockchain technology. Grassi et al. [11] introduce the Poseidon hash function, which reduces constraint count by up to 8$\times$ compared to Pedersen Hash on EVM chains. For this work, Noir [10] is selected for its integration with the Aztec Network [9], which provides programmable privacy through a hybrid public-private state model with note hash trees and nullifier mechanisms. Buterin et al. [15] propose ZKP-based privacy-preserving and regulation-compliant frameworks, and M\"{u}hle et al. [18] present zk-SNARK-based identity management suitable for KYC integration.
 
-Three research gaps are identified. (1) Existing blockchain-based zakat platforms lack privacy-preserving transaction mechanisms [2, 3]. (2) Private transaction frameworks are designed for general-purpose anonymity without Islamic jurisprudential eligibility criteria [15, 14]. (3) The integration of programmable privacy with Islamic social finance has not been explored [21, 5]. This paper directly addresses all three gaps. Fig.~\ref{fig:background} contrasts traditional zakat systems, where donor-recipient data sits exposed on a public ledger, with the proposed ZK-PZ model that preserves privacy through off-chain proving and bounded on-chain disclosure.
+Three research gaps are identified. (1) Existing blockchain-based zakat platforms lack privacy-preserving transaction mechanisms [2, 3]. (2) Private transaction frameworks are designed for general-purpose anonymity without Islamic jurisprudential eligibility criteria [15, 14]. (3) The integration of programmable privacy with Islamic social finance has not been explored [21, 5]. This paper directly addresses all three gaps.
+
+Fig.~\ref{fig:positioning} positions this research relative to four adjacent domains. Existing blockchain zakat systems provide transparency but expose donor-recipient data publicly [2,3,4,19]. General ZKP privacy frameworks enable anonymous transactions without Islamic eligibility predicates [7,8,14]. Islamic social finance studies digitize zakat without ZK integration [20,21]. Smart contract platforms expose all state changes on public ledgers [9,18]. This paper proposes ZK-PZ, which bridges all four domains by combining zero-knowledge proofs with Sharia-compliant eligibility verification.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.42\columnwidth]{research_positioning.png}
+\caption{Research positioning of ZK-PZ relative to four adjacent domains}
+\label{fig:positioning}
+\end{figure}
+
+Fig.~\ref{fig:background} contrasts traditional zakat systems, where donor-recipient data sits exposed on a public ledger, with the proposed ZK-PZ model that preserves privacy through off-chain proving and bounded on-chain disclosure.
 
 \begin{figure}[!ht]
 \centering
@@ -121,7 +123,7 @@ Fig.~\ref{fig:conceptual} depicts the three-layer protocol architecture: the off
 
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=0.70\columnwidth]{usecase.png}
+\includegraphics[width=0.28\columnwidth]{usecase.png}
 \caption{ZK-PZ Donation Flow: from wallet connection to SBT receipt to the donor}
 \label{fig:usecase}
 \end{figure}

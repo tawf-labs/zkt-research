@@ -1,0 +1,22 @@
+@startuml
+skinparam backgroundColor #FEFEFE
+skinparam shadowing false
+skinparam defaultFontName Times-Roman
+skinparam defaultFontSize 9
+skinparam arrowThickness 1.5
+
+header <b>Research Positioning of ZK-PZ</b>
+
+rectangle "Existing Blockchain Zakat\n--\nProvide transparency but\nexpose all donor-recipient\ndata publicly.\n\n[2,3,4,19]" as TL
+rectangle "General ZKP Privacy\n--\nEnable anonymous transactions\nbut lack Islamic eligibility\npredicates.\n\n[7,8,14,15]" as TR
+rectangle "Islamic Social Finance\n--\nStudy zakat/waqf digitization\nwithout ZK privacy\nintegration.\n\n[20,21,24,25]" as BL
+rectangle "Smart Contract Platforms\n--\nOffer programmable logic but\nall state changes visible\non-chain.\n\n[9,18,29]" as BR
+
+rectangle "ZK-PZ: Private Zakat\nwith ZK Verification\n--\nBridges all four domains\nthrough ZKP + Sharia\neligibility verification" as CENTER #CCFFCC
+
+TL -down-> CENTER
+TR -down-> CENTER
+BL -up-> CENTER
+BR -up-> CENTER
+
+@enduml

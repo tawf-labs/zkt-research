@@ -1,37 +1,35 @@
 @startuml
 skinparam backgroundColor #FEFEFE
 skinparam shadowing false
-skinparam defaultFontName Arial
-skinparam defaultFontSize 9
-skinparam usecasePadding 2
+skinparam defaultFontName Times-Roman
+skinparam defaultFontSize 8
+skinparam rectangleBorderThickness 1.5
 
 header <b>ZK-PZ Donation Flow</b>
 
-actor Donor
-actor Recipient
+rectangle "START" as START
+rectangle "Wallet Connect\n(wagmi + XellarKit)" as WC
+rectangle "Select Privacy Tier\n(Private / Semi / Public)" as TIER
+rectangle "Provide Amount\n+ Private Inputs" as INPUT
+rectangle "Generate ZK Proof\n(Noir + bb prove)\n262ms, 8,384 bytes" as PROOF
+rectangle "Submit donateZK()\nto Sepolia" as TX
+rectangle "ZKVerifier\nVerify Proof + Anchor Hash" as VERIFY
+rectangle "NullifierRegistry\nSpend Nullifier\n(double-donation)" as NULL
+rectangle "ZakatEscrowManager\nRoute Funds\n+ Pool Accounting" as ESCROW
+rectangle "DonationReceiptNFT\nMint SBT Receipt" as MINT
+rectangle "Recipient Gets\nNFT Receipt" as RECIP
+rectangle "END" as END
 
-usecase UC1 as "Connect Wallet\n(wagmi + XellarKit)"
-usecase UC2 as "Select Privacy Tier\n(Private/Semi/Public)"
-usecase UC3 as "Provide Amount\n+ Private Inputs"
-usecase UC4 as "Generate ZK Proof\n(Noir + bb prove)\n262ms, 8,384 bytes"
-usecase UC5 as "Submit donateZK()\nto Sepolia"
-usecase UC6 as "ZKVerifier\nVerify Proof\n+ Anchor Hash"
-usecase UC7 as "NullifierRegistry\nSpend Nullifier\n(double-donation)"
-usecase UC8 as "ZakatEscrowManager\nRoute Funds\n+ Pool Accounting"
-usecase UC9 as "DonationReceiptNFT\nMint SBT"
-usecase UC10 as "Recipient Receives\nNFT Receipt"
-
-Donor --> UC1
-Donor --> UC2
-Donor --> UC3
-UC3 ..> UC4 : triggers
-UC4 ..> UC5 : proof ready
-Donor --> UC5
-UC5 ..> UC6 : verify
-UC6 ..> UC7 : if valid
-UC7 ..> UC8 : nullifier spent
-UC8 ..> UC9 : fund + account
-UC9 ..> UC10 : SBT minted
-UC10 --> Recipient
+START -down-> WC
+WC -down-> TIER
+TIER -down-> INPUT
+INPUT -down-> PROOF
+PROOF -down-> TX
+TX -down-> VERIFY
+VERIFY -down-> NULL
+NULL -down-> ESCROW
+ESCROW -down-> MINT
+MINT -down-> RECIP
+RECIP -down-> END
 
 @enduml

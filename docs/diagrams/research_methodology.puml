@@ -2,8 +2,9 @@
 skinparam backgroundColor #FEFEFE
 skinparam shadowing false
 skinparam defaultFontName Times-Roman
-skinparam defaultFontSize 9
+skinparam defaultFontSize 10
 skinparam rectangleBorderThickness 1.5
+skinparam dpi 150
 
 header <b>Design Science Research Methodology</b>
 

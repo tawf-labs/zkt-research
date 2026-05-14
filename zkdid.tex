@@ -112,7 +112,7 @@ Institutional accountability & Amil institutions verify aggregate compliance wit
 \end{center}
 \end{table}
 
-Fig.~\ref{fig:conceptual} depicts the three-layer protocol architecture: the off-chain proving pipeline where Noir circuits compile to ACIR and Barretenberg generates UltraHONK proofs at 262 ms, the Sepolia settlement layer hosting ZKTCore and ZakatEscrowManager, and the Next.js PWA frontend with wagmi/XellarKit wallet connectivity. Fig.~\ref{fig:usecase} shows the donation flow from wallet connection through on-chain verification to SBT receipt to the donor.
+Fig.~\ref{fig:conceptual} depicts the three-layer protocol architecture: the off-chain proving pipeline where Noir circuits compile to ACIR and Barretenberg generates UltraHONK proofs at 262 ms, the Sepolia settlement layer hosting ZKTCore and ZakatEscrowManager, and the Next.js PWA frontend with wagmi/XellarKit wallet connectivity. Fig.~\ref{fig:usecase} shows the donation flow from wallet connection through on-chain verification to SBT receipt to the donor. Fig.~\ref{fig:classdiagram} presents the UML class diagram with contract addresses and cardinality.
 
 \begin{figure}[!ht]
 \centering
@@ -126,6 +126,13 @@ Fig.~\ref{fig:conceptual} depicts the three-layer protocol architecture: the off
 \includegraphics[width=0.28\columnwidth]{usecase.png}
 \caption{ZK-PZ Donation Flow: from wallet connection to SBT receipt to the donor}
 \label{fig:usecase}
+\end{figure}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.90\columnwidth]{class_diagram.png}
+\caption{ZK-PZ Smart Contract Architecture with Sepolia addresses and cardinality}
+\label{fig:classdiagram}
 \end{figure}
 
 \subsection{System Architecture and Payment Flow}

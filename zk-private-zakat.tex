@@ -33,7 +33,7 @@ aagung@binus.edu}
 \maketitle
 
 \begin{abstract}
-Zakat, one of the five pillars of Islam, represents a mandatory annual obligation for wealth redistribution with profound social welfare implications. Despite growing interest in blockchain-based zakat platforms, existing systems expose complete donor-recipient transaction records on public ledgers, creating a fundamental tension with Islamic principles of dignity preservation. This paper proposes a Zero-Knowledge Private Zakat (ZK-PZ) protocol that enables cryptographically private donations while maintaining verifiable transparency and Sharia compliance. The proposed architecture leverages off-chain zero-knowledge proving infrastructure, implementing programmable privacy through Noir circuits, nullifier-based double-donation prevention, and selective disclosure mechanisms. Donors can contribute zakat with complete anonymity or selective disclosure while receiving SBT receipts as proof of donation. The protocol preserves institutional trustworthiness through on-chain verification of proof validity while eliminating public exposure of individual transaction data. A prototype implementation on Ethereum Sepolia demonstrates technical feasibility, with UltraHONK proof generation averaging 248 ms and end-to-end donation gas costs of 545K gas per transaction. This work proposes a domain-specific privacy protocol designed for Islamic social finance, directly addressing the maqasid al-shariah imperative of nafs (dignity) protection.
+Zakat, one of the five pillars of Islam, represents a mandatory annual obligation for wealth redistribution with profound social welfare implications. Despite growing interest in blockchain-based zakat platforms, existing systems expose complete donor-recipient transaction records on public ledgers, creating a fundamental tension with Islamic principles of dignity preservation. This paper proposes a Zero-Knowledge Private Zakat (ZK-PZ) protocol that enables cryptographically private donations while maintaining verifiable transparency and Sharia compliance. The proposed architecture leverages off-chain zero-knowledge proving infrastructure, implementing programmable privacy through Noir circuits, nullifier-based double-donation prevention, and selective disclosure mechanisms. Donors can contribute zakat with complete anonymity or selective disclosure while receiving SBT receipts as proof of donation. The protocol preserves institutional trustworthiness through on-chain verification of proof validity while eliminating public exposure of individual transaction data. A prototype implementation on Ethereum Sepolia demonstrates technical feasibility, with UltraHONK proof generation averaging 282 ms and end-to-end donation gas costs of 545K gas per transaction. This work proposes a domain-specific privacy protocol designed for Islamic social finance, directly addressing the maqasid al-shariah imperative of nafs (dignity) protection.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -48,7 +48,7 @@ The advent of distributed ledger technology has prompted substantial research in
 
 Zero-Knowledge Proofs (ZKPs) offer a cryptographic resolution to this paradox. Hameed et al. [7] survey ZKP constructions, and Wen et al. [8] analyze non-interactive variants (zk-SNARKs) suitable for blockchain deployment. The Aztec Network [9] provides an infrastructure for privacy-preserving transactions on Ethereum. Through its hybrid public-private state model, Aztec enables programmable privacy through Noir circuits [10] and the UltraHONK proof system for efficient verification. Despite these advances, no prior work has proposed a domain-specific protocol for privacy-preserving zakat donations. This paper addresses that gap by designing, implementing, and evaluating a ZK Private Zakat (ZK-PZ) protocol. The work formalizes a private transaction model for zakat donations using off-chain proving with on-chain verification, designs Noir circuits for Sharia-compliant eligibility verification, develops a nullifier-based double-donation prevention mechanism, and deploys a working prototype on Ethereum Sepolia. The study explores how Aztec's private transaction infrastructure can be adapted for zakat donations while maintaining institutional accountability. It examines what Noir circuit design patterns enable Sharia-compliant eligibility verification. It also investigates how the protocol satisfies the tension between nafs protection and amanah requirements in maqasid al-shariah.
 
-This paper contributes a domain-specific privacy protocol for Islamic social finance, featuring a Noir-based circuit implementing nisab and hawl eligibility verification as verifiable predicates, a nullifier mechanism preventing re-claiming without identity exposure, and a tiered donor privacy model. The prototype achieves UltraHONK proof generation averaging 248 ms and end-to-end donation gas costs of 545K gas on Ethereum Sepolia.
+This paper contributes a domain-specific privacy protocol for Islamic social finance, featuring a Noir-based circuit implementing nisab and hawl eligibility verification as verifiable predicates, a nullifier mechanism preventing re-claiming without identity exposure, and a tiered donor privacy model. The prototype achieves UltraHONK proof generation averaging 282 ms and end-to-end donation gas costs of 545K gas on Ethereum Sepolia.
 
 \section{Literature Review}
 
@@ -78,7 +78,7 @@ Fig.~\ref{fig:background} contrasts traditional zakat systems, where donor-recip
 
 \section{Methodology}
 
-This study adopts a Design Science Research (DSR) approach. Fig.~\ref{fig:dsr} illustrates the five-phase methodology: Phase 1 identifies the research problem through a literature search spanning blockchain zakat, ZKP privacy frameworks, and Islamic finance instruments across 29 papers published between 2021 and 2025. Phase 2 designs the ZK-PZ protocol, Noir circuit architecture encoding nisab and hawl verification, and the four-tier privacy model. Phase 3 implements the system using nargo v1.0.0-beta.21, Barretenberg v4.2.1, 17 Solidity contracts deployed to Sepolia, and a Next.js 15 PWA frontend with wagmi/XellarKit wallet connectivity. Phase 4 demonstrates the prototype on Sepolia testnet with benchmarked performance of 248 ms proof generation and 12.8 ms verification. Phase 5 evaluates through Foundry gas reports, security properties analysis, and Sharia compliance review.
+This study adopts a Design Science Research (DSR) approach. Fig.~\ref{fig:dsr} illustrates the five-phase methodology: Phase 1 identifies the research problem through a literature search spanning blockchain zakat, ZKP privacy frameworks, and Islamic finance instruments across 29 papers published between 2021 and 2025. Phase 2 designs the ZK-PZ protocol, Noir circuit architecture encoding nisab and hawl verification, and the four-tier privacy model. Phase 3 implements the system using nargo v1.0.0-beta.21, Barretenberg v4.2.1, 17 Solidity contracts deployed to Sepolia, and a Next.js 15 PWA frontend with wagmi/XellarKit wallet connectivity. Phase 4 demonstrates the prototype on Sepolia testnet with benchmarked performance of 282 ms proof generation and 13.4 ms verification. Phase 5 evaluates through Foundry gas reports, security properties analysis, and Sharia compliance review.
 
 \begin{figure}[!ht]
 \centering
@@ -118,7 +118,7 @@ Institutional accountability & Amil institutions verify aggregate compliance wit
 \end{center}
 \end{table}
 
-Fig.~\ref{fig:conceptual} depicts the three-layer protocol architecture: the off-chain proving pipeline where Noir circuits compile to ACIR and Barretenberg generates UltraHONK proofs at 248 ms, the Sepolia settlement layer hosting ZKTCore and ZakatEscrowManager, and the Next.js PWA frontend with wagmi/XellarKit wallet connectivity.
+Fig.~\ref{fig:conceptual} depicts the three-layer protocol architecture: the off-chain proving pipeline where Noir circuits compile to ACIR and Barretenberg generates UltraHONK proofs at 282 ms, the Sepolia settlement layer hosting ZKTCore and ZakatEscrowManager, and the Next.js PWA frontend with wagmi/XellarKit wallet connectivity.
 
 \begin{figure}[!ht]
 \centering
@@ -161,8 +161,8 @@ Circuit benchmarks used Noir v1.0.0-beta.21 and Barretenberg v4.2.1. Gas measure
 \hline
 ACIR opcodes               & 29 \\
 Brillig opcodes            & 44 \\
-Proof generation (avg)     & 248.0 ms \\
-Proof verification (avg)    & 12.8 ms \\
+Proof generation (avg)     & 281.6 ms \\
+Proof verification (avg)    & 13.4 ms \\
 Proof size                  & 8,384 bytes \\
 \hline
 \end{tabular}
@@ -213,7 +213,7 @@ Circuit scope is limited to nisab and hawl criteria. The architecture accommodat
 
 \section{Conclusion}
 
-This paper presented a Zero-Knowledge Private Zakat (ZK-PZ) protocol addressing the privacy paradox in blockchain-based zakat systems. An implementation using Noir circuits (29 ACIR opcodes) with UltraHONK proving via Barretenberg v4.2.1 was deployed to Ethereum Sepolia, achieving proof generation in 248\,ms and end-to-end donation in 545K gas. The work reconciles cryptographic privacy with \textit{nafs} preservation in Islamic social finance \cite{b_maqasid_data, b_maqasid_privacy}, demonstrating that institutional accountability and individual privacy are simultaneously achievable through applied cryptography.
+This paper presented a Zero-Knowledge Private Zakat (ZK-PZ) protocol addressing the privacy paradox in blockchain-based zakat systems. An implementation using Noir circuits (29 ACIR opcodes) with UltraHONK proving via Barretenberg v4.2.1 was deployed to Ethereum Sepolia, achieving proof generation in 282\,ms and end-to-end donation in 545K gas. The work reconciles cryptographic privacy with \textit{nafs} preservation in Islamic social finance \cite{b_maqasid_data, b_maqasid_privacy}, demonstrating that institutional accountability and individual privacy are simultaneously achievable through applied cryptography.
 
 \section*{Acknowledgment}
 

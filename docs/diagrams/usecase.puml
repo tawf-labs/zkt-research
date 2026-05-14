@@ -11,7 +11,7 @@ rectangle "1. Wallet Connect\n& Privacy Tier Select\n(wagmi + XellarKit)" as S1
 rectangle "2. Private Inputs\n& ZK Proof Generation\n(Noir + bb, 262ms, 8,384B)" as S2
 rectangle "3. donateZK() on Sepolia\n→ ZKVerifier verifies proof\n→ NullifierRegistry spends nullifier" as S3
 rectangle "4. ZakatEscrowManager\nroutes funds + pool accounting\n(30-day timelock)" as S4
-rectangle "5. DonationReceiptNFT\nmints soulbound receipt\n(SBT to recipient)" as S5
+rectangle "5. DonationReceiptNFT\nmints soulbound receipt\n(SBT to donor)" as S5
 
 S1 -down-> S2
 S2 -down-> S3

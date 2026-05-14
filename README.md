@@ -8,7 +8,8 @@
 Privacy-preserving zakat donations using UltraHONK zero-knowledge proofs on Ethereum Sepolia. Enables donors to contribute zakat with cryptographic anonymity while maintaining verifiable Sharia compliance and institutional accountability.
 
 - **Testnet**: [ziswaf.tawf.foundation](https://ziswaf.tawf.foundation)
-- **Paper**: `zkdid.pdf` (IEEE conference format, 6 pages, 29 references)
+- **Paper**: `zk-private-zakat.pdf` (IEEE conference format, 6 pages, 33 references)
+- **Authors**: Muhammad Zidan Fatonie, Alexander Agung Santoso Gunawan (BINUS University)
 
 ## Architecture
 
@@ -18,27 +19,38 @@ Donor Frontend (Next.js 15 PWA + wagmi/XellarKit)
     ▼
 Off-Chain Proving (Noir + Barretenberg v4.2.1)
     │  nargo compile → nargo execute → bb prove UltraHONK
-    │  29 ACIR opcodes, 262ms avg, 8,384 bytes proof
+    │  29 ACIR opcodes, 281.6ms avg prove, 13.4ms avg verify, 8,384 bytes proof
     ▼
-Ethereum Sepolia (16 Solidity contracts)
+Ethereum Sepolia (17 Solidity contracts)
     │  ZKVerifier.verify() → ZKTCore.donateZK()
     │  → NullifierRegistry.spend() → ZakatEscrowManager.donate()
-    │  → DonationReceiptNFT.mint() → receipt SBT
+    │  → DonationReceiptNFT.mint() → receipt SBT to donor
     ▼
-Recipient receives soulbound NFT receipt
+Donor receives soulbound NFT receipt (proof of zakat payment)
 ```
 
-## Deployed on Sepolia
+## Deployed on Sepolia (Fresh — 17 Contracts)
 
 | Contract | Address |
 |----------|---------|
-| ZKTCore (v5) | `0xaAebE1f3a1Ae1ecD5BCf11Ae499C5c75d081C04A` |
+| ZKTCore (v6) | `0x1da6328142ccc7939d2150451e664b0d0bd7d35a` |
 | ZKVerifier | `0x50471F33ed68167740dACDc7Be3DEe465Fa9ca66` |
-| NullifierRegistry | `0x034f31ECf82f5A3dE0Db2c16fA48E51CCA34d018` |
-| MockIDRX | `0x856d02e138f8707cA90346c657A537e8C67475E0` |
-| DonationReceiptNFT | `0xB17c9849Ef7D21C7C771128bE7dd852f7d5298a9` |
+| NullifierRegistry | `0x7eC9360f46158504f48b616147d7c3cd1dfB617b` |
+| MockIDRX | `0x18f54ad14a7a4bf9e10b70899d302aea1e545d4b` |
+| DonationReceiptNFT | `0x10310da107719fec1b2ee3f35904c3205071157d` |
+| ZakatEscrowManager | `0xe7aa1d224e74e2fcdfb0fb8a9f65f8f6ec891fc6` |
+| VotingNFT | `0xf76b4b19866bf182de8e4d246b5d518ff15cb165` |
+| Groth16Verifier | `0x3d46fbd717ebc07ddbfbd9c5811f552ded0f1b17` |
+| ProposalManager | `0x427af887b3abe24784bc0cb119500d3bb4c2d2c0` |
+| VotingManager | `0xa733fd83d64173cc7d03627f1c526b18b06fbe94` |
+| ShariaReviewManager | `0x364835295d25b157c8fad75f289ad6cc9335216b` |
+| PoolManager | `0x01f89c2ae4be7ff35b02867e67780c26e56a16c2` |
+| MilestoneManager | `0x5a9e348a10709fa7ab29de17f664b4366f9e8c96` |
+| OrganizerNFT | `0xe4346b881d4ef8c0489e34df2ede766f4b39e8ce` |
+| ParticipationTracker | `0xbcfbb72b538afd273c34a99646724cd29a4bc609` |
+| HonkVerifier (slim) | `0x90fccbb10aa07deb1ac15a690b24dfded81e8ddc` |
 
-End-to-end donation verified at [tx 0xdfaca7...eb9f](https://sepolia.etherscan.io/tx/0xdfaca7b413b29f57242cb4f49f4f35a11aab4953f47b806ed939370e9b36eb9f), block 10,844,400, consuming 4.2M gas.
+End-to-end donation verified at [tx 0xdfaca7...eb9f](https://sepolia.etherscan.io/tx/0xdfaca7b413b29f57242cb4f49f4f35a11aab4953f47b806ed939370e9b36eb9f), block 10,844,400, consuming 545K gas.
 
 ## Quick Start
 
@@ -69,9 +81,12 @@ nargo test      # 3 tests passing
 |--------|-------|
 | ACIR opcodes | 29 |
 | Brillig opcodes | 44 |
-| Proof generation (avg) | 261.8 ms |
-| Proof verification (avg) | 13.0 ms |
+| Proof generation (avg) | 281.6 ms |
+| Proof generation (min) | 244.0 ms |
+| Proof generation (max) | 295.0 ms |
+| Proof verification (avg) | 13.4 ms |
 | Proof size | 8,384 bytes |
+| Verification key size | 1,888 bytes |
 
 ## Project Structure
 
@@ -89,8 +104,9 @@ nargo test      # 3 tests passing
 ├── noir-circuits/          # Noir ZK circuits
 │   └── zkat_eligibility/   # Nisab + hawl + nullifier verification
 ├── docs/diagrams/          # PlantUML sources + generated PNGs
-├── zkdid.tex               # IEEE conference paper
-└── zkdid.pdf               # Compiled PDF (6 pages)
+├── benchmarks/             # UltraHONK prove/verify logs, Forge gas reports
+├── zk-private-zakat.tex    # IEEE conference paper
+└── zk-private-zakat.pdf    # Compiled PDF (6 pages)
 ```
 
 ## Acknowledgments

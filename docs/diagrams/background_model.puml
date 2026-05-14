@@ -50,7 +50,7 @@ package "ZK-PZ Proposed Model" {
   ZKVerifier --> ZKTCore : Verified
   ZKTCore --> Escrow : Route Funds
   Escrow --> ReceiptNFT : Mint Receipt
-  ReceiptNFT --> Recipient_Z : SBT Issued
+  ReceiptNFT --> Donor_Z : SBT Minted
 }
 
 @enduml

@@ -52,7 +52,7 @@ Proof --> Verifier : 8,384 bytes
 Verifier --> Core : Verified + Nullifier Spent
 Core --> Escrow : Route Funds
 Escrow --> NFT : Mint Receipt SBT
-NFT --> Recipient : Token Issued
+NFT --> Donor : SBT Receipt
 
 Donor -> Wallet : Connect Sepolia
 Wallet -> Hook : call donateZK()

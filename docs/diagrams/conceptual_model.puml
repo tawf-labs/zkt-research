@@ -47,7 +47,7 @@ package "Frontend (Next.js 15 PWA)" as FE {
 Donor --> Witness : Private Inputs
 Witness --> Circuit : Prover.toml
 Circuit --> BB : ACIR bytecode
-BB --> Proof : proves (262ms avg)
+BB --> Proof : proves (248ms avg)
 Proof --> Verifier : 8,384 bytes
 Verifier --> Core : Verified + Nullifier Spent
 Core --> Escrow : Route Funds
@@ -57,6 +57,6 @@ NFT --> Donor : SBT Receipt
 Donor -> Wallet : Connect Sepolia
 Wallet -> Hook : call donateZK()
 Hook -> Proof : Fetch Proof
-Hook -> Core : submit tx (4.2M gas)
+Hook -> Core : submit tx (545K gas)
 
 @enduml

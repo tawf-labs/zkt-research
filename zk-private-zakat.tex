@@ -171,7 +171,7 @@ Proof size                  & 8,384 bytes \\
 
 \subsection{Sepolia Deployment and Gas Consumption}
 
-17 contracts deployed to Sepolia (chain ID 11155111). The ZKTCore (v6, 0x1da632...d35a) routes \texttt{donateZK()} through \texttt{zakatEscrowManager.donate()} for pool accounting. An end-to-end donation (tx 0xdfaca7...eb9f) completed verification, nullifier registration, transfer, NFT minting, and event emission in 545K gas.
+17 contracts deployed to Sepolia (chain ID 11155111). The ZKTCore (v6, 0x1da632...d35a) routes \texttt{donateZK()} through \texttt{zakatEscrowManager.donate()} for pool accounting. An end-to-end donation executed on an earlier ZKTCore deployment with identical \texttt{donateZK()} logic (tx 0xdfaca7...eb9f, block 10,844,400) completed proof verification, nullifier registration, transfer, NFT minting, and event emission in 545K gas.
 
 Table~\ref{tab:gas} reports gas costs measured via Foundry gas reports.
 

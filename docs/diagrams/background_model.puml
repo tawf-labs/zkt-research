@@ -27,7 +27,7 @@ package "Traditional Zakat Systems" {
   Amil_T --> History : EXPOSED
 }
 
-package "ZK-PZ Proposed Model" {
+package "ZKT Proposed Model" {
   actor Donor_Z as "Donor"
   actor Recipient_Z as "Recipient"
 

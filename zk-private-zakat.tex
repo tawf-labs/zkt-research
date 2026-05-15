@@ -178,20 +178,21 @@ Table~\ref{tab:gas} reports gas costs measured via Foundry gas reports.
 \begin{table}[htbp]
 \caption{Smart Contract Gas Consumption: Foundry Gas Report, Ethereum Sepolia}
 \label{tab:gas}
-\small
+\footnotesize
+\setlength{\tabcolsep}{3pt}
 \begin{center}
 \begin{tabular}{|l|l|r|}
 \hline
 \textbf{Contract} & \textbf{Function} & \textbf{Gas (avg)} \\
 \hline
-ZKTCore               & \texttt{donate()}                   & 490,187 \\
-ZKTCore               & \texttt{createCampaignPool()}       & 365,552 \\
-ZKTCore               & \texttt{castVote()}                 & 132,909 \\
-ZKTCore               & \texttt{donateZK()} (e2e)            & 721,345 \\
+ZKTCore              & \texttt{donate()}                 & 490,187 \\
+ZKTCore              & \texttt{createCampaignPool()}     & 365,552 \\
+ZKTCore              & \texttt{castVote()}               & 132,909 \\
+ZKTCore              & \texttt{donateZK()} (e2e)          & 721,345 \\
 \hline
-ZKTCore               & Deploy                              & 5,314,471 \\
-ZakatEscrowManager    & Deploy                              & 3,069,194 \\
-ShariaReviewManager   & Deploy                              & 2,114,307 \\
+ZKTCore              & Deploy                            & 5,314,471 \\
+ZakatEscrowMgr       & Deploy                            & 3,069,194 \\
+ShariaReviewMgr      & Deploy                            & 2,114,307 \\
 \hline
 \end{tabular}
 \end{center}

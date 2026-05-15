@@ -54,7 +54,7 @@ This paper contributes a domain-specific privacy protocol for Islamic social fin
 
 \section{Literature Review}
 
-Blockchain zakat research has expanded steadily. Khan's decentralized platform [2] demonstrated that collection and distribution can function without intermediaries. Nazeri et al. [3] found that blockchain features align naturally with zakat management requirements in the Malaysian context. Khairi et al. [4] extended this work through a full ERC-20 token system with automated disbursement and a permanent audit trail. Nazeri et al. \cite{b_zakat_emerald} examined the potential and challenges more broadly. All of these systems share a common limitation. Every one of these systems records all transactional data on a publicly accessible ledger. Complete donor-recipient transparency, available to anyone running an Ethereum node. Fauzi et al. [19] confirmed through bibliometric analysis that research interest is climbing across Muslim-majority countries. Ascarya [20] showed that Islamic social finance instruments (zakat, infaq, sadaqah, waqf) supported economic recovery during the COVID-19 pandemic. Unal and Aysan [21] proposed blockchain as a harmonization tool for differing Sharia-compliance frameworks. Muharam and Osman \cite{b_isf_blockchain} explored the sustainability angle. None of these works integrate privacy-preserving transaction mechanisms.
+Blockchain zakat research has expanded steadily, with Khan's decentralized platform [2] demonstrating that collection and distribution can function without intermediaries, Nazeri et al. [3] finding that blockchain features align naturally with zakat management requirements in the Malaysian context, and Khairi et al. [4] extending this work through a full ERC-20 token system with automated disbursement and a permanent audit trail. Nazeri et al. \cite{b_zakat_emerald} examined the potential and challenges more broadly. All of these systems share a common limitation in that every one records all transactional data on a publicly accessible ledger, making complete donor-recipient transparency available to anyone running an Ethereum node. Fauzi et al. [19] confirmed through bibliometric analysis that research interest is climbing across Muslim-majority countries, while Ascarya [20] showed that Islamic social finance instruments (zakat, infaq, sadaqah, waqf) supported economic recovery during the COVID-19 pandemic, Unal and Aysan [21] proposed blockchain as a harmonization tool for differing Sharia-compliance frameworks, and Muharam and Osman \cite{b_isf_blockchain} explored the sustainability angle. None of these works integrate privacy-preserving transaction mechanisms.
 
 Examined side by side, the three core systems differ in scope but converge on the same privacy posture. Khan's platform [2] operates at the collection-and-distribution layer without specifying a token standard or consent model. Nazeri et al. [3] evaluated blockchain features in the Malaysian regulatory context but did not implement a working system. Khairi et al. [4] produced the most complete implementation with ERC-20 tokens, automated disbursement, and an audit trail, yet none of these works incorporate any mechanism for selective disclosure, donor anonymity, or recipient identity protection. The absence is structural, not incidental, because each system treats full transparency as a design requirement rather than a limitation to be mitigated.
 
@@ -97,7 +97,7 @@ The DSR methodology produced the results that follow, organized from system arch
 
 \subsection{System Overview and Threat Model}
 
-The ZKT protocol uses a five-actor trust model. The actors are donor (ZKP prover), recipient (SBT receipt holder), amil institution (verifier), off-chain proving infrastructure (Noir circuits and Barretenberg prover), and Ethereum Sepolia (public settlement layer).
+The ZKT protocol uses a five-actor trust model comprising the donor (ZKP prover), recipient (SBT receipt holder), amil institution (verifier), off-chain proving infrastructure (Noir circuits and Barretenberg prover), and Ethereum Sepolia (public settlement layer).
 
 The threat model assumes: (1)~an honest-but-curious verifier, (2)~a potentially malicious claimant, and (3)~a public blockchain network subject to transaction graph analysis. The protocol guarantees the properties summarized in Table~\ref{tab:properties}.
 
@@ -154,7 +154,7 @@ Fig.~\ref{fig:conceptual} shows the three-layer protocol architecture. The off-c
 
 \subsection{System Architecture and Payment Flow}
 
-Noir circuits run client-side. Sepolia handles settlement. Donors choose stablecoins or ETH. Everything flows through \texttt{donateZK()}. Proof generation occurs off-chain, while verification runs on-chain. Privacy is provided by the ZK proofs. Accountability is provided by emitted events and the nullifier registry.
+Noir circuits run client-side while Sepolia handles settlement, with donors selecting stablecoins or ETH routed through \texttt{donateZK()}. Proof generation occurs off-chain and verification runs on-chain, so that privacy is provided by the ZK proofs and accountability is provided by the emitted events and the nullifier registry.
 
 The donor goes through a Progressive Web Application that handles wallet connection, privacy tier selection, donation amount entry, proof generation display, and transaction confirmation. A Web Worker does the actual proving, relying on browser isolation to ensure private inputs never leave the donor's device \cite{b_zkp_blockchain}.
 
@@ -209,7 +209,7 @@ ShariaReviewMgr      & Deploy                            & 2,114,319 \\
 \end{center}
 \end{table}
 
-The gas measurements establish the protocol's on-chain cost. Beyond performance, the protocol must satisfy specific security guarantees. Each is analyzed below.
+Having established the protocol's on-chain cost, the following analysis turns to the security guarantees that the protocol must satisfy, each examined below.
 
 \subsection{Security Analysis}
 
@@ -224,7 +224,7 @@ event ZKDonationReceived(
 );
 \end{verbatim}
 
-Private mode zeroes both \texttt{donor} and \texttt{amount}, leaving no on-chain linkage recoverable by an external observer. Semi-Private attaches the donor's address but hides the amount, a design tradeoff for institutional accountability. Neither mode leaks the full \texttt{(donor, amount)} pair. The verifier contract checks only a hash and a nullifier flag. These two fields constitute the complete on-chain footprint of a private donation.
+Private mode zeroes both \texttt{donor} and \texttt{amount}, leaving no on-chain linkage recoverable by an external observer, while Semi-Private attaches the donor's address but hides the amount as a design tradeoff for institutional accountability. Neither mode leaks the full \texttt{(donor, amount)} pair, and the verifier contract checks only a hash and a nullifier flag, so that these two fields constitute the complete on-chain footprint of a private donation.
 
 \textbf{Recipient privacy.} The Pedersen-hash nullifier \cite{b_aztec} binds each claim to a recipient without revealing their address. The nullifier computation $\text{pedersen}(\mathit{secret}, \mathit{recipient\_address}, \mathit{cycle\_id})$ in \texttt{main.nr} means the on-chain nullifier is deterministic but preimage-resistant. An observer sees \texttt{0x3f2a...} and cannot recover the recipient address or secret. Recipient-side encrypted note disbursement is reserved for future work \cite{b_bbs_w3c}.
 
@@ -234,7 +234,7 @@ Private mode zeroes both \texttt{donor} and \texttt{amount}, leaving no on-chain
 
 \noindent\textbf{Privacy Exposure Analysis.} The current prototype exposes several privacy vectors beyond those resolved by the nullifier mechanism. The recipient address is a public circuit input transmitted in the calldata of every \texttt{donateZK()} transaction, making it visible to any blockchain observer and to the amil institution. In Semi-Private mode, the donor address is emitted in the \texttt{ZKDonationReceived} event. Transaction graph analysis on the public Sepolia ledger could potentially correlate donation timing with recipient claim timing. The Web Worker proving model isolates private witness data from the browser main thread but does not protect against IP-level or browser-based side-channel attacks. Donations to the same pool reveal aggregate economic patterns even when individual amounts are hidden. Each of these exposures is acknowledged as a limitation of the current prototype and is addressed in the future work roadmap through encrypted note disbursement \cite{b_bbs_w3c}, private decentralized identifiers, and potential integration with on-chain mixer patterns \cite{b_mixer_analysis}.
 
-The security analysis confirms that the protocol meets its design goals. The following section situates these results within the framework of Sharia compliance and deployment feasibility.
+Having confirmed that the protocol meets its formal security goals, the following section situates these results within the framework of Sharia compliance and deployment feasibility.
 
 \section{Discussion}
 
@@ -242,11 +242,11 @@ The security analysis confirms that the protocol meets its design goals. The fol
 
 Maqasid al-shariah is anchored by five \textit{daruriyyat}, namely religion, life, intellect, progeny, and wealth [5]. Al-Shatibi formulated these categories centuries before blockchain existed. Ibn Ashur later extended \textit{hifz al-nafs} to encompass dignity, arguing that exposing an individual's financial weakness to the public constitutes harm to their honour [6]. A single address recorded as a zakat recipient on Etherscan broadcasts below-nisab status permanently, an outcome that aligns directly with Ibn Ashur's reasoning even though the technology itself was unimaginable in his time.
 
-Azizov et al. \cite{b_maqasid_fintech} propose a maqasid framework for fintech regulation. Latang et al. \cite{b_fatwa_crypto} examine the Islamic legal status of cryptocurrency assets. Pramuka et al. \cite{b_icf_blockchain} explore blockchain's role in Islamic charitable crowdfunding. Taken together, these works suggest that the institutional and regulatory infrastructure for Islamic fintech is maturing, though none has integrated privacy-preserving cryptographic mechanisms for individual donors. This work addresses the donor side through ZK proofs and nullifier-based anonymity. Recipient-side privacy through encrypted private notes is reserved for future work.
+Azizov et al. \cite{b_maqasid_fintech} propose a maqasid framework for fintech regulation, while Latang et al. \cite{b_fatwa_crypto} examine the Islamic legal status of cryptocurrency assets and Pramuka et al. \cite{b_icf_blockchain} explore blockchain's role in Islamic charitable crowdfunding. Taken together, these works suggest that the institutional and regulatory infrastructure for Islamic fintech is maturing, though none has integrated privacy-preserving cryptographic mechanisms for individual donors. This work addresses the donor side through ZK proofs and nullifier-based anonymity, while recipient-side privacy through encrypted private notes is reserved for future work.
 
 Two maqasid dimensions are directly engaged. \textit{Hifz al-nafs} manifests through Private and Semi-Private modes keeping donations and linkages off-chain. \textit{Hifz al-mal} operates through the nullifier registry stopping double-claims and the proof's soundness blocking fake eligibility. \textit{Amanah}, institutional trust, flows from the \texttt{ProofVerified} event. Amil institutions audit aggregate flows without ever touching individual records.
 
-Production deployment requires three prerequisites. Indonesia's OJK Fintech Sandbox must grant regulatory approval, amil institution staff must be trained on wallet management and proof verification workflows, and a rupiah-backed digital currency (such as Bank Indonesia's planned CBDC under Project Garuda) must replace the mock IDRX stablecoin.
+Production deployment requires three prerequisites, namely that Indonesia's OJK Fintech Sandbox grants regulatory approval, amil institution staff are trained on wallet management and proof verification workflows, and a rupiah-backed digital currency (such as Bank Indonesia's planned CBDC under Project Garuda) replaces the mock IDRX stablecoin.
 
 \subsection{Limitations and Future Work}
 

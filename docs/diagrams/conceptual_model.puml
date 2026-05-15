@@ -5,6 +5,7 @@ skinparam defaultFontName Arial
 skinparam defaultFontSize 11
 skinparam ArrowColor #888780
 skinparam ArrowThickness 1
+skinparam linetype ortho
 
 skinparam rectangle {
   BorderColor #888780
@@ -21,16 +22,9 @@ skinparam package {
   FontSize 10
 }
 
-skinparam component {
-  BorderColor #888780
-  BorderThickness 0.5
-  RoundCorner 6
-  FontSize 10
-}
-
 actor Donor
 
-' ── Off-chain proving pipeline ──
+' ── Left column: Off-chain ──
 package "Off-chain proving pipeline" {
   rectangle "Witness generation\nnargo execute" as Witness
   rectangle "Noir circuit\n29 ACIR opcodes" as Circuit
@@ -38,59 +32,65 @@ package "Off-chain proving pipeline" {
   rectangle "UltraHONK proof\n8,384 B · 246.8 ms" as Proof
 }
 
-' ── Ethereum Sepolia ──
+' ── Middle column: On-chain ──
 package "Ethereum Sepolia (block 10,854,651)" {
 
-  package "Core contracts" {
-    rectangle "ZKVerifier\n0x1009…2f3F\nverify(proof,pis) 12.0ms" as Verifier
-    rectangle "ZKTCore v8\n0xb56a…B60B\norchestrator" as ZKTCore
-    rectangle "NullifierRegistry\n0xeEA8…9e49\nanti-double-donate" as Nullifier
+  package "Core" {
+    rectangle "ZKVerifier\n0x1009…2f3F" as Verifier
+    rectangle "ZKTCore v8\n0xb56a…B60B" as ZKTCore
+    rectangle "NullifierRegistry\n0xeEA8…9e49" as Nullifier
   }
 
-  package "Governance contracts" {
+  package "Governance" {
     rectangle "ProposalManager\n0xc75f…7911" as PropMgr
     rectangle "VotingManager\n0x56CA…Fb4" as VoteMgr
-    rectangle "VotingNFT\n0x62AF…89B4\nvoting power" as VNFT
-    rectangle "ShariaReviewManager\n0x227c…3af2" as ShariaMgr
+    rectangle "VotingNFT\n0x62AF…89B4" as VNFT
+    rectangle "ShariaReviewMgr\n0x227c…3af2" as ShariaMgr
   }
 
-  package "Finance contracts" {
+  package "Finance" {
     rectangle "PoolManager\n0x8b74…288c" as PoolMgr
-    rectangle "ZakatEscrowManager\n0x8A08…eED1\n30-day timelock" as Escrow
-    rectangle "DonationReceiptNFT\n0x739b…1885\nSBT + IPFS metadata" as NFT
+    rectangle "ZakatEscrowMgr\n0x8A08…eED1" as Escrow
+    rectangle "DonationReceiptNFT\n0x739b…1885" as NFT
   }
 }
 
-' ── Frontend ──
+' ── Right column: Frontend ──
 package "Frontend · Next.js 15 PWA" {
   rectangle "wagmi + XellarKit\nwallet" as Wallet
-  rectangle "usePrivateDonation hook" as Hook
-  rectangle "Privacy tier toggle" as Toggle
+  rectangle "usePrivateDonation\nhook" as Hook
+  rectangle "Privacy tier\ntoggle" as Toggle
 }
 
-' ── Off-chain flow ──
-Donor     --> Witness  : private inputs
-Witness   --> Circuit  : Prover.toml
-Circuit   --> BB       : ACIR bytecode
-BB        --> Proof    : prove (246.8 ms avg)
+' ── Off-chain flow (left, vertical) ──
+Donor   -down-> Witness : private inputs
+Witness -down-> Circuit : Prover.toml
+Circuit -down-> BB      : ACIR bytecode
+BB      -down-> Proof   : prove (246.8 ms)
 
-' ── On-chain flow ──
-Proof     --> Verifier  : 8,384 B proof + public inputs
-Verifier  --> ZKTCore   : proof valid → approve
-ZKTCore   --> Nullifier : spend(nullifier)
-ZKTCore   --> PropMgr   : createProposal()
-PropMgr   --> VoteMgr   : submitForCommunityVote()\nvia ZKTCore
-VoteMgr   --> ShariaMgr : finalizeCommunityVote()\nvia ZKTCore
-ShariaMgr --> PoolMgr   : finalizeShariaBundle()\nvia ZKTCore
-PoolMgr   --> Escrow    : createCampaignPool()\nvia ZKTCore
-ZKTCore   --> Escrow    : donateZK() → donate(msg.sender,poolId,amount,cid)
-Escrow    --> NFT       : mint receipt SBT to donor
-NFT       --> Donor     : SBT receipt (tokenID, IPFS, Zakat tier)
+' ── Proof → Verifier (cross) ──
+Proof   -right-> Verifier : 8,384 B proof
 
-' ── Frontend flow ──
-Donor  -> Wallet  : connect Sepolia
-Wallet -> Hook    : call donateZK()
-Hook   -> Proof   : fetch proof
-Hook   -> ZKTCore : submit tx (721,345 gas)\nTX 0x6a0b35…b790
+' ── On-chain: Verifier → ZKTCore → Nullifier ──
+Verifier -down-> ZKTCore   : verify OK
+ZKTCore  -down-> Nullifier : spend(nullifier)
+
+' ── Governance flow: ZKTCore orchestrates rightward ──
+ZKTCore  -right-> PropMgr   : createProposal
+ZKTCore  -right-> VoteMgr   : submitForCommunityVote
+ZKTCore  -right-> ShariaMgr : finalizeShariaBundle
+ZKTCore  -right-> PoolMgr   : createCampaignPool
+ZKTCore  -right-> Escrow    : donateZK()
+
+' ── Escrow → NFT → Donor ──
+Escrow   -right-> NFT    : mint SBT
+NFT      -right-> Donor  : SBT receipt
+
+' ── Frontend flow (right) ──
+Donor    -right-> Wallet : connect Sepolia
+Wallet   -down-> Hook    : call donateZK()
+Hook     -down-> Toggle  : select tier
+Hook     -down-> Proof   : fetch proof
+Hook     -right-> ZKTCore : submit tx (721,345 gas)
 
 @enduml

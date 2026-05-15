@@ -1,5 +1,5 @@
 // Smart Contract ABIs and Configuration for Ethereum Sepolia Network
-// Fresh deployment — 17 contracts, all verified on Sepolia
+// v8 deployment — 15 contracts, all verified on Sepolia
 
 export const CONTRACT_ADDRESSES = {
   ZKTCore: (process.env.NEXT_PUBLIC_CONTRACT_ZKT_CORE || '0xb56a8411C769cb0039e9ae1FdA3ea51424B1b60B') as `0x${string}`,
@@ -12,11 +12,11 @@ export const CONTRACT_ADDRESSES = {
   VotingManager: (process.env.NEXT_PUBLIC_CONTRACT_VOTING_MANAGER || '0x56CAF0aFE6CeA849906fdDD06c3358a20e353Fb4') as `0x${string}`,
   ShariaReviewManager: (process.env.NEXT_PUBLIC_CONTRACT_SHARIA_REVIEW_MANAGER || '0x227cb839365C7F2cB576768432563E6566343af2') as `0x${string}`,
   PoolManager: (process.env.NEXT_PUBLIC_CONTRACT_POOL_MANAGER || '0x8b745Cd7b399E3965088aA367D54F2366A17288c') as `0x${string}`,
-  MilestoneManager: (process.env.NEXT_PUBLIC_CONTRACT_MILESTONE_MANAGER || '0xfA8C3D1be97C6b2f68A72Cb5F68162e05Ace54b7') as `0x${string}`,
+  MilestoneManager: (process.env.NEXT_PUBLIC_CONTRACT_MILESTONE_MANAGER || '0x5685aeaDAce85819682D28F831321B6e4094Ee75') as `0x${string}`,
   VotingNFT: (process.env.NEXT_PUBLIC_CONTRACT_VOTING_NFT || '0x62AF745f9b7689720129A3A60e2ab0A2892C89B4') as `0x${string}`,
-  OrganizerNFT: (process.env.NEXT_PUBLIC_CONTRACT_ORGANIZER_NFT || '0x4A3d8e7F9b2C815bD69BE84a6DDEe39e786DD092') as `0x${string}`,
-  ParticipationTracker: (process.env.NEXT_PUBLIC_CONTRACT_PARTICIPATION_TRACKER || '0xd3E6C9B8F5A726716981fc2f46e20A78bd2148e5') as `0x${string}`,
-  Groth16Verifier: (process.env.NEXT_PUBLIC_CONTRACT_GROTH16_VERIFIER || '0xE4290b5b9C0e6A3f5d8b2c7f1a0F6e5d4c3B2a19') as `0x${string}`,
+  OrganizerNFT: (process.env.NEXT_PUBLIC_CONTRACT_ORGANIZER_NFT || '0x8b9bCFc0a1D2f3d7CEfeD6cb279E61e76Af34F8E') as `0x${string}`,
+  ParticipationTracker: (process.env.NEXT_PUBLIC_CONTRACT_PARTICIPATION_TRACKER || '0x521Cc9536Ca85eD9404b1444F5541fB134722dbf') as `0x${string}`,
+  Groth16Verifier: (process.env.NEXT_PUBLIC_CONTRACT_GROTH16_VERIFIER || '0x3A8fF96D7dB26e0A5E7cd47283761bf77531FcdB') as `0x${string}`,
 } as const;
 
 // ZKTCore ABI - Main orchestrator contract
@@ -34,7 +34,9 @@ export const ZKTCoreABI = [
       { "name": "_shariaReviewManager", "type": "address", "internalType": "address" },
       { "name": "_poolManager", "type": "address", "internalType": "address" },
       { "name": "_zakatEscrowManager", "type": "address", "internalType": "address" },
-      { "name": "_milestoneManager", "type": "address", "internalType": "address" }
+      { "name": "_milestoneManager", "type": "address", "internalType": "address" },
+      { "name": "_honkVerifier", "type": "address", "internalType": "address" },
+      { "name": "_nullifierRegistry", "type": "address", "internalType": "address" }
     ],
     "stateMutability": "nonpayable"
   },

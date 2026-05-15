@@ -79,11 +79,10 @@ v8 deployment — all 15 contracts verified onchain.
 | ZakatEscrowManager | `0x8A085b6Bd8A2f9eCb712c7d861238EdAe982eED1` |
 | DonationReceiptNFT | `0x739b75bEeaC0207BeB70a0405f3CF81654D81885` |
 | VotingNFT | `0x62AF745f9b7689720129A3A60e2ab0A2892C89B4` |
-| OrganizerNFT | `0x4A3d8e7F9b2c815BD69Be84a6DdEE39e786dD092` |
-| ParticipationTracker | `0xD3E6c9b8f5a726716981FC2F46E20A78bD2148E5` |
-| MilestoneManager | `0xFA8C3D1be97C6B2f68a72CB5f68162E05Ace54B7` |
-| MockIDRX | `0x1b84E74b5b291903Ee44FfbabBc87cD6535c59b5` |
-| Groth16Verifier | `0xE4290b5b9C0e6A3f5d8b2c7f1a0F6e5d4c3B2a19` |
+| OrganizerNFT | `0x8b9bCFc0a1D2f3d7CEfeD6cb279E61e76Af34F8E` |
+| ParticipationTracker | `0x521Cc9536Ca85eD9404b1444F5541fB134722dbf` |
+| MilestoneManager | `0x5685aeaDAce85819682D28F831321B6e4094Ee75` |
+| Groth16Verifier | `0x3A8fF96D7dB26e0A5E7cd47283761bf77531FcdB` |
 
 End-to-end v8 donation verified at [tx 0x6a0b35...b790](https://sepolia.etherscan.io/tx/0x6a0b350821aa5afa309be599b5a64836aefb1c4a25d666a61d94e541967db790), block 10,854,651, consuming 721,345 gas.
 

@@ -1,4 +1,4 @@
-# ZK-PZ: Zero-Knowledge Private Zakat
+# ZKT: Zero-Knowledge Zakat
 
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Solidity](https://img.shields.io/badge/Solidity-0.8.31-blue.svg)](https://soliditylang.org/)
@@ -6,7 +6,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue.svg)](https://www.typescriptlang.org/)
 [![Noir](https://img.shields.io/badge/Noir-1.0.0--beta.21-purple.svg)](https://noir-lang.org/)
 
-Privacy-preserving zakat donations using UltraHONK zero-knowledge proofs on Ethereum Sepolia. Enables donors to contribute zakat with cryptographic anonymity while maintaining verifiable Sharia compliance and institutional accountability.
+Privacy-preserving zakat donations using UltraHONK zero-knowledge proofs on Ethereum Sepolia. Donors contribute zakat with cryptographic anonymity while maintaining verifiable Sharia compliance and institutional accountability.
 
 - **Testnet**: [ziswaf.tawf.foundation](https://ziswaf.tawf.foundation)
 - **Paper**: `zk-private-zakat.pdf` (IEEE ICIMTech 2026, 6 pages, 33 references)
@@ -35,7 +35,7 @@ Privacy-preserving zakat donations using UltraHONK zero-knowledge proofs on Ethe
 
 ## Overview
 
-ZK-PZ addresses a critical gap in blockchain-based zakat systems: all existing platforms expose complete donor-recipient transaction records on public ledgers, violating Islamic principles of dignity preservation (nafs protection in maqasid al-shariah).
+ZKT addresses a critical gap in blockchain-based zakat systems: all existing platforms expose complete donor-recipient transaction records on public ledgers, violating Islamic principles of dignity preservation (nafs protection in maqasid al-shariah).
 
 **Key features:**
 - **Noir circuit** (29 ACIR opcodes) encoding nisab + hawl + pedersen nullifier verification

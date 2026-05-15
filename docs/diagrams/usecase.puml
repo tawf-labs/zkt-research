@@ -7,14 +7,20 @@ skinparam rectangleBorderThickness 1.5
 
 
 rectangle "1. Wallet Connect\n& Privacy Tier Select\n(wagmi + XellarKit)" as S1
-rectangle "2. Private Inputs\n& ZK Proof Generation\n(Noir + bb, 248ms, 8,384B)" as S2
-rectangle "3. donateZK() on Sepolia\n→ ZKVerifier verifies proof\n→ NullifierRegistry spends nullifier" as S3
-rectangle "4. ZakatEscrowManager\nroutes funds + pool accounting\n(30-day timelock)" as S4
-rectangle "5. DonationReceiptNFT\nmints soulbound receipt\n(SBT to donor)" as S5
+rectangle "2. createProposal()\n→ ProposalManager (0xc75f...7911)\ncreates campaign proposal" as S2
+rectangle "3. submitForCommunityVote()\n→ VotingManager (0x56CA...Fb4)\nopens voting (0s test / 7d prod)" as S3
+rectangle "4. castVote()\n→ VotingNFT (0x62AF...89B4)\n→ finalizeCommunityVote()" as S4
+rectangle "5. createShariaReviewBundle()\n→ ShariaReviewManager (0x227c...3af2)\n→ reviewProposal() → finalizeShariaBundle()" as S5
+rectangle "6. createCampaignPool()\n→ PoolManager (0x8b74...288c)\ninitializes campaign fund pool" as S6
+rectangle "7. Private Inputs\n& ZK Proof Generation\n(Noir + bb, 246.8ms, 8,384B)" as S7
+rectangle "8. donateZK() on Sepolia\n→ ZKVerifier (0x1009...2f3F) verifies proof\n→ NullifierRegistry (0xeEA8...9e49) spends nullifier\n→ ZakatEscrowManager (0x8A08...eED1) routes funds\n→ DonationReceiptNFT (0x739b...1885) mints SBT\nGas: 721,345 | TX: 0x6a0b35...b790 | Block: 10,854,651" as S8
 
 S1 -down-> S2
 S2 -down-> S3
 S3 -down-> S4
 S4 -down-> S5
+S5 -down-> S6
+S6 -down-> S7
+S7 -down-> S8
 
 @enduml

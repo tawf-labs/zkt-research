@@ -36,11 +36,14 @@ package "ZK-PZ Proposed Model" {
     component BBProver as "Barretenberg\nUltraHONK Prover"
   }
 
-  rectangle "Ethereum Sepolia" as Sepolia {
-    component ZKVerifier as "ZKVerifier\n(verify proof)"
-    component ZKTCore as "ZKTCore\n(donateZK)"
-    component Escrow as "ZakatEscrowMgr\n(pool accounting)"
-    component ReceiptNFT as "DonationReceiptNFT\n(SBT minting)"
+  rectangle "Ethereum Sepolia (v8)\nBlock 10,854,651\nGas: 721,345\nTX: 0x6a0b35...b790" as Sepolia {
+    component ZKVerifier as "ZKVerifier\n(0x1009...2f3F | verify 12.0ms)"
+    component ZKTCore as "ZKTCore\n(0xb56a...B60B | donateZK)"
+    component Escrow as "ZakatEscrowMgr\n(0x8A08...eED1 | pool accounting)"
+    component PropMgr as "ProposalManager\n(0xc75f...7911)"
+    component VoteMgr as "VotingManager\n(0x56CA...Fb4)"
+    component ShariaMgr as "ShariaReviewMgr\n(0x227c...3af2)"
+    component ReceiptNFT as "DonationReceiptNFT\n(0x739b...1885 | SBT minting)"
   }
 
   Donor_Z --> NoirCircuit : Private Inputs

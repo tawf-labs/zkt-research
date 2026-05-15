@@ -11,7 +11,7 @@ rectangle "General ZKP Privacy\n--\nEnable anonymous transactions\nbut lack Isla
 rectangle "Islamic Social Finance\n--\nStudy zakat/waqf digitization\nwithout ZK privacy\nintegration.\n\n[20,21,24,25]" as BL
 rectangle "Smart Contract Platforms\n--\nOffer programmable logic but\nall state changes visible\non-chain.\n\n[9,18,29]" as BR
 
-rectangle "ZK-PZ: Private Zakat\nwith ZK Verification\n--\nBridges all four domains\nthrough ZKP + Sharia\neligibility verification" as CENTER #CCFFCC
+rectangle "ZK-PZ: Private Zakat\nwith ZK Verification (v8)\n--\nDeployed on Sepolia (block 10,854,651)\n15 contracts | Gas: 721,345\nUltraHONK prove 246.8ms / verify 12.0ms\n8-step DAO + ZK donation flow\nTX: 0x6a0b35...b790" as CENTER #CCFFCC
 
 TL -down-> CENTER
 TR -down-> CENTER

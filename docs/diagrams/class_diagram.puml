@@ -6,19 +6,27 @@ skinparam defaultFontSize 8
 skinparam classBorderThickness 1.5
 
 
-class "ZKTCore\n(v7, 0xca849d...a7f7)" as ZKTCore {
+class "ZKTCore\n(v8, 0xb56a...B60B)" as ZKTCore {
   - honkVerifier: IHonkVerifier
   - nullifierRegistry: NullifierRegistry
   - zakatEscrowManager: ZakatEscrowManager
   - receiptNFT: DonationReceiptNFT
+  - proposalManager: ProposalManager
+  - votingManager: VotingManager
   --
   + donateZK(uint256,uint256,bytes,bytes32[],bytes32,string)
   + donate(uint256,uint256,string)
+  + createProposal(uint256,string,uint256)
+  + submitForCommunityVote(uint256)
   + castVote(uint256,uint256)
+  + finalizeCommunityVote(uint256)
+  + createShariaReviewBundle(uint256)
+  + reviewProposal(uint256,bool)
+  + finalizeShariaBundle(uint256)
   + createCampaignPool(uint256)
 }
 
-class "ZKVerifier\n(0x50471F...9ca66)" as ZKVerifier {
+class "ZKVerifier\n(0x1009...2f3F)" as ZKVerifier {
   - verifiedProofs: mapping(bytes32=>bool)
   - spentNullifiers: mapping(bytes32=>bool)
   --
@@ -28,7 +36,7 @@ class "ZKVerifier\n(0x50471F...9ca66)" as ZKVerifier {
   + ProofVerified(bytes32,bytes32)
 }
 
-class "NullifierRegistry\n(0x7eC936...617b)" as NullifierRegistry {
+class "NullifierRegistry\n(0xeEA8...9e49)" as NullifierRegistry {
   - spentNullifiers: mapping(bytes32=>bool)
   --
   + spend(bytes32): void
@@ -37,7 +45,7 @@ class "NullifierRegistry\n(0x7eC936...617b)" as NullifierRegistry {
   + NullifierSpent(bytes32,address,uint256)
 }
 
-class ZakatEscrowManager {
+class "ZakatEscrowManager\n(0x8A08...eED1)" as ZakatEscrowManager {
   - zakatPools: mapping(uint256=>ZakatPool)
   - poolDonations: mapping(uint256=>mapping(address=>uint256))
   - usedCommitments: mapping(bytes32=>bool)
@@ -47,7 +55,7 @@ class ZakatEscrowManager {
   + withdrawFunds(address,uint256)
 }
 
-class "DonationReceiptNFT\n(0x10310d...157d)" as DonationReceiptNFT {
+class "DonationReceiptNFT\n(0x739b...1885)" as DonationReceiptNFT {
   - tokenMetadata: mapping(uint256=>SBTMetadata)
   - donorTokens: mapping(address=>uint256[])
   - MINTER_ROLE: bytes32
@@ -56,19 +64,67 @@ class "DonationReceiptNFT\n(0x10310d...157d)" as DonationReceiptNFT {
   + burn(uint256,string)
 }
 
-class "MockIDRX\n(0x18f54a...5d4b)" as MockIDRX {
+class "MockIDRX\n(0x1b84...59b5)" as MockIDRX {
   --
   + adminMint(address,uint256)
   + faucet(address)
   + transferFrom(address,address,uint256): bool
 }
 
+class "ProposalManager\n(0xc75f...7911)" as ProposalManager {
+  - proposals: mapping(uint256=>Proposal)
+  - nextProposalId: uint256
+  --
+  + createProposal(uint256,string,uint256): uint256
+  + getProposal(uint256): Proposal
+}
+
+class "VotingManager\n(0x56CA...Fb4)" as VotingManager {
+  - votes: mapping(uint256=>mapping(address=>uint256))
+  - votingNFT: VotingNFT
+  --
+  + castVote(uint256,uint256)
+  + finalizeVote(uint256)
+  + getResult(uint256): VoteResult
+}
+
+class "ShariaReviewManager\n(0x227c...3af2)" as ShariaReviewManager {
+  - reviews: mapping(uint256=>ShariaReview)
+  - council: address[]
+  --
+  + createReviewBundle(uint256)
+  + submitReview(uint256,bool,string)
+  + finalizeBundle(uint256)
+}
+
+class "PoolManager\n(0x8b74...288c)" as PoolManager {
+  - campaignPools: mapping(uint256=>CampaignPool)
+  - totalFunds: uint256
+  --
+  + createCampaignPool(uint256)
+  + getPool(uint256): CampaignPool
+}
+
+class "VotingNFT\n(0x62AF...89B4)" as VotingNFT {
+  - tokenMetadata: mapping(uint256=>NFTMetadata)
+  - MINTER_ROLE: bytes32
+  --
+  + mint(address,string): uint256
+  + burn(uint256)
+}
+
 ZKTCore "1" -- "*" ZKVerifier : verifies
 ZKTCore "1" -- "*" NullifierRegistry : spends
 ZKTCore "1" -- "*" ZakatEscrowManager : routes
 ZKTCore "1" -- "*" DonationReceiptNFT : mints
+ZKTCore "1" -- "1" ProposalManager : delegates
+ZKTCore "1" -- "1" VotingManager : delegates
+ZKTCore "1" -- "1" ShariaReviewManager : delegates
+ZKTCore "1" -- "1" PoolManager : delegates
 ZakatEscrowManager "*" -- "*" MockIDRX : transfers
 ZakatEscrowManager "1" -- "*" DonationReceiptNFT : mints
 ZKVerifier "1" -- "*" NullifierRegistry : checks
+VotingManager "1" -- "1" VotingNFT : mints
+ProposalManager "1" -- "1" VotingManager : creates vote
 
 @enduml

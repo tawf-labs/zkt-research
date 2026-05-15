@@ -13,24 +13,39 @@ package "Off-Chain Proving Pipeline" {
   rectangle "Noir Circuit\n(29 ACIR opcodes)" as Circuit
   rectangle "Barretenberg bb\n(v4.2.1)" as BB
   rectangle "Witness Generation\n(nargo execute)" as Witness
-  component "UltraHONK Proof\n(8,384 bytes)" as Proof
+  component "UltraHONK Proof\n(8,384B, prove 246.8ms)" as Proof
 }
 
-package "Ethereum Sepolia Settlement" {
-  rectangle "ZKVerifier" as Verifier {
-    component "verify(proof, pis)"
+package "Ethereum Sepolia (block 10,854,651)" {
+  rectangle "ZKVerifier\n(0x1009...2f3F)" as Verifier {
+    component "verify(proof, pis) 12.0ms avg"
     component "spentNullifiers map"
   }
-  rectangle "ZKTCore (v5)" as Core {
+  rectangle "ZKTCore (v8)\n(0xb56a...B60B)" as Core {
     component "donateZK()"
     component "donate()"
+    component "createProposal()"
     component "castVote()"
   }
-  rectangle "ZakatEscrowManager" as Escrow {
+  rectangle "ProposalManager\n(0xc75f...7911)" as PropMgr {
+    component "proposal lifecycle"
+  }
+  rectangle "VotingManager\n(0x56CA...Fb4)" as VoteMgr {
+    component "community voting"
+    component "vote finalization"
+  }
+  rectangle "ShariaReviewManager\n(0x227c...3af2)" as ShariaMgr {
+    component "review bundle"
+    component "council review"
+  }
+  rectangle "PoolManager\n(0x8b74...288c)" as PoolMgr {
+    component "campaign pools"
+  }
+  rectangle "ZakatEscrowManager\n(0x8A08...eED1)" as Escrow {
     component "pool accounting"
     component "30-day timelock"
   }
-  rectangle "DonationReceiptNFT" as NFT {
+  rectangle "DonationReceiptNFT\n(0x739b...1885)" as NFT {
     component "SBT minting"
     component "IPFS metadata"
   }
@@ -45,16 +60,22 @@ package "Frontend (Next.js 15 PWA)" as FE {
 Donor --> Witness : Private Inputs
 Witness --> Circuit : Prover.toml
 Circuit --> BB : ACIR bytecode
-BB --> Proof : proves (248ms avg)
+BB --> Proof : proves (246.8ms avg)
 Proof --> Verifier : 8,384 bytes
 Verifier --> Core : Verified + Nullifier Spent
-Core --> Escrow : Route Funds
+Core --> PropMgr : Create Proposal
+PropMgr --> VoteMgr : Submit for Vote
+VoteMgr --> ShariaMgr : Finalize Vote
+ShariaMgr --> PoolMgr : Finalize Sharia Bundle
+PoolMgr --> Escrow : Create Campaign Pool
+Core --> Escrow : Route Funds via donateZK()
 Escrow --> NFT : Mint Receipt SBT
 NFT --> Donor : SBT Receipt
 
 Donor -> Wallet : Connect Sepolia
 Wallet -> Hook : call donateZK()
 Hook -> Proof : Fetch Proof
-Hook -> Core : submit tx (545K gas)
+Hook -> Core : submit tx (721,345 gas)
+Hook -> Core : TX 0x6a0b35...b790
 
 @enduml

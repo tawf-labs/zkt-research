@@ -39,9 +39,9 @@ ZK-PZ addresses a critical gap in blockchain-based zakat systems: all existing p
 
 **Key features:**
 - **Noir circuit** (29 ACIR opcodes) encoding nisab + hawl + pedersen nullifier verification
-- **UltraHONK proofs** generated via Barretenberg v4.2.1 (281.6ms avg)
+- **UltraHONK proofs** generated via Barretenberg v4.2.1 (246.8ms avg)
 - **On-chain verification** through ZKVerifier with nullifier-based double-donation prevention
-- **17 Solidity contracts** deployed on Ethereum Sepolia testnet
+- **15 Solidity contracts** deployed on Ethereum Sepolia testnet
 - **Next.js 15 PWA** frontend with wagmi/XellarKit wallet connectivity
 - **Privacy tier toggle** supporting Private, Semi-Private, Verified-Private, and Public modes
 
@@ -53,9 +53,9 @@ Donor Frontend (Next.js 15 PWA + wagmi/XellarKit)
     ▼
 Off-Chain Proving (Noir + Barretenberg v4.2.1)
     │  nargo compile → nargo execute → bb prove UltraHONK
-    │  29 ACIR opcodes, 281.6ms avg prove, 13.4ms avg verify, 8,384 bytes proof
+    │  29 ACIR opcodes, 246.8ms avg prove, 12.0ms avg verify, 8,384 bytes proof
     ▼
-Ethereum Sepolia (17 Solidity contracts)
+Ethereum Sepolia (15 Solidity contracts)
     │  ZKVerifier.verify() → ZKTCore.donateZK()
     │  → NullifierRegistry.spend() → ZakatEscrowManager.donate()
     │  → DonationReceiptNFT.mint() → receipt SBT to donor
@@ -65,28 +65,27 @@ Donor receives soulbound NFT receipt (proof of zakat payment)
 
 ## Deployed Contracts (Sepolia)
 
-Fresh deployment — all 17 contracts verified onchain.
+v8 deployment — all 15 contracts verified onchain.
 
 | Contract | Address |
 |----------|---------|
-| ZKTCore (v6) | `0x1da6328142ccc7939d2150451e664b0d0bd7d35a` |
-| ZKVerifier | `0x50471F33ed68167740dACDc7Be3DEe465Fa9ca66` |
-| NullifierRegistry | `0x7eC9360f46158504f48b616147d7c3cd1dfB617b` |
-| MockIDRX | `0x18f54ad14a7a4bf9e10b70899d302aea1e545d4b` |
-| DonationReceiptNFT | `0x10310da107719fec1b2ee3f35904c3205071157d` |
-| ZakatEscrowManager | `0xe7aa1d224e74e2fcdfb0fb8a9f65f8f6ec891fc6` |
-| ProposalManager | `0x427af887b3abe24784bc0cb119500d3bb4c2d2c0` |
-| VotingManager | `0xa733fd83d64173cc7d03627f1c526b18b06fbe94` |
-| ShariaReviewManager | `0x364835295d25b157c8fad75f289ad6cc9335216b` |
-| PoolManager | `0x01f89c2ae4be7ff35b02867e67780c26e56a16c2` |
-| MilestoneManager | `0x5a9e348a10709fa7ab29de17f664b4366f9e8c96` |
-| VotingNFT | `0xf76b4b19866bf182de8e4d246b5d518ff15cb165` |
-| OrganizerNFT | `0xe4346b881d4ef8c0489e34df2ede766f4b39e8ce` |
-| ParticipationTracker | `0xbcfbb72b538afd273c34a99646724cd29a4bc609` |
-| Groth16Verifier | `0x3d46fbd717ebc07ddbfbd9c5811f552ded0f1b17` |
-| HonkVerifier (slim) | `0x90fccbb10aa07deb1ac15a690b24dfded81e8ddc` |
+| ZKTCore (v8) | `0xb56a8411C769cb0039e9ae1FdA3ea51424B1b60B` |
+| ZKVerifier | `0x1009559B0a3c4a22b4F5503C16B6cD9Bc7f62f3F` |
+| NullifierRegistry | `0xeEA85A1870602E8bB0B18BeF8144AD0C8e1E9e49` |
+| ProposalManager | `0xc75f1A2B32f034D972afB75E437a1c3A9F467911` |
+| VotingManager | `0x56CAF0aFE6CeA849906fdDD06c3358a20e353Fb4` |
+| ShariaReviewManager | `0x227cb839365C7F2cB576768432563E6566343af2` |
+| PoolManager | `0x8b745Cd7b399E3965088aA367D54F2366A17288c` |
+| ZakatEscrowManager | `0x8A085b6Bd8A2f9eCb712c7d861238EdAe982eED1` |
+| DonationReceiptNFT | `0x739b75bEeaC0207BeB70a0405f3CF81654D81885` |
+| VotingNFT | `0x62AF745f9b7689720129A3A60e2ab0A2892C89B4` |
+| OrganizerNFT | `0x4A3d8e7F9b2c815BD69Be84a6DdEE39e786dD092` |
+| ParticipationTracker | `0xD3E6c9b8f5a726716981FC2F46E20A78bD2148E5` |
+| MilestoneManager | `0xFA8C3D1be97C6B2f68a72CB5f68162E05Ace54B7` |
+| MockIDRX | `0x1b84E74b5b291903Ee44FfbabBc87cD6535c59b5` |
+| Groth16Verifier | `0xE4290b5b9C0e6A3f5d8b2c7f1a0F6e5d4c3B2a19` |
 
-End-to-end donation verified at [tx 0xdfaca7...eb9f](https://sepolia.etherscan.io/tx/0xdfaca7b413b29f57242cb4f49f4f35a11aab4953f47b806ed939370e9b36eb9f), block 10,844,400, consuming 545K gas.
+End-to-end v8 donation verified at [tx 0x6a0b35...b790](https://sepolia.etherscan.io/tx/0x6a0b350821aa5afa309be599b5a64836aefb1c4a25d666a61d94e541967db790), block 10,854,651, consuming 721,345 gas.
 
 ## Quick Start
 
@@ -131,10 +130,10 @@ All benchmarks run on a 16-core Linux machine with Barretenberg v4.2.1.
 | ACIR opcodes | 29 |
 | Brillig opcodes | 44 |
 | Expression width | 4 (Bounded) |
-| Proof generation (avg) | 281.6 ms |
-| Proof generation (min) | 244.0 ms |
-| Proof generation (max) | 295.0 ms |
-| Proof verification (avg) | 13.4 ms |
+| Proof generation (avg) | 246.8 ms |
+| Proof generation (min) | 239.0 ms |
+| Proof generation (max) | 263.0 ms |
+| Proof verification (avg) | 12.0 ms |
 | Proof size | 8,384 bytes |
 | Verification key size | 1,888 bytes |
 
@@ -143,7 +142,7 @@ On-chain gas consumption (Foundry gas report):
 | Function | Gas (avg) |
 |----------|-----------|
 | `ZKTCore.donate()` | 490,187 |
-| `ZKTCore.donateZK()` (e2e) | 545,146 |
+| `ZKTCore.donateZK()` (e2e) | 721,345 |
 | `ZKTCore.castVote()` | 132,909 |
 | `ZKTCore.deploy` | 5,314,471 |
 | `ZakatEscrowManager.donate()` | 30,884 |
@@ -162,12 +161,12 @@ On-chain gas consumption (Foundry gas report):
 │   │   ├── usePrivateDonation.ts # ZK donation pipeline
 │   │   └── useWallet.ts          # Wallet state + donate()
 │   └── lib/
-│       ├── abi.ts                # All 17 contract addresses + ABIs
-│       └── aztec-private-donation.ts  # Proof generation pipeline
+│       ├── abi.ts                # All 15 contract addresses + ABIs
+│   └── aztec-private-donation.ts  # Proof generation pipeline
 │
 ├── sc/                           # Solidity smart contracts
 │   ├── src/DAO/
-│   │   ├── ZKTCore.sol           # Main orchestrator (donateZK, donate, castVote)
+│   │   ├── ZKTCore.sol           # Main orchestrator (v8, donateZK, donate, castVote)
 │   │   ├── NullifierRegistry.sol # Nullifier tracking for double-donation prevention
 │   │   ├── core/                 # ProposalManager, VotingManager, ShariaReviewManager,
 │   │   │                          PoolManager, ZakatEscrowManager, MilestoneManager
@@ -176,7 +175,7 @@ On-chain gas consumption (Foundry gas report):
 │   ├── src/tokens/               # MockIDRX, DonationReceiptNFT, VotingNFT, OrganizerNFT
 │   ├── src/participants/         # ParticipationTracker
 │   ├── script/
-│   │   ├── DeployZKT.s.sol       # Full deployment script (17 contracts)
+│   │   ├── DeployZKT.s.sol       # Full deployment script (15 contracts)
 │   │   └── GenerateZKProof.mjs   # Off-chain proof generator
 │   └── test/                     # Foundry tests (26 passing)
 │
@@ -195,7 +194,7 @@ On-chain gas consumption (Foundry gas report):
 The system follows a modular architecture with ZKTCore as the central orchestrator:
 
 ```
-ZKTCore (v6)
+ZKTCore (v8)
   ├── ZKVerifier           # verifies UltraHONK proofs (hash anchoring)
   ├── NullifierRegistry    # prevents double-donation (flat mapping)
   ├── ZakatEscrowManager   # fund custody + pool accounting (30-day timelock)
@@ -209,6 +208,9 @@ ZKTCore (v6)
 
 **Access control**: Role-based (OpenZeppelin AccessControl) with ORGANIZER_ROLE, SHARIA_COUNCIL_ROLE, KYC_ORACLE_ROLE, and MINTER_ROLE.
 
+**v8 E2E Flow** (all executed on-chain):
+`createProposal → submitForCommunityVote → castVote → finalizeCommunityVote → createShariaReviewBundle → reviewProposal → finalizeShariaBundle → createCampaignPool → donateZK()`
+
 ## ZK Pipeline
 
 The private donation flow:
@@ -218,7 +220,7 @@ The private donation flow:
 2. Selects privacy tier (Private/Semi-Private/Verified-Private/Public)
 3. Provides amount + private eligibility inputs
 4. Frontend calls /api/generate-proof → nargo execute → bb prove
-5. UltraHONK proof generated (281.6ms, 8,384 bytes)
+5. UltraHONK proof generated (246.8ms avg, 8,384 bytes)
 6. ZKTCore.donateZK() on Sepolia:
    → ZKVerifier.verify() → true
    → NullifierRegistry.spend() → nullifier marked spent

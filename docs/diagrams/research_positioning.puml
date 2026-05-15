@@ -6,7 +6,7 @@ skinparam defaultFontSize 9
 skinparam arrowThickness 1.5
 
 
-rectangle "Existing Blockchain Zakat\n--\nProvide transparency but\nexpose all donor-recipient\ndata publicly.\n\n[2,3,4,19]" as TL
+rectangle "Design Science Research\n--\nArtifact-driven methodology:\nbuild → evaluate → refine.\nZK-PZ instantiated as DSR\nartifact and validated via\nSepolia deployment (v8)." as TL
 rectangle "General ZKP Privacy\n--\nEnable anonymous transactions\nbut lack Islamic eligibility\npredicates.\n\n[7,8,14,15]" as TR
 rectangle "Islamic Social Finance\n--\nStudy zakat/waqf digitization\nwithout ZK privacy\nintegration.\n\n[20,21,24,25]" as BL
 rectangle "Smart Contract Platforms\n--\nOffer programmable logic but\nall state changes visible\non-chain.\n\n[9,18,29]" as BR

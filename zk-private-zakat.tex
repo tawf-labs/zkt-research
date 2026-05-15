@@ -98,15 +98,16 @@ The threat model assumes: (1)~an honest-but-curious verifier, (2)~a potentially 
 \begin{table}[htbp]
 \caption{ZK-PZ Protocol Security Properties}
 \label{tab:properties}
-\small
+\footnotesize
+\setlength{\tabcolsep}{3pt}
 \begin{center}
-\begin{tabular}{|p{1.7cm}|p{6.6cm}|}
+\begin{tabular}{|p{1.5cm}|p{6.8cm}|}
 \hline
 \multicolumn{1}{|c|}{\textbf{Property}} & \multicolumn{1}{c|}{\textbf{Guarantee}} \\
 \hline
-Donor anonymity & Identities, amounts, and patterns never exposed on-chain. Only ZK proofs of valid donation are publicly verifiable. \\
+Donor anonymity & Identities and amounts never exposed on-chain; only ZK proofs are publicly verifiable. \\
 \hline
-Recipient privacy & Donor-side privacy preserved through ZK proofs. Recipient encrypted notes reserved for future work. \\
+Recipient privacy & Donor-side privacy via ZK proofs; recipient encrypted notes reserved for future work. \\
 \hline
 Soundness & Non-eligible recipient cannot generate an accepted proof under q-PKE assumption \cite{b_zkp_blockchain}. \\
 \hline

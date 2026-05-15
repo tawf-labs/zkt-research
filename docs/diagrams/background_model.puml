@@ -6,7 +6,6 @@ skinparam defaultFontSize 9
 skinparam packagePadding 2
 skinparam nodePadding 2
 
-header <b>Traditional Zakat vs ZK-PZ Proposed Model</b>
 
 package "Traditional Zakat Systems" {
   actor Donor_T as "Donor"

@@ -6,7 +6,6 @@ skinparam defaultFontSize 8
 skinparam packagePadding 2
 skinparam nodePadding 2
 
-header <b>ZK-PZ Protocol Architecture</b>
 
 actor Donor
 

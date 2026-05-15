@@ -14,7 +14,7 @@ import "../src/DAO/core/ZakatEscrowManager.sol";
 import "../src/DAO/core/MilestoneManager.sol";
 import "../src/DAO/core/ParticipationTracker.sol";
 import "../src/DAO/verifiers/Groth16Verifier.sol";
-import "../src/DAO/verifiers/HonkVerifier.sol";
+import "../src/DAO/verifiers/ZKVerifier.sol";
 import "../src/DAO/NullifierRegistry.sol";
 
 /**
@@ -30,7 +30,7 @@ contract DeployZKT is Script {
     OrganizerNFT public organizerNFT;
     ParticipationTracker public participationTracker;
     Groth16Verifier public groth16Verifier;
-    HonkVerifier public honkVerifier;
+    ZKVerifier public zkVerifier;
     NullifierRegistry public nullifierRegistry;
 
     ProposalManager public proposalManager;
@@ -67,8 +67,8 @@ contract DeployZKT is Script {
         groth16Verifier = new Groth16Verifier();
         console.log("Groth16Verifier deployed at:", address(groth16Verifier));
 
-        honkVerifier = new HonkVerifier();
-        console.log("HonkVerifier deployed at:", address(honkVerifier));
+        zkVerifier = new ZKVerifier();
+        console.log("ZKVerifier deployed at:", address(zkVerifier));
 
         nullifierRegistry = new NullifierRegistry();
         console.log("NullifierRegistry deployed at:", address(nullifierRegistry));
@@ -131,7 +131,7 @@ contract DeployZKT is Script {
             address(poolManager),
             address(zakatEscrowManager),
             address(milestoneManager),
-            address(honkVerifier),
+            address(zkVerifier),
             address(nullifierRegistry)
         );
         console.log("ZKTCore deployed at:", address(dao));

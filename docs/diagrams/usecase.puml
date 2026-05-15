@@ -5,7 +5,6 @@ skinparam defaultFontName Times-Roman
 skinparam defaultFontSize 8
 skinparam rectangleBorderThickness 1.5
 
-header <b>ZK-PZ Donation Flow</b>
 
 rectangle "1. Wallet Connect\n& Privacy Tier Select\n(wagmi + XellarKit)" as S1
 rectangle "2. Private Inputs\n& ZK Proof Generation\n(Noir + bb, 248ms, 8,384B)" as S2

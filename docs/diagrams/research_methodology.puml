@@ -6,7 +6,6 @@ skinparam defaultFontSize 10
 skinparam rectangleBorderThickness 1.5
 skinparam dpi 150
 
-header <b>Design Science Research Methodology</b>
 
 rectangle "Phase 1:\nProblem Identification\n--\nLiterature review: 29 papers\nBlockchain zakat [2,3,4]\nZKP frameworks [7,8,14]\nIslamic finance [20,21]" as P1 #E3F2FD
 rectangle "Phase 2:\nSolution Design\n--\nZK-PZ protocol design\nNoir circuit (nisab+hawl)\n4-tier privacy model\n5 security properties" as P2 #BBDEFB

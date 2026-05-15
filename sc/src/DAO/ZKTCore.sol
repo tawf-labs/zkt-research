@@ -562,9 +562,13 @@ contract ZKTCore is AccessControl {
 
         nullifierRegistry.spend(nullifier);
 
-        zakatEscrowManager.donate(msg.sender, poolId, amount, ipfsCID);
-
-        emit ZKDonationReceived(poolId, nullifier, amount, msg.sender);
+        try zakatEscrowManager.donate(msg.sender, poolId, amount, ipfsCID) {
+            emit ZKDonationReceived(poolId, nullifier, amount, msg.sender);
+            return;
+        } catch {
+            poolManager.donate(msg.sender, poolId, amount, ipfsCID);
+            emit ZKDonationReceived(poolId, nullifier, amount, msg.sender);
+        }
     }
 
     /**

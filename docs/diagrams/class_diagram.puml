@@ -5,9 +5,8 @@ skinparam defaultFontName Times-Roman
 skinparam defaultFontSize 8
 skinparam classBorderThickness 1.5
 
-header <b>ZK-PZ Smart Contract Architecture</b>
 
-class "ZKTCore\n(v6, 0x1da632...d35a)" as ZKTCore {
+class "ZKTCore\n(v7, 0xca849d...a7f7)" as ZKTCore {
   - honkVerifier: IHonkVerifier
   - nullifierRegistry: NullifierRegistry
   - zakatEscrowManager: ZakatEscrowManager

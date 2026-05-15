@@ -2,21 +2,21 @@
 // Fresh deployment — 17 contracts, all verified on Sepolia
 
 export const CONTRACT_ADDRESSES = {
-  ZKTCore: (process.env.NEXT_PUBLIC_CONTRACT_ZKT_CORE || '0x1da6328142ccc7939d2150451e664b0d0bd7d35a') as `0x${string}`,
-  ZKVerifier: (process.env.NEXT_PUBLIC_CONTRACT_ZK_VERIFIER || '0x50471F33ed68167740dACDc7Be3DEe465Fa9ca66') as `0x${string}`,
-  NullifierRegistry: (process.env.NEXT_PUBLIC_CONTRACT_NULLIFIER_REGISTRY || '0x7eC9360f46158504f48b616147d7c3cd1dfB617b') as `0x${string}`,
-  MockIDRX: (process.env.NEXT_PUBLIC_CONTRACT_MOCK_IDRX || '0x18f54ad14a7a4bf9e10b70899d302aea1e545d4b') as `0x${string}`,
-  DonationReceiptNFT: (process.env.NEXT_PUBLIC_CONTRACT_RECEIPT_NFT || '0x10310da107719fec1b2ee3f35904c3205071157d') as `0x${string}`,
-  ZakatEscrowManager: (process.env.NEXT_PUBLIC_CONTRACT_ZAKAT_ESCROW_MANAGER || '0xe7aa1d224e74e2fcdfb0fb8a9f65f8f6ec891fc6') as `0x${string}`,
-  ProposalManager: (process.env.NEXT_PUBLIC_CONTRACT_PROPOSAL_MANAGER || '0x427af887b3abe24784bc0cb119500d3bb4c2d2c0') as `0x${string}`,
-  VotingManager: (process.env.NEXT_PUBLIC_CONTRACT_VOTING_MANAGER || '0xa733fd83d64173cc7d03627f1c526b18b06fbe94') as `0x${string}`,
-  ShariaReviewManager: (process.env.NEXT_PUBLIC_CONTRACT_SHARIA_REVIEW_MANAGER || '0x364835295d25b157c8fad75f289ad6cc9335216b') as `0x${string}`,
-  PoolManager: (process.env.NEXT_PUBLIC_CONTRACT_POOL_MANAGER || '0x01f89c2ae4be7ff35b02867e67780c26e56a16c2') as `0x${string}`,
-  MilestoneManager: (process.env.NEXT_PUBLIC_CONTRACT_MILESTONE_MANAGER || '0x5a9e348a10709fa7ab29de17f664b4366f9e8c96') as `0x${string}`,
-  VotingNFT: (process.env.NEXT_PUBLIC_CONTRACT_VOTING_NFT || '0xf76b4b19866bf182de8e4d246b5d518ff15cb165') as `0x${string}`,
-  OrganizerNFT: (process.env.NEXT_PUBLIC_CONTRACT_ORGANIZER_NFT || '0xe4346b881d4ef8c0489e34df2ede766f4b39e8ce') as `0x${string}`,
-  ParticipationTracker: (process.env.NEXT_PUBLIC_CONTRACT_PARTICIPATION_TRACKER || '0xbcfbb72b538afd273c34a99646724cd29a4bc609') as `0x${string}`,
-  Groth16Verifier: (process.env.NEXT_PUBLIC_CONTRACT_GROTH16_VERIFIER || '0x3d46fbd717ebc07ddbfbd9c5811f552ded0f1b17') as `0x${string}`,
+  ZKTCore: (process.env.NEXT_PUBLIC_CONTRACT_ZKT_CORE || '0xca849dad720c870cb2738c9ed02d978ca357a7f7') as `0x${string}`,
+  ZKVerifier: (process.env.NEXT_PUBLIC_CONTRACT_ZK_VERIFIER || '0x8FBC921D0Eba95Fc853e75224BaC4991815bDe8d') as `0x${string}`,
+  NullifierRegistry: (process.env.NEXT_PUBLIC_CONTRACT_NULLIFIER_REGISTRY || '0x216D24Fe0bF73c3296276B878aF7ACCD0AC5825A') as `0x${string}`,
+  MockIDRX: (process.env.NEXT_PUBLIC_CONTRACT_MOCK_IDRX || '0xf8fef632426913a6b0bfe5ee591594c77899a293') as `0x${string}`,
+  DonationReceiptNFT: (process.env.NEXT_PUBLIC_CONTRACT_RECEIPT_NFT || '0x35f8fe6c4de3a76d1386594bdde4597bf4cf5b8f') as `0x${string}`,
+  ZakatEscrowManager: (process.env.NEXT_PUBLIC_CONTRACT_ZAKAT_ESCROW_MANAGER || '0xf2645c8a0db47aab0da9aed78f030f82c6548c50') as `0x${string}`,
+  ProposalManager: (process.env.NEXT_PUBLIC_CONTRACT_PROPOSAL_MANAGER || '0x14c1142d6884deb3326d40df1bc5a28537dd62d0') as `0x${string}`,
+  VotingManager: (process.env.NEXT_PUBLIC_CONTRACT_VOTING_MANAGER || '0xf13fa132d6df88769f3daafbf31612775c9112b1') as `0x${string}`,
+  ShariaReviewManager: (process.env.NEXT_PUBLIC_CONTRACT_SHARIA_REVIEW_MANAGER || '0x7052f1c15f0f9a60a65e07207dbf7568006eb8fc') as `0x${string}`,
+  PoolManager: (process.env.NEXT_PUBLIC_CONTRACT_POOL_MANAGER || '0xa9ca268f6ee5fb1c73b2cdacb11bd0c5bde87637') as `0x${string}`,
+  MilestoneManager: (process.env.NEXT_PUBLIC_CONTRACT_MILESTONE_MANAGER || '0x002baeea0d1985484416a2f0e3937355a7359ec7') as `0x${string}`,
+  VotingNFT: (process.env.NEXT_PUBLIC_CONTRACT_VOTING_NFT || '0x08d1d4105e8b6d8d45e40e39ed2925aac9e2b3c2') as `0x${string}`,
+  OrganizerNFT: (process.env.NEXT_PUBLIC_CONTRACT_ORGANIZER_NFT || '0x606c8b2d7e8c63036add58955182488c7b1ff624') as `0x${string}`,
+  ParticipationTracker: (process.env.NEXT_PUBLIC_CONTRACT_PARTICIPATION_TRACKER || '0xce6079834ac306fac077bf6946451ac66ff91959') as `0x${string}`,
+  Groth16Verifier: (process.env.NEXT_PUBLIC_CONTRACT_GROTH16_VERIFIER || '0x3e14d269866741f4dfa18e714f1548644195bff6') as `0x${string}`,
 } as const;
 
 // ZKTCore ABI - Main orchestrator contract

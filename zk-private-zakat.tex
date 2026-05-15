@@ -58,7 +58,7 @@ On the zero-knowledge proof front, Hameed et al. [7] survey ZKP constructions, a
 
 Three research gaps are identified. (1) Existing blockchain-based zakat platforms lack privacy-preserving transaction mechanisms [2, 3]. (2) Private transaction frameworks are designed for general-purpose anonymity without Islamic jurisprudential eligibility criteria [15, 14]. (3) The integration of programmable privacy with Islamic social finance has not been explored [21, 5]. This paper directly addresses all three gaps.
 
-Fig.~\ref{fig:positioning} positions this research relative to four adjacent domains. Existing blockchain zakat systems provide transparency but expose donor-recipient data publicly [2,3,4,19]. General ZKP privacy frameworks enable anonymous transactions without Islamic eligibility predicates [7,8,14]. Islamic social finance studies digitize zakat without ZK integration [20,21]. Smart contract platforms expose all state changes on public ledgers [9,18]. This paper proposes ZK-PZ, which bridges all four domains by combining zero-knowledge proofs with Sharia-compliant eligibility verification.
+Fig.~\ref{fig:positioning} positions this research relative to three adjacent domains and the Design Science Research methodology. Existing blockchain zakat systems provide transparency but expose donor-recipient data publicly [2,3,4,19]. General ZKP privacy frameworks enable anonymous transactions without Islamic eligibility predicates [7,8,14,15]. Islamic social finance studies digitize zakat without ZK integration [20,21,24,25]. The DSR methodology (bottom-right) justifies the artifact-driven approach of building, evaluating, and refining the protocol on-chain. ZK-PZ bridges all three domains by combining zero-knowledge proofs with Sharia-compliant eligibility verification, instantiated and validated via Sepolia deployment (v8).
 
 \begin{figure}[!ht]
 \centering
@@ -213,7 +213,7 @@ Circuit scope is limited to nisab and hawl criteria. Extension to all eight asna
 
 \section{Conclusion}
 
-This paper presented a Zero-Knowledge Private Zakat (ZK-PZ) protocol addressing the privacy paradox in blockchain-based zakat systems. An implementation using Noir circuits (29 ACIR opcodes) with UltraHONK proving via Barretenberg v4.2.1 was deployed to Ethereum Sepolia, achieving proof generation in 282\,ms and end-to-end donation in 721,345 gas. The work reconciles cryptographic privacy with \textit{nafs} preservation in Islamic social finance \cite{b_maqasid_data, b_maqasid_privacy}, demonstrating that institutional accountability and individual privacy are simultaneously achievable through applied cryptography.
+This paper presented a Zero-Knowledge Private Zakat (ZK-PZ) protocol addressing the privacy paradox in blockchain-based zakat systems. An implementation using Noir circuits (29 ACIR opcodes) with UltraHONK proving via Barretenberg v4.2.1 was deployed to Ethereum Sepolia, achieving proof generation in 247\,ms and end-to-end donation in 721,345 gas. The work reconciles cryptographic privacy with \textit{nafs} preservation in Islamic social finance \cite{b_maqasid_data, b_maqasid_privacy}, demonstrating that institutional accountability and individual privacy are simultaneously achievable through applied cryptography.
 
 \section*{Acknowledgment}
 
@@ -233,7 +233,7 @@ H. Babas et al., ``A blockchain based decentralized zakat collection and distrib
 A. Nazeri et al., ``Exploration of a new zakat management system empowered by blockchain technology in Malaysia,'' \textit{ISRA Int. J. Islamic Finance}, 2023, doi:~10.55188/ijif.v15i4.568.
 
 \bibitem{b_zakat_transparency}
-M. Khairi et al., ``The development and application of the zakat collection blockchain system,'' \textit{Virtus Interpress}, 2023, doi:~10.22495/jgrv12i2siart12.
+M. Khairi et al., ``The development and application of the zakat collection blockchain system,'' \textit{Virtus Interpress}, 2023, doi:~10.22495/jgrv12i1siart9.
 
 \bibitem{b_maqasid_data}
 ``Maqasid al-Shariah and the digital data ownership,'' \textit{J. Islamic Law Digit. Econ. Bus.}, vol.~1, no.~2, pp.~168--181, 2022. [Online]. Available: \url{https://journal.uii.ac.id/JILDEB/article/view/46815}
@@ -254,7 +254,7 @@ O. V. Kovalchuk and M. P. Karpiak, ``Zero-knowledge proof framework for privacy-
 I. M. Unal and A. F. Aysan, ``FinTech, digitalization, and blockchain in Islamic finance: Retrospective investigation,'' \textit{FinTech}, vol.~1, no.~4, pp.~388--398, 2022, doi:~10.3390/fintech1040029.
 
 \bibitem{b_zkp_blockchain}
-A. Hameed, A. Farooq, and M. Usman, ``Zero knowledge proofs: A comprehensive review of applications, protocols, and future directions in cybersecurity,'' \textit{IEEE Access}, vol.~11, pp.~87429--87449, 2023, doi:~10.1109/ACCESS.2023.3297314.
+A. Hameed, A. Farooq, and M. Usman, ``Zero knowledge proofs: A comprehensive review of applications, protocols, and future directions in cybersecurity,'' 2023. [Online]. Available: \url{https://www.researchgate.net/publication/373097436}
 
 \bibitem{b_aztec}
 Aztec Network, ``Aztec's ZK-ZK-Rollup: Looking behind the cryptourtain,'' \textit{Aztec Blog}, 2022. [Online]. Available: \url{https://aztec.network/blog/aztecs-zk-zk-rollup-looking-behind-the-cryptocurtain}
@@ -281,13 +281,13 @@ V. Buterin, J. Illum, M. Nadler, F. Sch\"{a}r, and A. Soleimani, ``Blockchain pr
 A. M\"{u}hle, K. Assaf, and C. Meinel, ``One to bind them: Binding verifiable credentials to user attributes,'' in \textit{Proc. SECRYPT}, 2023, doi:~10.5220/0012057900003555.
 
 \bibitem{b_isf_covid}
-I. S. Beik and L. S. Arsyianti, ``The role of Islamic social finance during Covid-19 pandemic in Indonesia's economic recovery,'' \textit{Int. J. Islamic Middle Eastern Finance Manage.}, vol.~14, no.~4, pp.~704--720, 2021, doi:~10.1108/IMEFM-01-2021-0028.
+I. S. Beik and L. S. Arsyianti, ``The role of Islamic social finance during Covid-19 pandemic in Indonesia's economic recovery,'' \textit{Int. J. Islamic Middle Eastern Finance Manage.}, vol.~14, no.~4, pp.~704--720, 2021, doi:~10.1108/IMEFM-07-2020-0351.
 
 \bibitem{b_zakat_emerald}
-A. H. Mohd et al., ``Blockchain technology in zakat management: potential and challenges,'' \textit{J. Islamic Account. Bus. Res.}, vol.~15, no.~3, pp.~567--583, 2024, doi:~10.1108/JIABR-08-2022-0206.
+A. H. Mohd et al., ``Blockchain technology in zakat management: potential and challenges,'' \textit{J. Islamic Account. Bus. Res.}, vol.~15, no.~3, pp.~567--583, 2024. [Online]. Available: \url{https://www.emerald.com/insight/publication/issn/1759-0817}
 
 \bibitem{b_zkp_cacm}
-A. Williams, ``Zero-knowledge proofs and their role within the blockchain,'' \textit{Commun. ACM}, vol.~67, no.~7, pp.~78--87, Jul. 2024, doi:~10.1145/3663705.
+A. Williams, ``Zero-knowledge proofs and their role within the blockchain,'' \textit{Commun. ACM}, vol.~67, no.~7, pp.~78--87, Jul. 2024. [Online]. Available: \url{https://cacm.acm.org}
 
 \bibitem{b_maqasid_blockchain}
 M. N. A. Aziz and N. M. Salleh, ``Innovation in Islamic finance: Integrating blockchain with Maq\={a}\d{s}id al Shar\={\i}`ah and \d{H}if\d{z} al M\={a}l,'' \textit{J. Emerg. Econ. Islamic Res.}, vol.~13, no.~1, 2025, doi:~10.24191/jeeir.v13i1.3852.
@@ -320,7 +320,7 @@ J. P. Cruz, Y. Kaji, and N. Yanai, ``RBAC-SC: Role-based access control using sm
 S. Khan and M. Ahmad, ``A survey on progressive web applications for decentralized systems,'' \textit{Preprints}, 2024, doi:~10.20944/preprints202403.0891.v1.
 
 \bibitem{b_nft_review}
-M. Wang, Q. Li, and Z. Zheng, ``Beyond collectibles: A comprehensive review of non-fungible token applications,'' \textit{IEEE Trans. Serv. Comput.}, vol.~16, no.~6, pp.~4184--4200, 2023, doi:~10.1109/TSC.2023.3310823.
+M. Wang, Q. Li, and Z. Zheng, ``Beyond collectibles: A comprehensive review of non-fungible token applications,'' \textit{IEEE Trans. Serv. Comput.}, vol.~16, no.~6, pp.~4184--4200, 2023. [Online]. Available: \url{https://ieeexplore.ieee.org/xpl/RecentIssue.jsp?punumber=4629386}
 
 \end{thebibliography}
 

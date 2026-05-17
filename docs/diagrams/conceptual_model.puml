@@ -2,10 +2,11 @@
 skinparam backgroundColor transparent
 skinparam shadowing false
 skinparam defaultFontName Arial
-skinparam defaultFontSize 11
+skinparam defaultFontSize 12
 skinparam ArrowColor #888780
 skinparam ArrowThickness 1
 skinparam linetype ortho
+skinparam dpi 300
 
 skinparam rectangle {
   BorderColor #888780
@@ -23,74 +24,89 @@ skinparam package {
 }
 
 actor Donor
+actor Organizer
 
 ' ── Left column: Off-chain ──
-package "Off-chain proving pipeline" {
-  rectangle "Witness generation\nnargo execute" as Witness
+package "Off-chain proving" {
+  rectangle "Witness\nnargo execute" as Witness
   rectangle "Noir circuit\n29 ACIR opcodes" as Circuit
-  rectangle "Barretenberg bb v4.2.1" as BB
-  rectangle "UltraHONK proof\n8,384 B · 246.8 ms" as Proof
+  rectangle "Barretenberg bb" as BB
+  rectangle "UltraHONK proof\n8,384 B, 270 ms" as Proof
 }
 
 ' ── Middle column: On-chain ──
-package "Ethereum Sepolia (block 10,854,651)" {
+package "Ethereum Sepolia" {
 
   package "Core" {
-    rectangle "ZKVerifier\n0x1009…2f3F" as Verifier
-    rectangle "ZKTCore v8\n0xb56a…B60B" as ZKTCore
-    rectangle "NullifierRegistry\n0xeEA8…9e49" as Nullifier
+    rectangle "ZKVerifier" as Verifier
+    rectangle "Groth16Verifier" as Groth16
+    rectangle "ZKTCore" as ZKTCore
+    rectangle "NullifierRegistry" as Nullifier
   }
 
   package "Governance" {
-    rectangle "ProposalManager\n0xc75f…7911" as PropMgr
-    rectangle "VotingManager\n0x56CA…Fb4" as VoteMgr
-    rectangle "VotingNFT\n0x62AF…89B4" as VNFT
-    rectangle "ShariaReviewMgr\n0x227c…3af2" as ShariaMgr
+    rectangle "ProposalManager" as PropMgr
+    rectangle "VotingManager" as VoteMgr
+    rectangle "ShariaReviewMgr" as ShariaMgr
+    rectangle "PrivateDonationPool" as PrivatePool
+    rectangle "PoolManager" as PoolMgr
+    rectangle "ZakatEscrowMgr" as Escrow
+    rectangle "MilestoneManager" as MilestoneMgr
+    rectangle "DonationReceiptNFT" as NFT
   }
 
-  package "Finance" {
-    rectangle "PoolManager\n0x8b74…288c" as PoolMgr
-    rectangle "ZakatEscrowMgr\n0x8A08…eED1" as Escrow
-    rectangle "DonationReceiptNFT\n0x739b…1885" as NFT
+  package "Identity" {
+    rectangle "VotingNFT" as VotingNFT
+    rectangle "OrganizerNFT" as OrganizerNFT
+    rectangle "ParticipationTracker" as Tracker
   }
 }
 
 ' ── Right column: Frontend ──
-package "Frontend · Next.js 15 PWA" {
-  rectangle "wagmi + XellarKit\nwallet" as Wallet
-  rectangle "usePrivateDonation\nhook" as Hook
+package "Frontend" {
+  rectangle "wagmi + XellarKit" as Wallet
+  rectangle "donation hook" as Hook
   rectangle "Privacy tier\ntoggle" as Toggle
 }
 
-' ── Off-chain flow (left, vertical) ──
-Donor   -down-> Witness : private inputs
+' ── Off-chain flow ──
+Donor   -down-> Witness : inputs
 Witness -down-> Circuit : Prover.toml
-Circuit -down-> BB      : ACIR bytecode
-BB      -down-> Proof   : prove (246.8 ms)
+Circuit -down-> BB      : ACIR
+BB      -down-> Proof   : prove
 
-' ── Proof → Verifier (cross) ──
-Proof   -right-> Verifier : 8,384 B proof
+' ── Proof → Verifier ──
+Proof   -right-> Verifier : proof
 
-' ── On-chain: Verifier → ZKTCore → Nullifier ──
+' ── On-chain flow ──
 Verifier -down-> ZKTCore   : verify OK
-ZKTCore  -down-> Nullifier : spend(nullifier)
+ZKTCore  -down-> Nullifier : spend
 
-' ── Governance flow: ZKTCore orchestrates rightward ──
-ZKTCore  -right-> PropMgr   : createProposal
-ZKTCore  -right-> VoteMgr   : submitForCommunityVote
-ZKTCore  -right-> ShariaMgr : finalizeShariaBundle
-ZKTCore  -right-> PoolMgr   : createCampaignPool
-ZKTCore  -right-> Escrow    : donateZK()
+' ── Governance flow ──
+Groth16 --> ShariaMgr : verifies
+ZKTCore  -right-> PropMgr   : proposal
+ZKTCore  -right-> VoteMgr   : voting
+ZKTCore  -right-> ShariaMgr : review
+ZKTCore  -right-> PrivatePool : private donate
+ZKTCore  -right-> Escrow    : public donate
+ZKTCore  -right-> PoolMgr   : campaign pool
+ZKTCore  -right-> MilestoneMgr : milestones
+PrivatePool ..> Escrow    : redistribute
 
-' ── Escrow → NFT → Donor ──
+' ── NFT flow ──
 Escrow   -right-> NFT    : mint SBT
-NFT      -right-> Donor  : SBT receipt
+NFT      -right-> Donor  : receipt
 
-' ── Frontend flow (right) ──
-Donor    -right-> Wallet : connect Sepolia
-Wallet   -down-> Hook    : call donateZK()
-Hook     -down-> Toggle  : select tier
-Hook     -down-> Proof   : fetch proof
-Hook     -right-> ZKTCore : submit tx (721,345 gas)
+' ── Organizer flow ──
+Organizer -down-> OrganizerNFT : KYC
+Organizer -down-> VotingNFT : voting
+Organizer -down-> Tracker : metrics
+
+' ── Frontend flow ──
+Donor    -right-> Wallet : connect
+Wallet   -down-> Hook    : donate
+Hook     -down-> Toggle  : tier
+Hook     -down-> Proof   : fetch
+Hook     -right-> ZKTCore : submit tx
 
 @enduml

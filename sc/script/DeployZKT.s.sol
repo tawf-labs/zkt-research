@@ -11,6 +11,7 @@ import "../src/DAO/core/VotingManager.sol";
 import "../src/DAO/core/ShariaReviewManager.sol";
 import "../src/DAO/core/PoolManager.sol";
 import "../src/DAO/core/ZakatEscrowManager.sol";
+import "../src/DAO/core/PrivateDonationPool.sol";
 import "../src/DAO/core/MilestoneManager.sol";
 import "../src/DAO/core/ParticipationTracker.sol";
 import "../src/DAO/verifiers/Groth16Verifier.sol";
@@ -38,6 +39,7 @@ contract DeployZKT is Script {
     ShariaReviewManager public shariaReviewManager;
     PoolManager public poolManager;
     ZakatEscrowManager public zakatEscrowManager;
+    PrivateDonationPool public privateDonationPool;
     MilestoneManager public milestoneManager;
 
     ZKTCore public dao;
@@ -111,6 +113,9 @@ contract DeployZKT is Script {
             address(zakatEscrowManager)
         );
 
+        privateDonationPool = new PrivateDonationPool(address(idrxToken));
+        console.log("PrivateDonationPool deployed at:", address(privateDonationPool));
+
         milestoneManager = new MilestoneManager(
             address(proposalManager),
             address(votingNFT)
@@ -132,7 +137,8 @@ contract DeployZKT is Script {
             address(zakatEscrowManager),
             address(milestoneManager),
             address(zkVerifier),
-            address(nullifierRegistry)
+            address(nullifierRegistry),
+            address(privateDonationPool)
         );
         console.log("ZKTCore deployed at:", address(dao));
 
@@ -170,6 +176,10 @@ contract DeployZKT is Script {
         );
         zakatEscrowManager.grantRole(
             zakatEscrowManager.SHARIA_COUNCIL_ROLE(),
+            address(dao)
+        );
+        privateDonationPool.grantRole(
+            privateDonationPool.CORE_ROLE(),
             address(dao)
         );
         zakatEscrowManager.grantRole(dao.DEFAULT_ADMIN_ROLE(), address(dao));

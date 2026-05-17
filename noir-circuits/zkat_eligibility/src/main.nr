@@ -20,12 +20,13 @@ fn main(
     assets: u64,
     hawl_start: u64,
     secret: Field,
+    amount: Field,
     nisab_threshold: pub u64,
     current_time: pub u64,
     recipient_address: pub Field,
     cycle_id: pub u64,
     expected_nullifier: pub Field
-) -> pub Field {
+) -> pub (Field, Field) {
     let nisab_valid = verify_nisab(income, assets, nisab_threshold);
     assert(nisab_valid, "Recipient exceeds nisab threshold");
 
@@ -40,7 +41,12 @@ fn main(
 
     assert(nullifier == expected_nullifier, "Invalid nullifier");
 
-    nullifier
+    let amount_commitment = std::hash::pedersen_hash([
+        secret,
+        amount
+    ]);
+
+    (nullifier, amount_commitment)
 }
 
 #[test]

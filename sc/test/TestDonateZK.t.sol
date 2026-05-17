@@ -13,6 +13,7 @@ import "../src/DAO/core/VotingManager.sol";
 import "../src/DAO/core/ShariaReviewManager.sol";
 import "../src/DAO/core/PoolManager.sol";
 import "../src/DAO/core/ZakatEscrowManager.sol";
+import "../src/DAO/core/PrivateDonationPool.sol";
 import "../src/DAO/core/MilestoneManager.sol";
 import "../src/DAO/core/ParticipationTracker.sol";
 
@@ -33,6 +34,7 @@ contract TestDonateZK is Test {
         ShariaReviewManager shariaReviewManager = new ShariaReviewManager(address(proposalManager), address(groth16Verifier));
         PoolManager poolManager = new PoolManager(address(proposalManager), address(idrxToken), address(receiptNFT));
         ZakatEscrowManager zakatEscrowManager = new ZakatEscrowManager(address(proposalManager), address(idrxToken), address(receiptNFT));
+        PrivateDonationPool privatePool = new PrivateDonationPool(address(idrxToken));
         MilestoneManager milestoneManager = new MilestoneManager(address(proposalManager), address(votingNFT));
         
         ZKTCore dao = new ZKTCore(
@@ -41,7 +43,8 @@ contract TestDonateZK is Test {
             address(proposalManager), address(votingManager),
             address(shariaReviewManager), address(poolManager),
             address(zakatEscrowManager), address(milestoneManager),
-            address(honkVerifier), address(nullifierRegistry)
+            address(honkVerifier), address(nullifierRegistry),
+            address(privatePool)
         );
 
         // Give ZKTCore MINTER_ROLE

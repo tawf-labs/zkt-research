@@ -35,8 +35,8 @@ export default function ZakatPage() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentType, setPaymentType] = useState<"maal" | "fitrah">("maal");
 
-  const goldPrice = 2650.00;
-  const nisabThreshold = 7296.88;
+  const goldPriceIDR = 85000000;
+  const nisabThreshold = goldPriceIDR;
   const zakatRate = 2.5;
   const fitrahPerPerson = 50000;
 
@@ -151,7 +151,7 @@ export default function ZakatPage() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <Calculator className="h-5 w-5 text-primary" />
-                    <CardTitle className="text-lg">Live Nisab Threshold</CardTitle>
+                    <CardTitle className="text-lg">Nisab Threshold (Testnet)</CardTitle>
                   </div>
                   <Button variant="ghost" size="sm" className="h-8 gap-2 text-primary hover:text-primary">
                     <Loader2 className="h-3.5 w-3.5" />
@@ -162,16 +162,16 @@ export default function ZakatPage() {
               <CardContent>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
                   <div className="text-center p-3 sm:p-4 bg-accent rounded-xl border border-border">
-                    <div className="text-xs text-muted-foreground mb-1">Gold Price</div>
-                    <div className="text-lg font-bold text-primary">${goldPrice.toFixed(2)}/oz</div>
+                    <div className="text-xs text-muted-foreground mb-1">Gold Equivalent</div>
+                    <div className="text-lg font-bold text-primary">85 gr</div>
                     <span className="inline-flex items-center justify-center rounded-full px-2 py-0.5 text-xs font-semibold bg-primary/10 text-primary mt-1">
-                      Live
+                      Testnet
                     </span>
                   </div>
 
                   <div className="text-center p-3 sm:p-4 bg-accent rounded-xl border border-border">
                     <div className="text-xs text-muted-foreground mb-1">Nisab (85g Gold)</div>
-                    <div className="text-lg font-bold text-primary">${nisabThreshold.toFixed(2)}</div>
+                    <div className="text-lg font-bold text-primary">Rp {(goldPriceIDR / 1000000).toFixed(0)}M</div>
                   </div>
 
                   <div className="text-center p-3 sm:p-4 bg-accent rounded-xl border border-border">
@@ -181,7 +181,7 @@ export default function ZakatPage() {
                 </div>
 
                 <p className="text-xs text-muted-foreground mt-4 text-center">
-                  Nisab threshold based on live gold prices (85 grams). Updates every 5 minutes.
+                  Nisab threshold set to 85g gold equivalent (Rp 85,000,000) for testnet.
                 </p>
               </CardContent>
             </Card>
@@ -265,7 +265,7 @@ export default function ZakatPage() {
                               type="number"
                               value={monthlyIncome}
                               onChange={(e) => setMonthlyIncome(e.target.value)}
-                              placeholder={`Enter your ${incomeType} income in USD`}
+                              placeholder={`Enter your ${incomeType} income in IDR`}
                               className="pl-10 h-11"
                             />
                           </div>
@@ -299,7 +299,7 @@ export default function ZakatPage() {
                             {/* Expenses Input */}
                             {hasDeductions && (
                               <div className="space-y-2">
-                                <Label htmlFor="expenses">Expenses (USD)</Label>
+                                    <Label htmlFor="expenses">Expenses (IDR)</Label>
                                 <div className="relative">
                                   <Wallet className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                                   <Input
@@ -307,7 +307,7 @@ export default function ZakatPage() {
                                     type="number"
                                     value={expenses}
                                     onChange={(e) => setExpenses(e.target.value)}
-                                    placeholder="Enter your expenses in USD"
+                                      placeholder="Enter your expenses in IDR"
                                     className="pl-10 h-11"
                                   />
                                 </div>
@@ -336,9 +336,9 @@ export default function ZakatPage() {
                       <div className="p-4 sm:p-6 rounded-xl border border-primary/30 bg-primary/5 shadow-sm">
                         <div className="text-center">
                           <p className="text-xs sm:text-sm text-muted-foreground mb-2">Your Zakat Amount:</p>
-                          <p className="text-2xl sm:text-4xl font-bold text-primary mb-1 break-all">
-                            ${calculatedZakat.toFixed(2)}
-                          </p>
+                            <p className="text-2xl sm:text-4xl font-bold text-primary mb-1 break-all">
+                              Rp {calculatedZakat.toLocaleString('id-ID', { maximumFractionDigits: 0 })}
+                            </p>
                           <p className="text-xs text-muted-foreground">
                             {zakatRate}% of taxable income above nisab
                           </p>

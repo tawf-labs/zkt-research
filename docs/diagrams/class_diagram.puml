@@ -2,129 +2,189 @@
 skinparam backgroundColor #FEFEFE
 skinparam shadowing false
 skinparam defaultFontName Times-Roman
-skinparam defaultFontSize 8
+skinparam defaultFontSize 9
 skinparam classBorderThickness 1.5
+skinparam dpi 300
 
 
-class "ZKTCore\n(v8, 0xb56a...B60B)" as ZKTCore {
+class "ZKTCore\n(orchestrator)" as ZKTCore {
   - honkVerifier: IHonkVerifier
   - nullifierRegistry: NullifierRegistry
   - zakatEscrowManager: ZakatEscrowManager
+  - privateDonationPool: PrivateDonationPool
   - receiptNFT: DonationReceiptNFT
   - proposalManager: ProposalManager
   - votingManager: VotingManager
+  - shariaReviewManager: ShariaReviewManager
+  - poolManager: PoolManager
+  - milestoneManager: MilestoneManager
+  - participationTracker: ParticipationTracker
+  - votingNFT: VotingNFT
+  - organizerNFT: OrganizerNFT
   --
-  + donateZK(uint256,uint256,bytes,bytes32[],bytes32,string)
-  + donate(uint256,uint256,string)
-  + createProposal(uint256,string,uint256)
-  + submitForCommunityVote(uint256)
-  + castVote(uint256,uint256)
-  + finalizeCommunityVote(uint256)
-  + createShariaReviewBundle(uint256)
-  + reviewProposal(uint256,bool)
-  + finalizeShariaBundle(uint256)
-  + createCampaignPool(uint256)
+  + proposeOrganizer(): uint256
+  + createProposal(): uint256
+  + submitForCommunityVote()
+  + castVote(uint256,uint8)
+  + finalizeCommunityVote()
+  + createShariaReviewBundle(): uint256
+  + reviewProposal()
+  + createCampaignPool(): uint256
+  + donate()
+  + donatePrivate()
+  + donateZK()
+  + donateZKPrivate()
+  + submitMilestoneProof()
+  + voteMilestone()
+  + executeZakatRedistribution()
 }
 
-class "ZKVerifier\n(0x1009...2f3F)" as ZKVerifier {
+class "ZKVerifier" as ZKVerifier {
   - verifiedProofs: mapping(bytes32=>bool)
   - spentNullifiers: mapping(bytes32=>bool)
   --
   + verify(bytes,bytes32[]): bool
   + isVerified(bytes32): bool
-  __Events__
-  + ProofVerified(bytes32,bytes32)
 }
 
-class "NullifierRegistry\n(0xeEA8...9e49)" as NullifierRegistry {
+class "Groth16Verifier" as Groth16Verifier {
+  --
+  + verify(uint256[2]...): bool
+}
+
+class "NullifierRegistry" as NullifierRegistry {
   - spentNullifiers: mapping(bytes32=>bool)
   --
   + spend(bytes32): void
   + isSpent(bytes32): bool
-  __Events__
-  + NullifierSpent(bytes32,address,uint256)
 }
 
-class "ZakatEscrowManager\n(0x8A08...eED1)" as ZakatEscrowManager {
+class "ZakatEscrowManager" as ZakatEscrowManager {
   - zakatPools: mapping(uint256=>ZakatPool)
   - poolDonations: mapping(uint256=>mapping(address=>uint256))
-  - usedCommitments: mapping(bytes32=>bool)
   --
+  + createZakatPool(): uint256
   + donate(address,uint256,uint256,string)
-  + donatePrivate(address,uint256,uint256,bytes32,string)
-  + withdrawFunds(address,uint256)
+  + donatePrivate()
+  + withdrawFunds()
+  + checkTimeout()
+  + councilExtendDeadline()
+  + executeRedistribution()
 }
 
-class "DonationReceiptNFT\n(0x739b...1885)" as DonationReceiptNFT {
+class "PrivateDonationPool" as PrivateDonationPool {
+  - idrxToken: IERC20
+  - poolRaisedAmount: mapping(uint256=>uint256)
+  - nullifierCommitments: mapping(bytes32=>bytes32)
+  --
+  + donatePrivately()
+  + withdrawFunds()
+  + redistributeToEscrow(): uint256
+}
+
+class "DonationReceiptNFT" as DonationReceiptNFT {
   - tokenMetadata: mapping(uint256=>SBTMetadata)
-  - donorTokens: mapping(address=>uint256[])
-  - MINTER_ROLE: bytes32
   --
-  + mint(address,uint256,uint256,string,string,string): uint256
-  + burn(uint256,string)
+  + mint(): uint256
+  + burn()
 }
 
-class "MockIDRX\n(0x1b84...59b5)" as MockIDRX {
+class "MockIDRX" as MockIDRX {
   --
-  + adminMint(address,uint256)
-  + faucet(address)
-  + transferFrom(address,address,uint256): bool
+  + adminMint()
+  + faucet()
+  + transferFrom(): bool
 }
 
-class "ProposalManager\n(0xc75f...7911)" as ProposalManager {
+class "ProposalManager" as ProposalManager {
   - proposals: mapping(uint256=>Proposal)
-  - nextProposalId: uint256
   --
-  + createProposal(uint256,string,uint256): uint256
-  + getProposal(uint256): Proposal
+  + createProposal(): uint256
+  + updateKYCStatus()
+  + submitForCommunityVote()
+  + cancelProposal()
+  + getProposal(): Proposal
 }
 
-class "VotingManager\n(0x56CA...Fb4)" as VotingManager {
+class "VotingManager" as VotingManager {
   - votes: mapping(uint256=>mapping(address=>uint256))
-  - votingNFT: VotingNFT
   --
-  + castVote(uint256,uint256)
-  + finalizeVote(uint256)
-  + getResult(uint256): VoteResult
+  + castVote()
+  + finalizeCommunityVote(): bool
+  + getResult(): VoteResult
 }
 
-class "ShariaReviewManager\n(0x227c...3af2)" as ShariaReviewManager {
+class "ShariaReviewManager" as ShariaReviewManager {
   - reviews: mapping(uint256=>ShariaReview)
-  - council: address[]
   --
-  + createReviewBundle(uint256)
-  + submitReview(uint256,bool,string)
-  + finalizeBundle(uint256)
+  + checkAndCreateBundle()
+  + createShariaReviewBundle(): uint256
+  + submitReview()
+  + finalizeShariaBundle()
+  + submitShariaReviewProof(): bool
 }
 
-class "PoolManager\n(0x8b74...288c)" as PoolManager {
+class "PoolManager" as PoolManager {
   - campaignPools: mapping(uint256=>CampaignPool)
-  - totalFunds: uint256
   --
-  + createCampaignPool(uint256)
-  + getPool(uint256): CampaignPool
+  + createCampaignPool(): uint256
+  + donate()
+  + donatePrivate()
+  + withdrawFunds()
 }
 
-class "VotingNFT\n(0x62AF...89B4)" as VotingNFT {
-  - tokenMetadata: mapping(uint256=>NFTMetadata)
-  - MINTER_ROLE: bytes32
+class "MilestoneManager" as MilestoneManager {
+  - milestoneVotes: mapping(uint256=>mapping(uint256=>mapping(address=>uint8)))
   --
-  + mint(address,string): uint256
-  + burn(uint256)
+  + submitMilestoneProof()
+  + startMilestoneVoting()
+  + voteMilestone()
+  + finalizeMilestoneVote()
 }
 
-ZKTCore "1" -- "*" ZKVerifier : verifies
-ZKTCore "1" -- "*" NullifierRegistry : spends
-ZKTCore "1" -- "*" ZakatEscrowManager : routes
-ZKTCore "1" -- "*" DonationReceiptNFT : mints
+class "ParticipationTracker" as ParticipationTracker {
+  - metrics: mapping(address=>ParticipationMetrics)
+  --
+  + setVerification()
+  + getMetrics(): ParticipationMetrics
+  + getTierEligibility()
+}
+
+class "VotingNFT" as VotingNFT {
+  - voterTiers: mapping(address=>VotingTier)
+  --
+  + mintVotingNFT(): uint256
+  + verifyVoter()
+  + getVotingPower(): uint256
+  + autoUpgradeTier(): bool
+}
+
+class "OrganizerNFT" as OrganizerNFT {
+  - organizerData: mapping(address=>OrganizerNFTData)
+  --
+  + mintOrganizerNFT(): uint256
+  + updateOrganizerKYC()
+  + isVerifiedOrganizer(): bool
+}
+
+ZKTCore "1" -- "1" ZKVerifier : verifies
+ZKTCore "1" -- "1" NullifierRegistry : spends
+ZKTCore "1" -- "1" ZakatEscrowManager : routes zakat
+ZKTCore "1" -- "1" PrivateDonationPool : routes private
+ZKTCore "1" -- "1" DonationReceiptNFT : mints
 ZKTCore "1" -- "1" ProposalManager : delegates
 ZKTCore "1" -- "1" VotingManager : delegates
 ZKTCore "1" -- "1" ShariaReviewManager : delegates
-ZKTCore "1" -- "1" PoolManager : delegates
+ZKTCore "1" -- "1" PoolManager : routes normal
+ZKTCore "1" -- "1" MilestoneManager : delegates
+ZKTCore "1" -- "1" ParticipationTracker : tracks
+ZKTCore "1" -- "1" VotingNFT : mints
+ZKTCore "1" -- "1" OrganizerNFT : mints
 ZakatEscrowManager "*" -- "*" MockIDRX : transfers
 ZakatEscrowManager "1" -- "*" DonationReceiptNFT : mints
 ZKVerifier "1" -- "*" NullifierRegistry : checks
-VotingManager "1" -- "1" VotingNFT : mints
+VotingManager "1" -- "1" VotingNFT : uses
 ProposalManager "1" -- "1" VotingManager : creates vote
+PrivateDonationPool ..> ZakatEscrowManager : redistributes
 
 @enduml

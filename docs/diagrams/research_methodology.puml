@@ -2,16 +2,16 @@
 skinparam backgroundColor #FEFEFE
 skinparam shadowing false
 skinparam defaultFontName Times-Roman
-skinparam defaultFontSize 10
+skinparam defaultFontSize 11
 skinparam rectangleBorderThickness 1.5
-skinparam dpi 150
+skinparam dpi 300
 
 
-rectangle "Phase 1:\nProblem Identification\n--\nLiterature review: 29 papers\nBlockchain zakat [2,3,4]\nZKP frameworks [7,8,14]\nIslamic finance [20,21]" as P1 #E3F2FD
-rectangle "Phase 2:\nSolution Design\n--\nZKT protocol design\nNoir circuit (nisab+hawl)\n4-tier privacy model\n5 security properties" as P2 #BBDEFB
-rectangle "Phase 3:\nImplementation\n--\nnargo v1.0.0-beta.21\nBarretenberg v4.2.1\n15+ Solidity contracts\nNext.js 15 PWA frontend" as P3 #90CAF9
-rectangle "Phase 4:\nDemonstration (v8)\n--\nSepolia deploy (block 10,854,651)\n15 contracts deployed & tested\nFull 8-step DAO workflow\nProof: 246.8ms, 8,384 bytes\nVerify: 12.0ms avg | Gas: 721,345\nTX: 0x6a0b35...b790" as P4 #64B5F6
-rectangle "Phase 5:\nEvaluation\n--\nFoundry gas reports\nSecurity properties (4)\nSharia compliance review\n6-page IEEE paper" as P5 #42A5F5
+rectangle "Phase 1:\nProblem Identification\n--\nLiterature review\nBlockchain zakat\nZKP frameworks\nIslamic finance" as P1 #E3F2FD
+rectangle "Phase 2:\nSolution Design\n--\nZKT protocol design\nNoir circuit\n2-tier privacy model\nSecurity properties" as P2 #BBDEFB
+rectangle "Phase 3:\nImplementation\n--\nnargo v1.0.0-beta.21\nBarretenberg v5.0.0\n16 Solidity contracts\nNext.js frontend" as P3 #90CAF9
+rectangle "Phase 4:\nDemonstration\n--\n16 contracts on Sepolia\n8-step DAO workflow\nProof: 270ms, 8,384 bytes\nVerify: 10ms" as P4 #64B5F6
+rectangle "Phase 5:\nEvaluation\n--\nFoundry gas reports\nSecurity review\nSharia compliance\nIEEE paper" as P5 #42A5F5
 
 P1 --> P2
 P2 --> P3
@@ -19,6 +19,6 @@ P3 --> P4
 P4 --> P5
 P5 ..> P1 : Iterate
 
-rectangle "Literature Search Summary\n--\nCluster / Blockchain Zakat: 'blockchain' AND 'zakat' = 9 papers\nCluster / ZKP Privacy: 'zero-knowledge proof' AND 'privacy' = 13 papers\nCluster / Islamic Finance: 'maqasid' AND 'fintech' = 7 papers\nTotal: 29 papers (2021-2025)" as SUMMARY #FFF3E0
+rectangle "Literature Search\n--\nBlockchain Zakat: 9 papers\nZKP Privacy: 13 papers\nIslamic Finance: 7 papers\nTotal: 29 papers" as SUMMARY #FFF3E0
 
 @enduml

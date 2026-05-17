@@ -39,21 +39,21 @@ ZKT addresses a critical gap in blockchain-based zakat systems: all existing pla
 
 **Key features:**
 - **Noir circuit** (29 ACIR opcodes) encoding nisab + hawl + pedersen nullifier verification
-- **UltraHONK proofs** generated via Barretenberg v4.2.1 (246.8ms avg)
+- **UltraHONK proofs** generated via Barretenberg v5.0.0-nightly (270ms avg)
 - **On-chain verification** through ZKVerifier with nullifier-based double-donation prevention
-- **15 Solidity contracts** deployed on Ethereum Sepolia testnet
-- **Next.js 15 PWA** frontend with wagmi/XellarKit wallet connectivity
-- **Privacy tier toggle** supporting Private, Semi-Private, Verified-Private, and Public modes
+- **16 Solidity contracts** deployed on Ethereum Sepolia testnet
+- **Next.js 16** frontend with wagmi/XellarKit wallet connectivity
+- **Privacy tier toggle** supporting Public and Private donation modes
 
 ## Architecture
 
 ```
-Donor Frontend (Next.js 15 PWA + wagmi/XellarKit)
+Donor Frontend (Next.js 16 + wagmi/XellarKit)
     │  wallet connect, tier select, private inputs
     ▼
-Off-Chain Proving (Noir + Barretenberg v4.2.1)
+Off-Chain Proving (Noir + Barretenberg v5.0.0-nightly)
     │  nargo compile → nargo execute → bb prove UltraHONK
-    │  29 ACIR opcodes, 246.8ms avg prove, 12.0ms avg verify, 8,384 bytes proof
+    │  29 ACIR opcodes, 270ms avg prove, 10ms avg verify, 8,384 bytes proof
     ▼
 Ethereum Sepolia (15 Solidity contracts)
     │  ZKVerifier.verify() → ZKTCore.donateZK()
@@ -65,26 +65,27 @@ Donor receives soulbound NFT receipt (proof of zakat payment)
 
 ## Deployed Contracts (Sepolia)
 
-v8 deployment — all 15 contracts verified onchain.
+v9 deployment — all 16 contracts verified onchain.
 
 | Contract | Address |
 |----------|---------|
-| ZKTCore (v8) | `0xb56a8411C769cb0039e9ae1FdA3ea51424B1b60B` |
-| ZKVerifier | `0x1009559B0a3c4a22b4F5503C16B6cD9Bc7f62f3F` |
-| NullifierRegistry | `0xeEA85A1870602E8bB0B18BeF8144AD0C8e1E9e49` |
-| ProposalManager | `0xc75f1A2B32f034D972afB75E437a1c3A9F467911` |
-| VotingManager | `0x56CAF0aFE6CeA849906fdDD06c3358a20e353Fb4` |
-| ShariaReviewManager | `0x227cb839365C7F2cB576768432563E6566343af2` |
-| PoolManager | `0x8b745Cd7b399E3965088aA367D54F2366A17288c` |
-| ZakatEscrowManager | `0x8A085b6Bd8A2f9eCb712c7d861238EdAe982eED1` |
-| DonationReceiptNFT | `0x739b75bEeaC0207BeB70a0405f3CF81654D81885` |
+| ZKTCore (v9) | `0xf14ca6BA400bc0CE9354C9c00288597987F8F0D5` |
+| ZKVerifier | `0xE3771eC9665094111c8f9b05abea2CE53358d336` |
+| NullifierRegistry | `0xbfCE5C282B2083e1ed31bC32a1cE56E7bf9A4C93` |
+| ProposalManager | `0x7618B6C60C4a06E61dEC45AB49a64fa14E455233` |
+| VotingManager | `0x50E6B6471Afce685cc4351DB9284D9Bd0DA181cc` |
+| ShariaReviewManager | `0xF4eDC53fa4b9B6381A46e268D934c109CD578D03` |
+| PoolManager | `0x6CeE69eF3DE8c53b1946C050c5DB5AD5B9df1506` |
+| ZakatEscrowManager | `0xEb435Bc1003b7A70747aC096c6c8D2ecFde193fE` |
+| PrivateDonationPool | `0xcD80477e372c60659E5D52255e3139a54903c787` |
+| DonationReceiptNFT | `0xac0c50184c13d1319d9e0235273d113b1501081c` |
 | VotingNFT | `0x62AF745f9b7689720129A3A60e2ab0A2892C89B4` |
 | OrganizerNFT | `0x8b9bCFc0a1D2f3d7CEfeD6cb279E61e76Af34F8E` |
 | ParticipationTracker | `0x521Cc9536Ca85eD9404b1444F5541fB134722dbf` |
 | MilestoneManager | `0x5685aeaDAce85819682D28F831321B6e4094Ee75` |
 | Groth16Verifier | `0x3A8fF96D7dB26e0A5E7cd47283761bf77531FcdB` |
 
-End-to-end v8 donation verified at [tx 0x6a0b35...b790](https://sepolia.etherscan.io/tx/0x6a0b350821aa5afa309be599b5a64836aefb1c4a25d666a61d94e541967db790), block 10,854,651, consuming 721,345 gas.
+End-to-end v9 donation verified on Sepolia testnet.
 
 ## Quick Start
 
@@ -122,17 +123,17 @@ nargo execute   # generate witness
 
 ## Circuit Performance
 
-All benchmarks run on a 16-core Linux machine with Barretenberg v4.2.1.
+All benchmarks run on a 16-core Linux machine with Barretenberg v5.0.0-nightly.
 
 | Metric | Value |
 |--------|-------|
 | ACIR opcodes | 29 |
 | Brillig opcodes | 44 |
 | Expression width | 4 (Bounded) |
-| Proof generation (avg) | 246.8 ms |
+| Proof generation (avg) | 270 ms |
 | Proof generation (min) | 239.0 ms |
 | Proof generation (max) | 263.0 ms |
-| Proof verification (avg) | 12.0 ms |
+| Proof verification (avg) | 10 ms |
 | Proof size | 8,384 bytes |
 | Verification key size | 1,888 bytes |
 
@@ -143,13 +144,13 @@ On-chain gas consumption (Foundry gas report):
 | `ZKTCore.donate()` | 490,187 |
 | `ZKTCore.donateZK()` (e2e) | 721,345 |
 | `ZKTCore.castVote()` | 132,909 |
-| `ZKTCore.deploy` | 5,314,471 |
+| `ZKTCore.deploy` | 5,538,881 |
 | `ZakatEscrowManager.donate()` | 30,884 |
 
 ## Project Structure
 
 ```
-├── fe/                           # Next.js 15 PWA frontend
+├── fe/                           # Next.js 16 frontend
 │   ├── app/                      # App router pages (campaigns, zakat, dashboard, dao)
 │   ├── components/
 │   │   ├── donations/            # DonationDialog (public + private toggle)
@@ -160,7 +161,7 @@ On-chain gas consumption (Foundry gas report):
 │   │   ├── usePrivateDonation.ts # ZK donation pipeline
 │   │   └── useWallet.ts          # Wallet state + donate()
 │   └── lib/
-│       ├── abi.ts                # All 15 contract addresses + ABIs
+│       ├── abi.ts                # All 16 contract addresses + ABIs
 │   └── aztec-private-donation.ts  # Proof generation pipeline
 │
 ├── sc/                           # Solidity smart contracts
@@ -174,7 +175,7 @@ On-chain gas consumption (Foundry gas report):
 │   ├── src/tokens/               # MockIDRX, DonationReceiptNFT, VotingNFT, OrganizerNFT
 │   ├── src/participants/         # ParticipationTracker
 │   ├── script/
-│   │   ├── DeployZKT.s.sol       # Full deployment script (15 contracts)
+│   │   ├── DeployZKT.s.sol       # Full deployment script (16 contracts)
 │   │   └── GenerateZKProof.mjs   # Off-chain proof generator
 │   └── test/                     # Foundry tests (26 passing)
 │
@@ -216,10 +217,10 @@ The private donation flow:
 
 ```
 1. Donor connects wallet (wagmi + XellarKit, Sepolia)
-2. Selects privacy tier (Private/Semi-Private/Verified-Private/Public)
+2. Selects privacy tier (Public/Private)
 3. Provides amount + private eligibility inputs
 4. Frontend calls /api/generate-proof → nargo execute → bb prove
-5. UltraHONK proof generated (246.8ms avg, 8,384 bytes)
+5. UltraHONK proof generated (270ms avg, 8,384 bytes)
 6. ZKTCore.donateZK() on Sepolia:
    → ZKVerifier.verify() → true
    → NullifierRegistry.spend() → nullifier marked spent

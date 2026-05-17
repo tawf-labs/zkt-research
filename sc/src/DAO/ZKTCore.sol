@@ -6,6 +6,7 @@ import "./core/VotingManager.sol";
 import "./core/ShariaReviewManager.sol";
 import "./core/PoolManager.sol";
 import "./core/ZakatEscrowManager.sol";
+import "./core/PrivateDonationPool.sol";
 import "./core/MilestoneManager.sol";
 import "./core/ParticipationTracker.sol";
 import "./verifiers/Groth16Verifier.sol";
@@ -36,6 +37,7 @@ contract ZKTCore is AccessControl {
     ShariaReviewManager public shariaReviewManager;
     PoolManager public poolManager;
     ZakatEscrowManager public zakatEscrowManager;
+    PrivateDonationPool public privateDonationPool;
     MilestoneManager public milestoneManager;
     ParticipationTracker public participationTracker;
 
@@ -59,7 +61,8 @@ contract ZKTCore is AccessControl {
         address _zakatEscrowManager,
         address _milestoneManager,
         address _honkVerifier,
-        address _nullifierRegistry
+        address _nullifierRegistry,
+        address _privateDonationPool
     ) {
         require(_idrxToken != address(0), "Invalid IDRX token");
         require(_receiptNFT != address(0), "Invalid receipt NFT");
@@ -74,6 +77,7 @@ contract ZKTCore is AccessControl {
         require(_milestoneManager != address(0), "Invalid MilestoneManager");
         require(_honkVerifier != address(0), "Invalid HonkVerifier");
         require(_nullifierRegistry != address(0), "Invalid NullifierRegistry");
+        require(_privateDonationPool != address(0), "Invalid PrivateDonationPool");
 
         idrxToken = MockIDRX(_idrxToken);
         receiptNFT = DonationReceiptNFT(_receiptNFT);
@@ -89,6 +93,7 @@ contract ZKTCore is AccessControl {
         milestoneManager = MilestoneManager(_milestoneManager);
         honkVerifier = IHonkVerifier(_honkVerifier);
         nullifierRegistry = NullifierRegistry(_nullifierRegistry);
+        privateDonationPool = PrivateDonationPool(_privateDonationPool);
 
         // Setup deployer as DEFAULT_ADMIN_ROLE to grant initial roles
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
@@ -580,6 +585,18 @@ contract ZKTCore is AccessControl {
         uint256 amount,
         address indexed donor
     );
+
+    function donateZKPrivate(
+        uint256 poolId,
+        uint256 amount,
+        bytes calldata proof,
+        bytes32[] calldata publicInputs,
+        bytes32 nullifier
+    ) external {
+        require(honkVerifier.verify(proof, publicInputs), "Invalid ZK proof");
+        nullifierRegistry.spend(nullifier);
+        privateDonationPool.donatePrivately(msg.sender, poolId, amount, nullifier, publicInputs[6]);
+    }
 
     /**
      * @notice Withdraw funds from campaign pool

@@ -8,6 +8,7 @@ import "../src/DAO/core/VotingManager.sol";
 import "../src/DAO/core/ShariaReviewManager.sol";
 import "../src/DAO/core/PoolManager.sol";
 import "../src/DAO/core/ZakatEscrowManager.sol";
+import "../src/DAO/core/PrivateDonationPool.sol";
 import "../src/DAO/core/MilestoneManager.sol";
 import "../src/DAO/core/ParticipationTracker.sol";
 import "../src/DAO/verifiers/Groth16Verifier.sol";
@@ -35,6 +36,7 @@ contract ShariaZKProofTest is Test {
     ShariaReviewManager shariaReviewManager;
     PoolManager poolManager;
     ZakatEscrowManager zakatEscrowManager;
+    PrivateDonationPool privateDonationPool;
     MilestoneManager milestoneManager;
     Groth16Verifier groth16Verifier;
 
@@ -80,6 +82,7 @@ contract ShariaZKProofTest is Test {
         );
         poolManager = new PoolManager(address(proposalManager), address(idrxToken), address(receiptNFT));
         zakatEscrowManager = new ZakatEscrowManager(address(proposalManager), address(idrxToken), address(receiptNFT));
+        privateDonationPool = new PrivateDonationPool(address(idrxToken));
         milestoneManager = new MilestoneManager(address(proposalManager), address(votingNFT));
 
         // Deploy DAO
@@ -96,7 +99,8 @@ contract ShariaZKProofTest is Test {
             address(zakatEscrowManager),
             address(milestoneManager),
             address(honkVerifier),
-            address(nullifierRegistry)
+            address(nullifierRegistry),
+            address(privateDonationPool)
         );
 
         // Setup permissions

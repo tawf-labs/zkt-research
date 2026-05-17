@@ -2,18 +2,19 @@
 skinparam backgroundColor #FEFEFE
 skinparam shadowing false
 skinparam defaultFontName Times-Roman
-skinparam defaultFontSize 8
+skinparam defaultFontSize 10
 skinparam rectangleBorderThickness 1.5
+skinparam dpi 300
 
 
-rectangle "1. Wallet Connect\n& Privacy Tier Select\n(wagmi + XellarKit)" as S1
-rectangle "2. createProposal()\n→ ProposalManager (0xc75f...7911)\ncreates campaign proposal" as S2
-rectangle "3. submitForCommunityVote()\n→ VotingManager (0x56CA...Fb4)\nopens voting (0s test / 7d prod)" as S3
-rectangle "4. castVote()\n→ VotingNFT (0x62AF...89B4)\n→ finalizeCommunityVote()" as S4
-rectangle "5. createShariaReviewBundle()\n→ ShariaReviewManager (0x227c...3af2)\n→ reviewProposal() → finalizeShariaBundle()" as S5
-rectangle "6. createCampaignPool()\n→ PoolManager (0x8b74...288c)\ninitializes campaign fund pool" as S6
-rectangle "7. Private Inputs\n& ZK Proof Generation\n(Noir + bb, 246.8ms, 8,384B)" as S7
-rectangle "8. donateZK() on Sepolia\n→ ZKVerifier (0x1009...2f3F) verifies proof\n→ NullifierRegistry (0xeEA8...9e49) spends nullifier\n→ ZakatEscrowManager (0x8A08...eED1) routes funds\n→ DonationReceiptNFT (0x739b...1885) mints SBT\nGas: 721,345 | TX: 0x6a0b35...b790 | Block: 10,854,651" as S8
+rectangle "1. Wallet Connect\n& Privacy Tier Select" as S1
+rectangle "2. proposeOrganizer()\nsubmits KYC application" as S2
+rectangle "3. createProposal()\ncreates campaign with milestones" as S3
+rectangle "4. submitForCommunityVote()\nopens tiered voting" as S4
+rectangle "5. finalizeCommunityVote()\ntallies votes, triggers sharia review" as S5
+rectangle "6. reviewProposal()\nGroth16 ZK proof submission" as S6
+rectangle "7. createCampaignPool()\ninitializes campaign fund pool" as S7
+rectangle "8. donateZK() / donateZKPrivate()\nverifies proof, routes funds,\nmints SBT receipt" as S8
 
 S1 -down-> S2
 S2 -down-> S3

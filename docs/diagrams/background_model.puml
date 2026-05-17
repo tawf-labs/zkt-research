@@ -2,9 +2,10 @@
 skinparam backgroundColor #FEFEFE
 skinparam shadowing false
 skinparam defaultFontName Arial
-skinparam defaultFontSize 9
+skinparam defaultFontSize 11
 skinparam packagePadding 2
 skinparam nodePadding 2
+skinparam dpi 300
 
 
 package "Traditional Zakat Systems" {
@@ -29,6 +30,7 @@ package "Traditional Zakat Systems" {
 
 package "ZKT Proposed Model" {
   actor Donor_Z as "Donor"
+  actor Organizer_Z as "Organizer"
   actor Recipient_Z as "Recipient"
 
   rectangle "Off-Chain Proving" as Proving {
@@ -36,24 +38,32 @@ package "ZKT Proposed Model" {
     component BBProver as "Barretenberg\nUltraHONK Prover"
   }
 
-  rectangle "Ethereum Sepolia (v8)\nBlock 10,854,651\nGas: 721,345\nTX: 0x6a0b35...b790" as Sepolia {
-    component ZKVerifier as "ZKVerifier\n(0x1009...2f3F | verify 12.0ms)"
-    component ZKTCore as "ZKTCore\n(0xb56a...B60B | donateZK)"
-    component Escrow as "ZakatEscrowMgr\n(0x8A08...eED1 | pool accounting)"
-    component PropMgr as "ProposalManager\n(0xc75f...7911)"
-    component VoteMgr as "VotingManager\n(0x56CA...Fb4)"
-    component ShariaMgr as "ShariaReviewMgr\n(0x227c...3af2)"
-    component ReceiptNFT as "DonationReceiptNFT\n(0x739b...1885 | SBT minting)"
+  rectangle "Ethereum Sepolia" as Sepolia {
+    component ZKVerifier as "ZKVerifier\n(hash anchor)"
+    component Groth16 as "Groth16Verifier\n(sharia proofs)"
+    component ZKTCore as "ZKTCore\n(orchestrator)"
+    component ShariaMgr as "ShariaReviewMgr\n(council proofs)"
+    component Escrow as "ZakatEscrowMgr\n(30-day timeout)"
+    component PrivatePool as "PrivateDonationPool\n(circuit-verified)"
+    component ReceiptNFT as "DonationReceiptNFT\n(SBT)"
+    component VotingNFT as "VotingNFT\n(tiered)"
+    component OrganizerNFT as "OrganizerNFT\n(KYC)"
   }
 
   Donor_Z --> NoirCircuit : Private Inputs
   NoirCircuit --> BBProver : ACIR + Witness
   BBProver --> ZKVerifier : UltraHONK Proof
   ZKVerifier --> ZKTCore : Verified
-  ZKTCore --> Escrow : Route Funds
+  Groth16 --> ShariaMgr : verifies
+  ZKTCore --> ShariaMgr : delegates
+  ZKTCore --> Escrow : Route Public
+  ZKTCore --> PrivatePool : Route Private
+  PrivatePool ..> Escrow : Redistribute
   Escrow --> ReceiptNFT : Mint Receipt
   ReceiptNFT --> Donor_Z : SBT Minted
   Escrow ..> Recipient_Z : Amil-managed\ndisbursement
+  Organizer_Z --> OrganizerNFT : KYC Verified
+  Organizer_Z --> VotingNFT : Tiered Vote
 }
 
 @enduml

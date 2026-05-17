@@ -9,6 +9,7 @@ import "../src/DAO/ZKTCore.sol";
 import "../src/DAO/interfaces/IProposalManager.sol";
 import "../src/DAO/core/PoolManager.sol";
 import "../src/DAO/core/ZakatEscrowManager.sol";
+import "../src/DAO/core/PrivateDonationPool.sol";
 import "../src/DAO/core/ParticipationTracker.sol";
 import "../src/DAO/verifiers/Groth16Verifier.sol";
 
@@ -66,6 +67,7 @@ contract ZKTCoreTest is Test {
             address(idrxToken),
             address(receiptNFT)
         );
+        PrivateDonationPool privatePool = new PrivateDonationPool(address(idrxToken));
         MilestoneManager milestoneManager = new MilestoneManager(
             address(proposalManager),
             address(votingNFT)
@@ -85,7 +87,8 @@ contract ZKTCoreTest is Test {
             address(zakatEscrowManager),
             address(milestoneManager),
             address(honkVerifier),
-            address(nullifierRegistry)
+            address(nullifierRegistry),
+            address(privatePool)
         );
 
         // --- Wiring Permissions (Admin & Functional Roles) ---

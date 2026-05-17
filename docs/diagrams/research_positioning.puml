@@ -2,16 +2,17 @@
 skinparam backgroundColor #FEFEFE
 skinparam shadowing false
 skinparam defaultFontName Times-Roman
-skinparam defaultFontSize 9
+skinparam defaultFontSize 11
 skinparam arrowThickness 1.5
+skinparam dpi 300
 
 
-rectangle "Existing Blockchain Zakat\n--\nProvide transparency but\nexpose all donor-recipient\ndata publicly.\n\n[2,3,4,19]" as TL
-rectangle "General ZKP Privacy\n--\nEnable anonymous transactions\nbut lack Islamic eligibility\npredicates.\n\n[7,8,14,15]" as TR
-rectangle "Islamic Social Finance\n--\nStudy zakat/waqf digitization\nwithout ZK privacy\nintegration.\n\n[20,21,24,25]" as BL
-rectangle "Design Science Research\n--\nArtifact-driven methodology:\nbuild → evaluate → refine.\nZKT instantiated as DSR\nartifact and validated via\nSepolia deployment (v8)." as BR
+rectangle "Existing Blockchain Zakat\n--\nTransparent but exposes\nall donor-recipient data" as TL
+rectangle "General ZKP Privacy\n--\nAnonymous transactions\nbut no Islamic predicates" as TR
+rectangle "Islamic Social Finance\n--\nDigitization studies\nwithout ZK privacy" as BL
+rectangle "Design Science Research\n--\nBuild, evaluate, refine\nSepolia deployment" as BR
 
-rectangle "ZKT: Private Zakat\nwith ZK Verification (v8)\n--\nDeployed on Sepolia (block 10,854,651)\n15 contracts | Gas: 721,345\nUltraHONK prove 246.8ms / verify 12.0ms\n8-step DAO + ZK donation flow\nTX: 0x6a0b35...b790" as CENTER #CCFFCC
+rectangle "ZKT: Private Zakat\nwith ZK Verification\n--\nSepolia deployed\n16 contracts\ndonateZK: 721,345 gas\ndonateZKPrivate: 170,710 gas\nProve 270ms, Verify 10ms" as CENTER #CCFFCC
 
 TL -down-> CENTER
 TR -down-> CENTER

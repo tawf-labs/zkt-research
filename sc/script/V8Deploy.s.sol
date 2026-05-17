@@ -11,6 +11,7 @@ import "../src/DAO/core/VotingManager.sol";
 import "../src/DAO/core/ShariaReviewManager.sol";
 import "../src/DAO/core/PoolManager.sol";
 import "../src/DAO/core/ZakatEscrowManager.sol";
+import "../src/DAO/core/PrivateDonationPool.sol";
 import "../src/DAO/core/MilestoneManager.sol";
 import "../src/DAO/core/ParticipationTracker.sol";
 import "../src/DAO/verifiers/Groth16Verifier.sol";
@@ -35,13 +36,15 @@ contract V8Deploy is Script {
         ShariaReviewManager srm = new ShariaReviewManager(address(pm), address(groth16));
         PoolManager poolMgr = new PoolManager(address(pm), address(idrx), address(receiptNFT));
         ZakatEscrowManager escrow = new ZakatEscrowManager(address(pm), address(idrx), address(receiptNFT));
+        PrivateDonationPool privatePool = new PrivateDonationPool(address(idrx));
         MilestoneManager mm = new MilestoneManager(address(pm), address(votingNFT));
         ZKTCore dao = new ZKTCore(
             address(idrx), address(receiptNFT), address(votingNFT),
             address(organizerNFT), address(tracker),
             address(pm), address(vmgr), address(srm),
             address(poolMgr), address(escrow), address(mm),
-            address(zkVerifier), address(nullifierReg)
+            address(zkVerifier), address(nullifierReg),
+            address(privatePool)
         );
 
         pm.grantRole(pm.ORGANIZER_ROLE(), address(dao));
@@ -56,6 +59,7 @@ contract V8Deploy is Script {
         srm.grantRole(srm.SHARIA_COUNCIL_ROLE(), address(dao));
         escrow.grantRole(escrow.ADMIN_ROLE(), address(dao));
         escrow.setDefaultFallbackPool(0x236c6ea9DDc48ae72DCFb8724BF8a136aa3C6EBB);
+        privatePool.grantRole(privatePool.CORE_ROLE(), address(dao));
         dao.grantOrganizerRole(0x236c6ea9DDc48ae72DCFb8724BF8a136aa3C6EBB);
         pm.grantRole(pm.ADMIN_ROLE(), 0x236c6ea9DDc48ae72DCFb8724BF8a136aa3C6EBB);
 
@@ -69,6 +73,7 @@ contract V8Deploy is Script {
         console.log("ShariaReviewManager:", address(srm));
         console.log("PoolManager:", address(poolMgr));
         console.log("ZakatEscrowManager:", address(escrow));
+        console.log("PrivateDonationPool:", address(privatePool));
         console.log("VERSION: V8");
     }
 }

@@ -115,6 +115,7 @@ Minimal donation system — just tokens, pools, and escrow.
 **What's deployed:** MockIDRX, DonationReceiptNFT, ProposalManager, PoolManager, ZakatEscrowManager, ZKTCore.
 **What's removed:** All ZK contracts, all DAO contracts.
 **Code change needed:** ZKTCore constructor — pass `address(0)` for all removed addresses. Only `donate()` works (no privacy, no governance).
+**Reality check:** The cost difference between Core Only (~$5) and Full System (~$12) is negligible. Since the full system with core-team-controlled roles works identically (all governance goes through one address), there is **no practical reason** to strip contracts out for cost savings alone.
 
 ---
 
@@ -134,6 +135,28 @@ Just the cryptographic layer — verifiers and nullifier registry.
 
 **What's deployed:** Groth16Verifier, ZKVerifier, NullifierRegistry, PrivateDonationPool.
 **Note:** Not a functional system on its own. Requires ZKTCore and supporting contracts for end-to-end use.
+
+---
+
+## Core Team Mode (Recommended for Launch)
+
+**The practical answer: deploy everything, but have the core team control all roles.**
+
+ZKTCore's constructor requires all 14 dependency addresses — you cannot omit any contract. However, you don't need a DAO of community members on day one. Instead:
+
+1. **Deploy the full system** (all 16 contracts, ~$12 at normal gas)
+2. **Grant all roles to a core team multisig** — the deploy script already does this
+3. **Lower governance thresholds** to 1 for initial operation:
+   - `setShariaQuorum(1)` — single reviewer instead of 3
+   - `setVotingPeriod(1 hours)` — fast iteration instead of 7 days
+4. **Operate as a centralized team** — one address creates proposals, votes, reviews, and approves
+5. **Transition to community** by granting individual roles to community members over time
+
+This is tested and working — see `sc/test/CoreTeam.t.sol` and `sc/script/CoreTeamDeploy.s.sol`.
+
+### Why Not Strip Contracts?
+
+Even the cheapest "core only" configuration saves at most **$7** versus deploying the full system (at normal gas). The contract-coupling overhead dwarfs any gas savings from omitting contracts. Deploy everything once and control it centrally until the community is ready.
 
 ---
 

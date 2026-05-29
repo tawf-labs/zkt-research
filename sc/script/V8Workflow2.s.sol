@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 pragma solidity ^0.8.31;
 import "forge-std/Script.sol";
-import "../src/tokens/VotingNFT.sol";
+import "@tawf-gov/tokens/VotingNFT.sol";
 import "../src/DAO/ZKTCore.sol";
 
 contract V8Workflow2 is Script {

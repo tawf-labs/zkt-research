@@ -4,18 +4,17 @@ import "forge-std/Test.sol";
 import "../src/DAO/ZKTCore.sol";
 import "../src/DAO/NullifierRegistry.sol";
 import "../src/DAO/verifiers/Groth16Verifier.sol";
-import "../src/tokens/MockIDRX.sol";
-import "../src/tokens/DonationReceiptNFT.sol";
-import "../src/tokens/VotingNFT.sol";
-import "../src/tokens/OrganizerNFT.sol";
-import "../src/DAO/core/ProposalManager.sol";
-import "../src/DAO/core/VotingManager.sol";
+import "@tawf-gov/tokens/MockIDRX.sol";
+import "@tawf-gov/protocol/DonationReceiptNFT.sol";
+import "@tawf-gov/tokens/VotingNFT.sol";
+import "@tawf-gov/governance/ProposalManager.sol";
+import "@tawf-gov/governance/VotingManager.sol";
 import "../src/DAO/core/ShariaReviewManager.sol";
-import "../src/DAO/core/PoolManager.sol";
-import "../src/DAO/core/ZakatEscrowManager.sol";
+import "@tawf-gov/protocol/PoolManager.sol";
+import "@tawf-gov/protocol/ZakatEscrowManager.sol";
 import "../src/DAO/core/PrivateDonationPool.sol";
-import "../src/DAO/core/MilestoneManager.sol";
-import "../src/DAO/core/ParticipationTracker.sol";
+import "@tawf-gov/governance/MilestoneManager.sol";
+import "@tawf-gov/governance/ParticipationTracker.sol";
 
 contract TestDonateZK is Test {
     function test_donateZKRevertReason() public {
@@ -23,7 +22,6 @@ contract TestDonateZK is Test {
         MockIDRX idrxToken = new MockIDRX();
         DonationReceiptNFT receiptNFT = new DonationReceiptNFT();
         VotingNFT votingNFT = new VotingNFT();
-        OrganizerNFT organizerNFT = new OrganizerNFT();
         ParticipationTracker participationTracker = new ParticipationTracker();
         Groth16Verifier groth16Verifier = new Groth16Verifier();
         HonkVerifier honkVerifier = new HonkVerifier();
@@ -38,8 +36,7 @@ contract TestDonateZK is Test {
         MilestoneManager milestoneManager = new MilestoneManager(address(proposalManager), address(votingNFT));
         
         ZKTCore dao = new ZKTCore(
-            address(idrxToken), address(receiptNFT), address(votingNFT),
-            address(organizerNFT), address(participationTracker),
+            address(idrxToken), address(receiptNFT), address(votingNFT), address(participationTracker),
             address(proposalManager), address(votingManager),
             address(shariaReviewManager), address(poolManager),
             address(zakatEscrowManager), address(milestoneManager),

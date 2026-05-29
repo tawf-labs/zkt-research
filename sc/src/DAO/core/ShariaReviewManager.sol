@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 pragma solidity ^0.8.31;
 import "@openzeppelin/contracts/access/AccessControl.sol";
-import "../interfaces/IProposalManager.sol";
-import "./ProposalManager.sol";
+import "@tawf-gov/interfaces/IProposalManager.sol";
+import "@tawf-gov/governance/ProposalManager.sol";
 import "../verifiers/Groth16Verifier.sol";
 
 /**

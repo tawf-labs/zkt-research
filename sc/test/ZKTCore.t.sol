@@ -1,23 +1,21 @@
 // SPDX-License-Identifier: Apache-2.0
 pragma solidity ^0.8.31;
 import "forge-std/Test.sol";
-import "../src/tokens/MockIDRX.sol";
-import "../src/tokens/DonationReceiptNFT.sol";
-import "../src/tokens/VotingNFT.sol";
-import "../src/tokens/OrganizerNFT.sol";
+import "@tawf-gov/tokens/MockIDRX.sol";
+import "@tawf-gov/protocol/DonationReceiptNFT.sol";
+import "@tawf-gov/tokens/VotingNFT.sol";
 import "../src/DAO/ZKTCore.sol";
-import "../src/DAO/interfaces/IProposalManager.sol";
-import "../src/DAO/core/PoolManager.sol";
-import "../src/DAO/core/ZakatEscrowManager.sol";
+import "@tawf-gov/interfaces/IProposalManager.sol";
+import "@tawf-gov/protocol/PoolManager.sol";
+import "@tawf-gov/protocol/ZakatEscrowManager.sol";
 import "../src/DAO/core/PrivateDonationPool.sol";
-import "../src/DAO/core/ParticipationTracker.sol";
+import "@tawf-gov/governance/ParticipationTracker.sol";
 import "../src/DAO/verifiers/Groth16Verifier.sol";
 
 contract ZKTCoreTest is Test {
     MockIDRX public idrxToken;
     DonationReceiptNFT public receiptNFT;
     VotingNFT public votingNFT;
-    OrganizerNFT public organizerNFT;
     ParticipationTracker public participationTracker;
     ZKTCore public dao;
 
@@ -37,7 +35,6 @@ contract ZKTCoreTest is Test {
         idrxToken = new MockIDRX();
         receiptNFT = new DonationReceiptNFT();
         votingNFT = new VotingNFT();
-        organizerNFT = new OrganizerNFT();
         participationTracker = new ParticipationTracker();
 
         // Deploy Groth16Verifier
@@ -78,7 +75,6 @@ contract ZKTCoreTest is Test {
             address(idrxToken),
             address(receiptNFT),
             address(votingNFT),
-            address(organizerNFT),
             address(participationTracker),
             address(proposalManager),
             address(votingManager),

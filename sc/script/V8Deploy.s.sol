@@ -1,19 +1,18 @@
 // SPDX-License-Identifier: Apache-2.0
 pragma solidity ^0.8.31;
 import "forge-std/Script.sol";
-import "../src/tokens/MockIDRX.sol";
-import "../src/tokens/DonationReceiptNFT.sol";
-import "../src/tokens/VotingNFT.sol";
-import "../src/tokens/OrganizerNFT.sol";
+import "@tawf-gov/tokens/MockIDRX.sol";
+import "@tawf-gov/protocol/DonationReceiptNFT.sol";
+import "@tawf-gov/tokens/VotingNFT.sol";
 import "../src/DAO/ZKTCore.sol";
-import "../src/DAO/core/ProposalManager.sol";
-import "../src/DAO/core/VotingManager.sol";
+import "@tawf-gov/governance/ProposalManager.sol";
+import "@tawf-gov/governance/VotingManager.sol";
 import "../src/DAO/core/ShariaReviewManager.sol";
-import "../src/DAO/core/PoolManager.sol";
-import "../src/DAO/core/ZakatEscrowManager.sol";
+import "@tawf-gov/protocol/PoolManager.sol";
+import "@tawf-gov/protocol/ZakatEscrowManager.sol";
 import "../src/DAO/core/PrivateDonationPool.sol";
-import "../src/DAO/core/MilestoneManager.sol";
-import "../src/DAO/core/ParticipationTracker.sol";
+import "@tawf-gov/governance/MilestoneManager.sol";
+import "@tawf-gov/governance/ParticipationTracker.sol";
 import "../src/DAO/verifiers/Groth16Verifier.sol";
 import "../src/DAO/verifiers/ZKVerifier.sol";
 import "../src/DAO/NullifierRegistry.sol";
@@ -26,7 +25,6 @@ contract V8Deploy is Script {
         MockIDRX idrx = new MockIDRX();
         DonationReceiptNFT receiptNFT = new DonationReceiptNFT();
         VotingNFT votingNFT = new VotingNFT();
-        OrganizerNFT organizerNFT = new OrganizerNFT();
         ParticipationTracker tracker = new ParticipationTracker();
         Groth16Verifier groth16 = new Groth16Verifier();
         ZKVerifier zkVerifier = new ZKVerifier();
@@ -39,8 +37,7 @@ contract V8Deploy is Script {
         PrivateDonationPool privatePool = new PrivateDonationPool(address(idrx));
         MilestoneManager mm = new MilestoneManager(address(pm), address(votingNFT));
         ZKTCore dao = new ZKTCore(
-            address(idrx), address(receiptNFT), address(votingNFT),
-            address(organizerNFT), address(tracker),
+            address(idrx), address(receiptNFT), address(votingNFT), address(tracker),
             address(pm), address(vmgr), address(srm),
             address(poolMgr), address(escrow), address(mm),
             address(zkVerifier), address(nullifierReg),

@@ -1,21 +1,21 @@
 // SPDX-License-Identifier: Apache-2.0
 pragma solidity ^0.8.31;
 import "@openzeppelin/contracts/access/AccessControl.sol";
-import "./core/ProposalManager.sol";
-import "./core/VotingManager.sol";
+import "@tawf-gov/governance/ProposalManager.sol";
+import "@tawf-gov/governance/VotingManager.sol";
 import "./core/ShariaReviewManager.sol";
-import "./core/PoolManager.sol";
-import "./core/ZakatEscrowManager.sol";
+import "@tawf-gov/protocol/PoolManager.sol";
+import "@tawf-gov/protocol/ZakatEscrowManager.sol";
 import "./core/PrivateDonationPool.sol";
-import "./core/MilestoneManager.sol";
-import "./core/ParticipationTracker.sol";
+import "@tawf-gov/governance/MilestoneManager.sol";
+import "@tawf-gov/governance/ParticipationTracker.sol";
 import "./verifiers/Groth16Verifier.sol";
 import "./verifiers/HonkVerifier.sol";
 import "./NullifierRegistry.sol";
-import "../tokens/MockIDRX.sol";
-import "../tokens/DonationReceiptNFT.sol";
-import "../tokens/VotingNFT.sol";
-import "../tokens/OrganizerNFT.sol";
+import "@tawf-gov/tokens/MockIDRX.sol";
+import "@tawf-gov/protocol/DonationReceiptNFT.sol";
+import "@tawf-gov/tokens/VotingNFT.sol";
+// OrganizerNFT removed — use TawfPassport
 
 /**
  * @title ZKTCore
@@ -44,7 +44,7 @@ contract ZKTCore is AccessControl {
     MockIDRX public idrxToken;
     DonationReceiptNFT public receiptNFT;
     VotingNFT public votingNFT;
-    OrganizerNFT public organizerNFT;
+    // OrganizerNFT removed — use TawfPassport(PassportType.Organization)
     IHonkVerifier public honkVerifier;
     NullifierRegistry public nullifierRegistry;
     
@@ -52,7 +52,6 @@ contract ZKTCore is AccessControl {
         address _idrxToken,
         address _receiptNFT,
         address _votingNFT,
-        address _organizerNFT,
         address _participationTracker,
         address _proposalManager,
         address _votingManager,
@@ -67,7 +66,6 @@ contract ZKTCore is AccessControl {
         require(_idrxToken != address(0), "Invalid IDRX token");
         require(_receiptNFT != address(0), "Invalid receipt NFT");
         require(_votingNFT != address(0), "Invalid Voting NFT");
-        require(_organizerNFT != address(0), "Invalid Organizer NFT");
         require(_participationTracker != address(0), "Invalid ParticipationTracker");
         require(_proposalManager != address(0), "Invalid ProposalManager");
         require(_votingManager != address(0), "Invalid VotingManager");
@@ -82,7 +80,7 @@ contract ZKTCore is AccessControl {
         idrxToken = MockIDRX(_idrxToken);
         receiptNFT = DonationReceiptNFT(_receiptNFT);
         votingNFT = VotingNFT(_votingNFT);
-        organizerNFT = OrganizerNFT(_organizerNFT);
+        // organizerNFT removed — use TawfPassport
         participationTracker = ParticipationTracker(_participationTracker);
 
         proposalManager = ProposalManager(_proposalManager);
@@ -265,14 +263,7 @@ contract ZKTCore is AccessControl {
             : IProposalManager.OrganizerApplicationStatus.Rejected;
 
         if (approved) {
-            // Mint Organizer NFT and grant organizer role
-            organizerNFT.mintOrganizerNFT(
-                application.applicant,
-                application.organizationName,
-                application.description,
-                application.metadataURI
-            );
-            organizerNFT.updateOrganizerKYC(application.applicant, OrganizerNFT.OrganizerKYCStatus.Verified, "Approved via application");
+            // TODO: Mint Organizer passport via TawfPassport + grant role
             _grantRole(ORGANIZER_ROLE, application.applicant);
         }
 
@@ -875,7 +866,7 @@ contract ZKTCore is AccessControl {
      * @notice Get OrganizerNFT contract address
      */
     function getOrganizerNFTAddress() external view returns (address) {
-        return address(organizerNFT);
+        revert("OrganizerNFT replaced by TawfPassport");
     }
 
     /**
@@ -918,7 +909,7 @@ contract ZKTCore is AccessControl {
      * @return True if organizer is verified and active
      */
     function isVerifiedOrganizer(address organizer) external view returns (bool) {
-        return organizerNFT.isVerifiedOrganizer(organizer);
+        return hasRole(ORGANIZER_ROLE, organizer);
     }
 
     /**
@@ -926,8 +917,8 @@ contract ZKTCore is AccessControl {
      * @param organizer Address to check
      * @return data Full organizer NFT data
      */
-    function getOrganizerData(address organizer) external view returns (OrganizerNFT.OrganizerNFTData memory) {
-        return organizerNFT.getOrganizerData(organizer);
+    function getOrganizerData(address organizer) external view returns (bool, bool) {
+        return (hasRole(ORGANIZER_ROLE, organizer), hasRole(ORGANIZER_ROLE, organizer));
     }
 
     /**

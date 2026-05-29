@@ -1,19 +1,18 @@
 // SPDX-License-Identifier: Apache-2.0
 pragma solidity ^0.8.31;
 import "forge-std/Script.sol";
-import "../src/tokens/MockIDRX.sol";
-import "../src/tokens/DonationReceiptNFT.sol";
-import "../src/tokens/VotingNFT.sol";
-import "../src/tokens/OrganizerNFT.sol";
+import "@tawf-gov/tokens/MockIDRX.sol";
+import "@tawf-gov/protocol/DonationReceiptNFT.sol";
+import "@tawf-gov/tokens/VotingNFT.sol";
 import "../src/DAO/ZKTCore.sol";
-import "../src/DAO/core/ProposalManager.sol";
-import "../src/DAO/core/VotingManager.sol";
+import "@tawf-gov/governance/ProposalManager.sol";
+import "@tawf-gov/governance/VotingManager.sol";
 import "../src/DAO/core/ShariaReviewManager.sol";
-import "../src/DAO/core/PoolManager.sol";
-import "../src/DAO/core/ZakatEscrowManager.sol";
+import "@tawf-gov/protocol/PoolManager.sol";
+import "@tawf-gov/protocol/ZakatEscrowManager.sol";
 import "../src/DAO/core/PrivateDonationPool.sol";
-import "../src/DAO/core/MilestoneManager.sol";
-import "../src/DAO/core/ParticipationTracker.sol";
+import "@tawf-gov/governance/MilestoneManager.sol";
+import "@tawf-gov/governance/ParticipationTracker.sol";
 import "../src/DAO/verifiers/Groth16Verifier.sol";
 import "../src/DAO/verifiers/ZKVerifier.sol";
 import "../src/DAO/NullifierRegistry.sol";
@@ -28,7 +27,6 @@ contract DeployZKT is Script {
     MockIDRX public idrxToken;
     DonationReceiptNFT public receiptNFT;
     VotingNFT public votingNFT;
-    OrganizerNFT public organizerNFT;
     ParticipationTracker public participationTracker;
     Groth16Verifier public groth16Verifier;
     ZKVerifier public zkVerifier;
@@ -60,7 +58,6 @@ contract DeployZKT is Script {
         idrxToken = new MockIDRX();
         receiptNFT = new DonationReceiptNFT();
         votingNFT = new VotingNFT();
-        organizerNFT = new OrganizerNFT();
         participationTracker = new ParticipationTracker();
         console.log("Tokens deployed.");
 
@@ -128,7 +125,6 @@ contract DeployZKT is Script {
             address(idrxToken),
             address(receiptNFT),
             address(votingNFT),
-            address(organizerNFT),
             address(participationTracker),
             address(proposalManager),
             address(votingManager),

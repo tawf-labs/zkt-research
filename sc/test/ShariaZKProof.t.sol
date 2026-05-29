@@ -3,20 +3,19 @@ pragma solidity ^0.8.31;
 
 import "forge-std/Test.sol";
 import "../src/DAO/ZKTCore.sol";
-import "../src/DAO/core/ProposalManager.sol";
-import "../src/DAO/core/VotingManager.sol";
+import "@tawf-gov/governance/ProposalManager.sol";
+import "@tawf-gov/governance/VotingManager.sol";
 import "../src/DAO/core/ShariaReviewManager.sol";
-import "../src/DAO/core/PoolManager.sol";
-import "../src/DAO/core/ZakatEscrowManager.sol";
+import "@tawf-gov/protocol/PoolManager.sol";
+import "@tawf-gov/protocol/ZakatEscrowManager.sol";
 import "../src/DAO/core/PrivateDonationPool.sol";
-import "../src/DAO/core/MilestoneManager.sol";
-import "../src/DAO/core/ParticipationTracker.sol";
+import "@tawf-gov/governance/MilestoneManager.sol";
+import "@tawf-gov/governance/ParticipationTracker.sol";
 import "../src/DAO/verifiers/Groth16Verifier.sol";
-import "../src/tokens/MockIDRX.sol";
-import "../src/tokens/DonationReceiptNFT.sol";
-import "../src/tokens/VotingNFT.sol";
-import "../src/tokens/OrganizerNFT.sol";
-import "../src/DAO/interfaces/IProposalManager.sol";
+import "@tawf-gov/tokens/MockIDRX.sol";
+import "@tawf-gov/protocol/DonationReceiptNFT.sol";
+import "@tawf-gov/tokens/VotingNFT.sol";
+import "@tawf-gov/interfaces/IProposalManager.sol";
 
 /**
  * @title ShariaZKProofTest
@@ -27,7 +26,6 @@ contract ShariaZKProofTest is Test {
     MockIDRX idrxToken;
     DonationReceiptNFT receiptNFT;
     VotingNFT votingNFT;
-    OrganizerNFT organizerNFT;
     ParticipationTracker participationTracker;
 
     // Core contracts
@@ -65,7 +63,6 @@ contract ShariaZKProofTest is Test {
         idrxToken = new MockIDRX();
         receiptNFT = new DonationReceiptNFT();
         votingNFT = new VotingNFT();
-        organizerNFT = new OrganizerNFT();
         participationTracker = new ParticipationTracker();
 
         // Deploy verifier
@@ -90,7 +87,6 @@ contract ShariaZKProofTest is Test {
             address(idrxToken),
             address(receiptNFT),
             address(votingNFT),
-            address(organizerNFT),
             address(participationTracker),
             address(proposalManager),
             address(votingManager),

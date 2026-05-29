@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 pragma solidity ^0.8.31;
 import "forge-std/Script.sol";
-import "../src/tokens/MockIDRX.sol";
+import "@tawf-gov/tokens/MockIDRX.sol";
 import "../src/DAO/ZKTCore.sol";
 
 contract V8Workflow3 is Script {

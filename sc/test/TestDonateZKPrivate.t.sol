@@ -6,17 +6,16 @@ import "../src/DAO/NullifierRegistry.sol";
 import "../src/DAO/core/PrivateDonationPool.sol";
 import "../src/DAO/verifiers/Groth16Verifier.sol";
 import "../src/DAO/verifiers/HonkVerifier.sol";
-import "../src/tokens/MockIDRX.sol";
-import "../src/tokens/DonationReceiptNFT.sol";
-import "../src/tokens/VotingNFT.sol";
-import "../src/tokens/OrganizerNFT.sol";
-import "../src/DAO/core/ProposalManager.sol";
-import "../src/DAO/core/VotingManager.sol";
+import "@tawf-gov/tokens/MockIDRX.sol";
+import "@tawf-gov/protocol/DonationReceiptNFT.sol";
+import "@tawf-gov/tokens/VotingNFT.sol";
+import "@tawf-gov/governance/ProposalManager.sol";
+import "@tawf-gov/governance/VotingManager.sol";
 import "../src/DAO/core/ShariaReviewManager.sol";
-import "../src/DAO/core/PoolManager.sol";
-import "../src/DAO/core/ZakatEscrowManager.sol";
-import "../src/DAO/core/MilestoneManager.sol";
-import "../src/DAO/core/ParticipationTracker.sol";
+import "@tawf-gov/protocol/PoolManager.sol";
+import "@tawf-gov/protocol/ZakatEscrowManager.sol";
+import "@tawf-gov/governance/MilestoneManager.sol";
+import "@tawf-gov/governance/ParticipationTracker.sol";
 
 /**
  * @title TestDonateZKPrivate
@@ -27,7 +26,6 @@ contract TestDonateZKPrivate is Test {
     MockIDRX public idrxToken;
     DonationReceiptNFT public receiptNFT;
     VotingNFT public votingNFT;
-    OrganizerNFT public organizerNFT;
     ParticipationTracker public participationTracker;
     Groth16Verifier public groth16Verifier;
     NullifierRegistry public nullifierRegistry;
@@ -49,7 +47,6 @@ contract TestDonateZKPrivate is Test {
         idrxToken = new MockIDRX();
         receiptNFT = new DonationReceiptNFT();
         votingNFT = new VotingNFT();
-        organizerNFT = new OrganizerNFT();
         participationTracker = new ParticipationTracker();
         groth16Verifier = new Groth16Verifier();
         nullifierRegistry = new NullifierRegistry();
@@ -66,8 +63,7 @@ contract TestDonateZKPrivate is Test {
         HonkVerifier honkVerifier = new HonkVerifier();
 
         dao = new ZKTCore(
-            address(idrxToken), address(receiptNFT), address(votingNFT),
-            address(organizerNFT), address(participationTracker),
+            address(idrxToken), address(receiptNFT), address(votingNFT), address(participationTracker),
             address(proposalManager), address(votingManager),
             address(shariaReviewManager), address(poolManager),
             address(zakatEscrowManager), address(milestoneManager),
@@ -184,8 +180,7 @@ contract TestDonateZKPrivate is Test {
 
         // Deploy new DAO with mock verifier
         ZKTCore mockDao = new ZKTCore(
-            address(idrxToken), address(receiptNFT), address(votingNFT),
-            address(organizerNFT), address(participationTracker),
+            address(idrxToken), address(receiptNFT), address(votingNFT), address(participationTracker),
             address(proposalManager), address(votingManager),
             address(shariaReviewManager), address(poolManager),
             address(zakatEscrowManager), address(milestoneManager),
@@ -252,8 +247,7 @@ contract TestDonateZKPrivate is Test {
         MockHonkVerifier mockVerifier = new MockHonkVerifier();
 
         ZKTCore mockDao = new ZKTCore(
-            address(idrxToken), address(receiptNFT), address(votingNFT),
-            address(organizerNFT), address(participationTracker),
+            address(idrxToken), address(receiptNFT), address(votingNFT), address(participationTracker),
             address(proposalManager), address(votingManager),
             address(shariaReviewManager), address(poolManager),
             address(zakatEscrowManager), address(milestoneManager),

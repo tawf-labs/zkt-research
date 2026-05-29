@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyJWT, getRelayerClient } from "@/lib/relayer";
-import { CONTRACT_ADDRESSES, ShariaReviewManagerABI } from "@/lib/abi";
+import { CONTRACT_ADDRESSES, ZKTCoreABI } from "@/lib/abi";
 
 export async function GET(req: NextRequest) {
   const auth = req.headers.get("authorization");
@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
     const { publicClient } = getRelayerClient();
     const bundleCount = await publicClient.readContract({
       address: CONTRACT_ADDRESSES.ShariaReviewManager,
-      abi: ShariaReviewManagerABI,
+      abi: ZKTCoreABI,
       functionName: "bundleCount",
     }) as bigint;
 
@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
     for (let i = 1n; i <= bundleCount; i++) {
       const bundle = await publicClient.readContract({
         address: CONTRACT_ADDRESSES.ShariaReviewManager,
-        abi: ShariaReviewManagerABI,
+        abi: ZKTCoreABI,
         functionName: "getShariaBundle",
         args: [i],
       });

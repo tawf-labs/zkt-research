@@ -2091,6 +2091,91 @@ export function calculateGracePeriodEnd(deadline: number): number {
   return deadline + GRACE_PERIOD;
 }
 
+// ── ShariaReviewManager ABI ──
+export const ShariaReviewManagerABI = [
+  {
+    "type": "function",
+    "name": "bundleCount",
+    "inputs": [],
+    "outputs": [{"name": "", "type": "uint256", "internalType": "uint256"}],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "shariaBundles",
+    "inputs": [{"name": "bundleId", "type": "uint256", "internalType": "uint256"}],
+    "outputs": [
+      {"name": "bundleId", "type": "uint256", "internalType": "uint256"},
+      {"name": "submittedAt", "type": "uint256", "internalType": "uint256"},
+      {"name": "finalized", "type": "bool", "internalType": "bool"},
+      {"name": "approvalCount", "type": "uint256", "internalType": "uint256"}
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "shariaQuorumRequired",
+    "inputs": [],
+    "outputs": [{"name": "", "type": "uint256", "internalType": "uint256"}],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "hasVerifiedProof",
+    "inputs": [
+      {"name": "bundleId", "type": "uint256", "internalType": "uint256"},
+      {"name": "proposalId", "type": "uint256", "internalType": "uint256"}
+    ],
+    "outputs": [{"name": "verified", "type": "bool", "internalType": "bool"}],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getProofApprovalCount",
+    "inputs": [
+      {"name": "bundleId", "type": "uint256", "internalType": "uint256"},
+      {"name": "proposalId", "type": "uint256", "internalType": "uint256"}
+    ],
+    "outputs": [{"name": "count", "type": "uint256", "internalType": "uint256"}],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "checkAndCreateBundle",
+    "inputs": [],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "createShariaReviewBundle",
+    "inputs": [{"name": "proposalIds", "type": "uint256[]", "internalType": "uint256[]"}],
+    "outputs": [{"name": "", "type": "uint256", "internalType": "uint256"}],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "reviewProposal",
+    "inputs": [
+      {"name": "reviewer", "type": "address", "internalType": "address"},
+      {"name": "bundleId", "type": "uint256", "internalType": "uint256"},
+      {"name": "proposalId", "type": "uint256", "internalType": "uint256"},
+      {"name": "approved", "type": "bool", "internalType": "bool"},
+      {"name": "campaignType", "type": "uint8", "internalType": "uint8"},
+      {"name": "zkReviewProof", "type": "bytes32", "internalType": "bytes32"}
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "finalizeShariaBundle",
+    "inputs": [{"name": "bundleId", "type": "uint256", "internalType": "uint256"}],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  }
+] as const;
+
 /**
  * Check if timestamp is within warning period (5 days before deadline)
  * @param remainingSeconds Remaining time in seconds

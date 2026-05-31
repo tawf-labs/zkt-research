@@ -438,3 +438,4 @@ zk-private-zakat.blg
 circuits/build/sharia_final.zkey
 sc/v7_proof.bin
 sc/v7_public_inputs.bin
+.vercel

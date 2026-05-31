@@ -257,7 +257,7 @@ export interface UsePrivateDonationReturn {
 export const ZK_PROOF_CONFIG = {
   // Ethereum Sepolia testnet
   ethereum_sepolia: {
-    verifier_address: '0xfeF43BD66FAf9B2cb787b9D5b51477129f87cA37',
+    verifier_address: '0x294F9eF609305a569D22A6602cE585DF4bB1118D',
     nisab_threshold: 85000000n, // 85M IDR
     cycle_duration_seconds: 354 * 24 * 60 * 60, // One lunar year
   },

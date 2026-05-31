@@ -16,9 +16,9 @@ export function useVotingPower() {
     error,
     refetch,
   } = useReadContract({
-    address: CONTRACT_ADDRESSES.VotingToken,
+    address: CONTRACT_ADDRESSES.VotingNFT,
     abi: VotingTokenABI,
-    functionName: "balanceOf",
+    functionName: "getVotingPower",
     args: address ? [address] : undefined,
     query: {
       enabled: !!address,

@@ -197,7 +197,7 @@ const ExplorerPage: React.FC = () => {
                           <div className="flex items-center gap-2 flex-wrap">
                             {getTypeBadge(tx.type)}
                             <a
-                              href={`https://sepolia.basescan.org/tx/${tx.hash}`}
+                              href={`https://sepolia.etherscan.io/tx/${tx.hash}`}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="inline-flex items-center gap-1 text-sm font-mono text-primary hover:underline"
@@ -218,7 +218,7 @@ const ExplorerPage: React.FC = () => {
                             <div className="flex items-center gap-1">
                               <span>From:</span>
                               <a
-                                href={`https://sepolia.basescan.org/address/${tx.from}`}
+                                href={`https://sepolia.etherscan.io/address/${tx.from}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="font-mono text-primary hover:underline inline-flex items-center gap-1"
@@ -233,7 +233,7 @@ const ExplorerPage: React.FC = () => {
                                 <div className="flex items-center gap-1">
                                   <span>To:</span>
                                   <a
-                                    href={`https://sepolia.basescan.org/address/${tx.to}`}
+                                    href={`https://sepolia.etherscan.io/address/${tx.to}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="font-mono text-primary hover:underline inline-flex items-center gap-1"
@@ -276,7 +276,7 @@ const ExplorerPage: React.FC = () => {
               <div>
                 <div className="text-muted-foreground mb-1">ZKTCore</div>
                 <a
-                  href={`https://sepolia.basescan.org/address/${CONTRACT_ADDRESSES.ZKTCore}`}
+                  href={`https://sepolia.etherscan.io/address/${CONTRACT_ADDRESSES.ZKTCore}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="font-mono text-xs text-primary hover:underline inline-flex items-center gap-1"
@@ -288,7 +288,7 @@ const ExplorerPage: React.FC = () => {
               <div>
                 <div className="text-muted-foreground mb-1">MockIDRX Token</div>
                 <a
-                  href={`https://sepolia.basescan.org/address/${CONTRACT_ADDRESSES.MockIDRX}`}
+                  href={`https://sepolia.etherscan.io/address/${CONTRACT_ADDRESSES.MockIDRX}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="font-mono text-xs text-primary hover:underline inline-flex items-center gap-1"
@@ -300,7 +300,7 @@ const ExplorerPage: React.FC = () => {
               <div>
                 <div className="text-muted-foreground mb-1">Receipt NFT</div>
                 <a
-                  href={`https://sepolia.basescan.org/address/${CONTRACT_ADDRESSES.DonationReceiptNFT}`}
+                  href={`https://sepolia.etherscan.io/address/${CONTRACT_ADDRESSES.DonationReceiptNFT}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="font-mono text-xs text-primary hover:underline inline-flex items-center gap-1"

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyJWT, getRelayerClient } from "@/lib/relayer";
-import { CONTRACT_ADDRESSES, ZKTCoreABI, ShariaReviewManagerABI } from "@/lib/abi";
+import { CONTRACT_ADDRESSES, ZKTCoreABI } from "@/lib/abi";
 import { encodeFunctionData } from "viem";
 
 export async function POST(req: NextRequest) {

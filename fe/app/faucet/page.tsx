@@ -223,7 +223,7 @@ export default function FaucetPage() {
             <div className="text-center text-sm">
               <p className="text-muted-foreground mb-1">Transaction Hash:</p>
               <a
-                href={`https://sepolia.basescan.org/tx/${txHash}`}
+                href={`https://sepolia.etherscan.io/tx/${txHash}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-primary hover:underline break-all"

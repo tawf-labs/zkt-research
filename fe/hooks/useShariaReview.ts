@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from 'react';
 import { useWriteContract, useAccount, useReadContract } from 'wagmi';
-import { CONTRACT_ADDRESSES, ZKTCoreABI } from '@/lib/abi';
+import { CONTRACT_ADDRESSES, ZKTCoreABI, ShariaReviewManagerABI } from '@/lib/abi';
 import { KYCStatus, CampaignType, getKYCStatusLabel, getCampaignTypeLabel } from '@/lib/types';
 import { toast } from '@/components/ui/use-toast';
 
@@ -26,7 +26,7 @@ export interface Groth16Proof {
 export function useShariaBundle(bundleId: number | bigint) {
   const { data, isLoading, refetch } = useReadContract({
     address: CONTRACT_ADDRESSES.ShariaReviewManager,
-    abi: ZKTCoreABI,
+    abi: ShariaReviewManagerABI,
     functionName: 'getBundle',
     args: [BigInt(bundleId)],
     query: {

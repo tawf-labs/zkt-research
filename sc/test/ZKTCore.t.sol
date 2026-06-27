@@ -10,6 +10,8 @@ import "@tawf-gov/protocol/PoolManager.sol";
 import "@tawf-gov/protocol/ZakatEscrowManager.sol";
 import "../src/DAO/core/PrivateDonationPool.sol";
 import "@tawf-gov/governance/ParticipationTracker.sol";
+import "@tawf-gov/identity/TawfPassport.sol";
+import {ITawfPassport, PassportType} from "@tawf-gov/interfaces/ITawfPassport.sol";
 import "../src/DAO/verifiers/Groth16Verifier.sol";
 
 contract ZKTCoreTest is Test {
@@ -44,8 +46,13 @@ contract ZKTCoreTest is Test {
         HonkVerifier honkVerifier = new HonkVerifier();
         NullifierRegistry nullifierRegistry = new NullifierRegistry();
 
+        // Deploy TawfPassport for organizer identity verification
+        TawfPassport tawfPassport = new TawfPassport();
+        tawfPassport.issuePassport(organizer, PassportType.Organization, "ipfs://organizer");
+
         // Deploy Managers
         ProposalManager proposalManager = new ProposalManager();
+        proposalManager.setTawfPassport(address(tawfPassport));
         VotingManager votingManager = new VotingManager(
             address(proposalManager),
             address(votingNFT)
@@ -644,9 +651,8 @@ contract ZKTCoreTest is Test {
         uint256[] memory receipts = receiptNFT.getDonorReceipts(donor1);
         uint256 tokenId = receipts[0];
 
-        // Try to transfer receipt NFT (should fail)
         vm.prank(donor1);
-        vm.expectRevert("DonationReceiptNFT: Non-transferable receipt");
+        vm.expectRevert("DonationReceipt: soulbound");
         receiptNFT.transferFrom(donor1, donor2, tokenId);
     }
 

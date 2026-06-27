@@ -16,6 +16,8 @@ import "@tawf-gov/tokens/MockIDRX.sol";
 import "@tawf-gov/protocol/DonationReceiptNFT.sol";
 import "@tawf-gov/tokens/VotingNFT.sol";
 import "@tawf-gov/interfaces/IProposalManager.sol";
+import "@tawf-gov/identity/TawfPassport.sol";
+import {ITawfPassport, PassportType} from "@tawf-gov/interfaces/ITawfPassport.sol";
 
 /**
  * @title ShariaZKProofTest
@@ -72,6 +74,11 @@ contract ShariaZKProofTest is Test {
 
         // Deploy managers
         proposalManager = new ProposalManager();
+
+        // TawfPassport for organizer identity verification
+        TawfPassport tawfPassport = new TawfPassport();
+        tawfPassport.issuePassport(organizer, PassportType.Organization, "ipfs://organizer");
+        proposalManager.setTawfPassport(address(tawfPassport));
         votingManager = new VotingManager(address(proposalManager), address(votingNFT));
         shariaReviewManager = new ShariaReviewManager(
             address(proposalManager),

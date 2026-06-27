@@ -10,6 +10,8 @@ import "@tawf-gov/protocol/PoolManager.sol";
 import "@tawf-gov/protocol/ZakatEscrowManager.sol";
 import "../src/DAO/core/PrivateDonationPool.sol";
 import "@tawf-gov/governance/ParticipationTracker.sol";
+import "@tawf-gov/identity/TawfPassport.sol";
+import {ITawfPassport, PassportType} from "@tawf-gov/interfaces/ITawfPassport.sol";
 
 /**
  * @title CoreTeamTest
@@ -50,8 +52,13 @@ contract CoreTeamTest is Test {
         NullifierRegistry nullifierReg = new NullifierRegistry();
         privatePool = new PrivateDonationPool(address(idrx));
 
+        // TawfPassport for organizer identity
+        TawfPassport passport = new TawfPassport();
+        passport.issuePassport(coreTeam, PassportType.Organization, "ipfs://core-team");
+
         // Managers
         pm = new ProposalManager();
+        pm.setTawfPassport(address(passport));
         VotingManager vmgr = new VotingManager(address(pm), address(votingNFT));
         ShariaReviewManager srm = new ShariaReviewManager(address(pm), address(honk));
         poolMgr = new PoolManager(address(pm), address(idrx), address(receiptNFT));

@@ -12,6 +12,10 @@ Privacy-preserving zakat donations using UltraHONK zero-knowledge proofs on Ethe
 - **Paper**: `zk-private-zakat.pdf` (IEEE ICIMTech 2026, 6 pages, 33 references)
 - **Authors**: Muhammad Zidan Fatonie, Alexander Agung Santoso Gunawan (BINUS University)
 
+> **For Conference Judges**: The IEEE ICIMTech 2026 paper was accepted based on v9 deployment data. This repository has since evolved to v10 with architectural improvements (HonkVerifier/NullifierRegistry split, TawfPassport identity, 150-test pipeline). All paper claims remain valid against v9 — see [`docs/paper-corrections.md`](docs/paper-corrections.md) for a complete v9→v10 mapping, including contract addresses, architectural changes, and judge navigation guide.
+>
+> **To reproduce paper results**: run `cd sc && forge test --match-path test/TestSepoliaFork.t.sol` for the v9 Sepolia deployment verification, or consult `benchmarks/v9-benchmarks-v2.md` for the raw performance and gas data referenced in the paper.
+
 ---
 
 ## Table of Contents
@@ -301,9 +305,12 @@ All benchmark logs are in `benchmarks/`:
 
 | File | Content |
 |------|---------|
+| `v9-benchmarks-v2.md` | **Paper reference** — UltraHONK timing, gas report, v9 Sepolia addresses |
+| `v9-benchmarks-final.md` | Extended v9 benchmarks |
 | `ultrahonk-*.log` | 5 prove runs + 5 verify runs with timings |
 | `forge-gas-*.log` | Complete Foundry gas report |
 | `sepolia-donatezk-gas.txt` | Actual Sepolia tx gas used |
+| `security-testing-analysis.md` | v10 security edge tests (17 tests, attack flows, findings) |
 
 ## Paper
 

@@ -1,0 +1,264 @@
+═══════════════════════════════════════════════════════════════════════════════════════════════
+                              ZKT APPLICATION LAYER ARCHITECTURE
+                                  Zero-Knowledge Zakat Platform
+═══════════════════════════════════════════════════════════════════════════════════════════════
+
+
+┌───────────────────────────────────────────────────────────────────────────────────────────┐
+│                                                                                           │
+│                               LAYER 1: USER INTERFACE                                     │
+│                           Next.js 16 + React 19 + TypeScript                               │
+│                         ▁ ▂ ▄ ▅ ▆ ▇ █  ziswaf.tawf.foundation  █ ▇ ▆ ▅ ▄ ▂ ▁                │
+│                                                                                           │
+├───────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                           │
+│  ┌──────────────────────┐ ┌──────────────────────┐ ┌──────────────────────────────────┐  │
+│  │  Campaign Explorer   │ │   Dual Dashboards    │ │   DAO Governance Portal          │  │
+│  │                      │ │                      │ │                                  │  │
+│  │  /campaigns          │ │  /dashboard/donor    │ │  /governance                     │  │
+│  │  /campaigns/[id]     │ │  /dashboard/organizer│ │  ├─ Proposal creation            │  │
+│  │  /campaigns/new      │ │  /dashboard/auditor  │ │  ├─ Community voting             │  │
+│  │                      │ │                      │ │  ├─ Sharia council review        │  │
+│  │  Browse + filter     │ │  Transaction history │ │  └─ Milestone tracking           │  │
+│  │  active zakat pools  │ │  Donation receipts   │ │                                  │  │
+│  └──────────────────────┘ └──────────────────────┘ └──────────────────────────────────┘  │
+│                                                                                           │
+│  ┌──────────────────────┐ ┌──────────────────────┐ ┌──────────────────────────────────┐  │
+│  │  Zakat Calculator    │ │   Donation Dialog    │ │   Zakat Certificate Modal        │  │
+│  │                      │ │                      │ │                                  │  │
+│  │  /zakat              │ │  Public / Private    │ │  Soulbound NFT receipt           │  │
+│  │  ├─ Hardcoded nisab  │ │  tier toggle         │ │  IPFS metadata link              │  │
+│  │  │   (85M IDRX, 85g)  │ │  Quick amount:       │ │  Share / download                │  │
+│  │  └─ Wealth assessment│ │  10K | 50K | 100K    │ │                                  │  │
+│  └──────────────────────┘ └──────────────────────┘ └──────────────────────────────────┘  │
+│                                                                                           │
+│  ┌──────────────────────┐ ┌──────────────────────┐ ┌──────────────────────────────────┐  │
+│  │  Transaction Explorer│ │   Wallet Connection  │ │   Accessory Pages                │  │
+│  │  /explorer           │ │                      │ │                                  │  │
+│  │  On-chain tx lookup  │ │  wagmi + XellarKit   │ │  /faucet  /contact  /partners    │  │
+│  │  Public + shielded   │ │  Multi-wallet support│ │  /mainnet  /organizer/apply      │  │
+│  └──────────────────────┘ └──────────────────────┘ └──────────────────────────────────┘  │
+│                                                                                           │
+│  UI Stack: 60+ shadcn/ui components  |  Tailwind CSS v4  |  dark/light theme              │
+│            Indonesian (Bahasa) locale  |  Radix UI primitives  |  Lucide icons             │
+│                                                                                           │
+└───────────────────────────────────────────┬───────────────────────────────────────────────┘
+                                            │
+                           REST API  |  JSON-RPC  |  GraphQL
+                                            │
+                                            ▼
+┌───────────────────────────────────────────────────────────────────────────────────────────┐
+│                                                                                           │
+│                           LAYER 2: OFF-CHAIN SERVICES                                      │
+│                                                                                           │
+├───────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                           │
+│  ┌────────────────────────────────┐  ┌──────────────────────────────────────────────┐    │
+│  │  Next.js API Routes            │  │  Off-Chain Coordinator (Express :3000)        │    │
+│  │  (fe/app/api/)                 │  │  (sc/offchain-coordinator/)                   │    │
+│  ├────────────────────────────────┤  ├──────────────────────────────────────────────┤    │
+│  │                                │  │                                              │    │
+│  │  Campaign API                  │  │  GET  /health            TEE attestation      │    │
+│  │  ├─ GET/POST /api/campaigns     │  │  GET  /council           member listing       │    │
+│  │  ├─ GET /api/campaigns/[id]     │  │  POST /council/setup     Merkle root gen      │    │
+│  │  └─ GET /api/campaigns/slug/    │  │  POST /vote              vote record + sig    │    │
+│  │         [slug]                  │  │  GET  /votes/:b/:p        vote tally           │    │
+│  │                                │  │  POST /proof/generate     Groth16 prove        │    │
+│  │  Certificate API               │  │  POST /proof/publish      submit to chain      │    │
+│  │  ├─ GET/POST /api/certificates  │  │  (7 endpoints total)                            │    │
+│  │                                │  │                                              │    │
+│  │  Sessions API                   │  │  Internal Modules:                            │    │
+│  │  ├─ POST /api/sessions/create   │  │  ├─ CouncilManager       Poseidon forest      │    │
+│  │  └─ POST /api/sessions/verify   │  │  ├─ VoteAggregator       LevelDB store        │    │
+│  │                                │  │  ├─ ProofGenerator       snarkjs Groth16      │    │
+│  │  Sharia Council API            │  │  └─ BlockchainPublisher   ethers.js relay      │    │
+│  │  ├─ GET  /api/sharia/bundles   │  │                                              │    │
+│  │  ├─ POST /api/sharia/review    │  │                                              │    │
+│  │  └─ POST /api/sharia/finalize  │  │                                              │    │
+│  │                                │  │                                              │    │
+│  │  File Upload                   │  │                                              │    │
+│  │  └─ POST /api/upload-to-pinata │  │                                              │    │
+│  └────────────────────────────────┘  └──────────────────────────────────────────────┘    │
+│                                                                                           │
+│  ┌──────────────────────────────────────────────────────────────────────────────────┐    │
+│  │                         External Data Services                                     │    │
+│  │                                                                                   │    │
+│  │  ┌─────────────────┐  ┌─────────────────┐  ┌──────────────────────────────────┐  │    │
+│  │  │  Supabase        │  │  Pinata (IPFS)  │  │  Nisab Threshold                 │  │    │
+│  │  │  (optional)      │  │  (content addr) │  │  (hardcoded for testnet)         │  │    │
+│  │  │                 │  │                 │  │                                  │  │    │
+│  │  │ • Certificates   │  │ • Metadata JSON │  │ • 85g gold equivalent            │  │    │
+│  │  │   storage (w/    │  │ • Campaign imgs │  │ • Rp 85,000,000 fixed            │  │    │
+│  │  │   fallback)       │  │ • Receipt docs  │  │ • Live API planned for           │  │    │
+│  │  │ • Campaign CRUD   │  │ • ipfs://Qm...  │  │   mainnet deployment             │  │    │
+│  │  │   (dead code —    │  │   URIs stored   │  │                                  │  │    │
+│  │  │   unused module)  │  │   on-chain      │  │                                  │  │    │
+│  │  └─────────────────┘  └─────────────────┘  └──────────────────────────────────┘  │    │
+│  └──────────────────────────────────────────────────────────────────────────────────┘    │
+│                                                                                           │
+└───────────────────────────────────────────┬───────────────────────────────────────────────┘
+                                            │
+                         JSON-RPC  |  tx submission  |  event logs
+                                            │
+                                            ▼
+┌───────────────────────────────────────────────────────────────────────────────────────────┐
+│                                                                                           │
+│                               LAYER 3: ON-CHAIN LAYER                                     │
+│                         Ethereum Sepolia  |  Solidity 0.8.31                               │
+│                                                                                           │
+├───────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                           │
+│  ┌─────────────────────────────────────────────────────────────────────────────────────┐ │
+│  │                         ZKTCore (Protocol Orchestrator)                               │ │
+│  │                 0x81D4C8E4E78d365e521a00984DfeFA03d24Ca0Cd                           │ │
+│  │                                                                                     │ │
+│  │  ┌──────────────────────────────┐  ┌────────────────────────────────────────────┐  │ │
+│  │  │     Governance Pipeline      │  │            Donation Pipeline                │  │ │
+│  │  │                              │  │                                            │  │ │
+│  │  │  createProposal()            │  │  donate(poolId, amount, ipfsCID)            │  │ │
+│  │  │    → ProposalManager         │  │    → ZakatEscrowManager / PoolManager       │  │ │
+│  │  │                              │  │    → DonationReceiptNFT.mint() (soulbound)  │  │ │
+│  │  │  submitForCommunityVote      │  │                                            │  │ │
+│  │  │  castVote()                  │  │  donateZK(proof, inputs, nullifier, cid)    │  │ │
+│  │  │    → VotingManager           │  │    → HonkVerifier.verify(proof, inputs)     │  │ │
+│  │  │      ├─ VotingNFT (tiered)   │  │    → NullifierRegistry.spend(nullifier)     │  │ │
+│  │  │      └─ verified voters      │  │    → fund transfer → receipt mint           │  │ │
+│  │  │                              │  │                                            │  │ │
+│  │  │  finalizeCommunityVote()     │  │  donateZKPrivate(proof, inputs, nullifier)  │  │ │
+│  │  │    → auto bundle creation    │  │    → HonkVerifier.verify(proof, inputs)     │  │ │
+│  │  │                              │  │    → NullifierRegistry.spend(nullifier)     │  │ │
+│  │  │  Sharia Review Bundle        │  │    → PrivateDonationPool.donatePrivately()  │  │ │
+│  │  │  ├─ createShariaBundle()     │  │      ├─ commitment tracking                 │  │ │
+│  │  │  ├─ reviewProposal()         │  │      ├─ nullifierCommitments mapping        │  │ │
+│  │  │  │   → ShariaReviewManager   │  │      └─ Event: (poolId, nullifier,          │  │ │
+│  │  │  │     ├─ Groth16Verifier    │  │               commitment) — NO donor/amount! │  │ │
+│  │  │  │     └─ council quorum     │  │                                            │  │ │
+│  │  │  └─ finalizeShariaBundle()   │  │  withdrawFunds()                            │  │ │
+│  │  │                              │  │    → milestone-by-milestone release         │  │ │
+│  │  │  createCampaignPool()        │  │    → full withdrawal blocked if milestones  │  │ │
+│  │  │    ├─ ZakatEscrowManager     │  │                                            │  │ │
+│  │  │    │   (zakat, 30-day lock)  │  │                                            │  │ │
+│  │  │    └─ PoolManager            │  │                                            │  │ │
+│  │  │        (general campaigns)   │  │                                            │  │ │
+│  │  │                              │  │                                            │  │ │
+│  │  │  Milestone Pipeline          │  │                                            │  │ │
+│  │  │  ├─ submitMilestoneProof()   │  │                                            │  │ │
+│  │  │  ├─ startMilestoneVoting()   │  │                                            │  │ │
+│  │  │  ├─ voteMilestone()          │  │                                            │  │ │
+│  │  │  ├─ finalizeMilestoneVote()  │  │                                            │  │ │
+│  │  │  └─ withdrawMilestoneFunds() │  │                                            │  │ │
+│  │  │    → MilestoneManager        │  │                                            │  │ │
+│  │  └──────────────────────────────┘  └────────────────────────────────────────────┘  │ │
+│  └─────────────────────────────────────────────────────────────────────────────────────┘ │
+│                                                                                           │
+│  ┌─────────────────────────┐ ┌───────────────────────┐ ┌────────────────────────────┐   │
+│  │  Identity Contracts     │ │  Token Contracts      │ │  Verifier / Registry       │   │
+│  │                         │ │                       │ │                            │   │
+│  │  TawfPassport           │ │  MockIDRX (ERC-20)    │ │  HonkVerifier              │   │
+│  │  ├─ issuePassport()     │ │  ├─ adminMint()       │ │  ├─ verify(proof, inputs)  │   │
+│  │  ├─ getPassportType()   │ │  ├─ faucet()          │ │  └─ UltraHONK (8KB proof)  │   │
+│  │  └─ ERC-5192 (soulbound)│ │  └─ transfer/approve  │ │                            │   │
+│  │                         │ │                       │ │  Groth16Verifier           │   │
+│  │  TawfReputation         │ │  VotingNFT            │ │  ├─ verifyProof(pA,B,C)    │   │
+│  │  ├─ reputation score    │ │  ├─ mintVotingNFT()   │ │  └─ Sharia council proofs  │   │
+│  │  └─ on-chain history    │ │  ├─ verifyVoter()     │ │                            │   │
+│  │                         │ │  └─ VotingTier (1-5)  │ │  NullifierRegistry         │   │
+│  │  ParticipationTracker   │ │                       │ │  ├─ spend(nullifier)       │   │
+│  │  ├─ setVerification()   │ │  DonationReceiptNFT   │ │  ├─ isSpent(nullifier)     │   │
+│  │  └─ participation       │ │  ├─ mint()            │ │  └─ mapping(bytes32→bool)  │   │
+│  │      metrics            │ │  ├─ getDonorReceipts()│ │                            │   │
+│  │                         │ │  └─ tokenMetadata()   │ │                            │   │
+│  └─────────────────────────┘ └───────────────────────┘ └────────────────────────────┘   │
+│                                                                                           │
+│  ┌─────────────────────────────────────────────────────────────────────────────────┐     │
+│  │                        ZK Proving Circuits (on-chain verified)                    │     │
+│  │                                                                                  │     │
+│  │  Noir Circuit (UltraHONK)               Circom Circuit (Groth16)                  │     │
+│  │  noir-circuits/zkat_eligibility/        circuits/ShariaVoteAggregator.circom     │     │
+│  │                                                                                  │     │
+│  │  Private witness:                      Private witness:                          │     │
+│  │  ├─ income, assets, hawl_start          ├─ councilMemberVote[5]                   │     │
+│  │  ├─ secret, amount                      ├─ memberCommitment[5] (Poseidon)         │     │
+│  │  └─ recipient_address                   ├─ voteNullifier[5]                       │     │
+│  │                                         ├─ merkleProofElements[5][3]              │     │
+│  │  Public inputs:                        └─ merkleProofPathIndices[5][3]            │     │
+│  │  ├─ nisab_threshold, current_time                                              │     │
+│  │  ├─ recipient_address, cycle_id       Public inputs:                             │     │
+│  │  └─ expected_nullifier                 ├─ bundleId, proposalId                   │     │
+│  │                                         ├─ approvalCount, quorumThreshold         │     │
+│  │  Outputs:                              └─ councilRoot, nullifierRoot              │     │
+│  │  ├─ nullifier (pedersen_hash)                                                  │     │
+│  │  └─ amount_commitment (pedersen_hash)  Constraints:                              │     │
+│  │                                         ├─ Merkle proof per voter               │     │
+│  │  29 ACIR opcodes | 270ms prove          ├─ vote ∈ {0, 1}                        │     │
+│  │  10ms verify | 8,384 bytes proof        ├─ sum(votes) == approvalCount          │     │
+│  │  Barretenberg v5.0.0-nightly            ├─ quorumThreshold ≤ approvalCount       │     │
+│  │                                         └─ nullifier well-formed                │     │
+│  └─────────────────────────────────────────────────────────────────────────────────┘     │
+│                                                                                           │
+└───────────────────────────────────────────┬───────────────────────────────────────────────┘
+                                            │
+                                            │  forking from
+                                            ▼
+┌───────────────────────────────────────────────────────────────────────────────────────────┐
+│                                                                                           │
+│                               LAYER 4: INFRASTRUCTURE                                     │
+│                                                                                           │
+├───────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                           │
+│  ┌─────────────────────────────────┐  ┌───────────────────────────────────────────────┐  │
+│  │  Ethereum Sepolia Testnet       │  │  IPFS Content-Addressed Storage               │  │
+│  │  (Chain Infrastructure)         │  │  (Metadata & Document Layer)                  │  │
+│  ├─────────────────────────────────┤  ├───────────────────────────────────────────────┤  │
+│  │                                 │  │                                               │  │
+│  │  16 deployed + verified         │  │  Pinata gateway                               │  │
+│  │  ~5.5M gas deploy cost          │  │  ├─ Campaign metadata JSON                    │  │
+│  │  Role-based access control      │  │  ├─ Campaign images                           │  │
+│  │  Public RPC endpoint            │  │  ├─ Donation receipt documents                │  │
+│  │  Block explorer (Etherscan)     │  │  └─ ipfs://Qm... URIs stored on-chain        │  │
+│  └─────────────────────────────────┘  └───────────────────────────────────────────────┘  │
+│                                                                                           │
+│  ┌─────────────────────────────────┐  ┌───────────────────────────────────────────────┐  │
+│  │  Off-Chain Coordinator Node     │  │  CI/CD Pipeline                               │  │
+│  │  (Express + LevelDB)            │  │  (GitHub Actions)                             │  │
+│  ├─────────────────────────────────┤  ├───────────────────────────────────────────────┤  │
+│  │                                 │  │                                               │  │
+│  │  Docker containerized           │  │  forge build     (compile 86 files)           │  │
+│  │  TEE-ready (Phala config)       │  │  forge test      (46 Solidity tests)          │  │
+│  │  LevelDB for vote storage        │  │  forge fmt       (code style check)           │  │
+│  │  Health check endpoint           │  │  On push + PR triggers                       │  │
+│  │  npm ci → npm start              │  │                                               │  │
+│  └─────────────────────────────────┘  └───────────────────────────────────────────────┘  │
+│                                                                                           │
+│  ┌───────────────────────────────────────────────────────────────────────────────────┐  │
+│  │                              Data Storage Services                                  │  │
+│  │                                                                                    │  │
+│  │  LevelDB (Embedded)              LocalStorage (Browser)     Supabase (optional)      │  │
+│  │  ├─ Vote records                 ├─ access_token            ├─ Certificates           │  │
+│  │  ├─ Council state                └─ session persistence     │   (with fallback)       │  │
+│  │  └─ Shard: votes/                                           └─ Campaign CRUD          │  │
+│  │                                                                  (dead code module)   │  │
+│  └───────────────────────────────────────────────────────────────────────────────────┘  │
+│                                                                                           │
+└───────────────────────────────────────────────────────────────────────────────────────────┘
+
+═══════════════════════════════════════════════════════════════════════════════════════════════
+                                     DATA FLOW SUMMARY
+═══════════════════════════════════════════════════════════════════════════════════════════════
+
+  A. PUBLIC DONATION
+     UI → approve(IDRX) → ZKTCore.donate() → Escrow/Pool → ReceiptNFT.mint() → soulbound SBT
+
+  B. PRIVATE DONATION (ZK)
+     UI → Noir witness → bb prove → ZKTCore.donateZKPrivate(proof, inputs, nullifier)
+       → HonkVerifier.verify() → NullifierRegistry.spend()
+         → PrivateDonationPool.donatePrivately()
+           → Event: (poolId, nullifier, commitment) — NO donor, NO amount
+
+  C. GOVERNANCE
+     UI → createProposal → castVote → finalizeVote → shariaReview → createPool → milestones
+
+  D. SHARIA ZK AGGREGATION
+     Coordinator ← council votes → quorum? → Groth16 prove → submitShariaReviewProof() → on-chain
+
+═══════════════════════════════════════════════════════════════════════════════════════════════

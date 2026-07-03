@@ -116,7 +116,7 @@ forge test      # 26 tests passing
 
 ```bash
 cd noir-circuits/zkat_eligibility
-nargo test      # 3 tests passing
+nargo test      # 12 tests passing
 nargo compile   # compile to ACIR
 nargo execute   # generate witness
 ```
@@ -177,7 +177,7 @@ On-chain gas consumption (Foundry gas report):
 │   ├── script/
 │   │   ├── DeployZKT.s.sol       # Full deployment script (16 contracts)
 │   │   └── GenerateZKProof.mjs   # Off-chain proof generator
-│   └── test/                     # Foundry tests (26 passing)
+│   └── test/                     # Foundry tests (46 passing)
 │
 ├── noir-circuits/
 │   └── zkat_eligibility/         # Noir circuit (nisab + hawl + pedersen nullifier)
@@ -246,26 +246,53 @@ The private donation flow:
 
 ```bash
 cd sc
-forge test          # 26 tests passing
+forge test          # 46 tests passing
 forge test --gas-report # full gas report
 ```
 
 Key test suites:
 - `ZKTCoreTest` — 17 tests (donation flow, voting, milestone management)
 - `ShariaZKProofTest` — 9 tests (ZK proof submission, quorum verification)
+- `SecurityEdgeTest` — 5 tests (nullifier race conditions, mempool front-running)
+- `TestDonateZKPrivate` — 9 tests (private donation flow, double-nullifier rejection)
+- `CoreTeamTest` — 3 tests (centralized governance transition)
+- `TestSepoliaFork` / `TestForkDonate` — 2 tests (Sepolia fork verification)
 
 ### Noir Circuit
 
 ```bash
 cd noir-circuits/zkat_eligibility
-nargo test          # 3 tests (eligible, ineligible, hawl met)
+nargo test          # 12 tests (3 eligibility + 9 boundary value analysis)
+```
+
+Boundary value tests cover: exact nisab threshold, just below threshold, zero input, u64 overflow guards, hawl at deadline, hawl one second before deadline, hawl overflow.
+
+### Circom Circuit
+
+```bash
+cd circuits
+npm test            # 5 tests (Groth16 proof generation + verification + edge cases)
+```
+
+### Off-Chain Coordinator
+
+```bash
+cd sc/offchain-coordinator
+npm test            # 9 tests (health, council setup, voting, double-vote rejection)
 ```
 
 ### Frontend
 
 ```bash
 cd fe
-pnpm build          # production build verification
+npx vitest run      # 78 tests (contract addresses, ABI validation, type enums, chain config)
+npx next build      # production build verification
+```
+
+### Full Pipeline
+
+```bash
+bash e2e-pipeline.sh # runs all 6 test layers (142 total tests)
 ```
 
 ## Benchmarks
@@ -287,6 +314,28 @@ The IEEE conference paper is at `zk-private-zakat.pdf` (6 pages, 33 references).
 **Scope**: Blockchain Technologies and Fintech
 
 **Section structure**: Introduction, Literature Review, Methodology, Results, Discussion, Conclusion
+
+## Future Work
+
+### Formal Verification of Smart Contracts
+
+The current iteration relies on Foundry unit tests and gas-level fuzzing to validate contract correctness and security properties. Future iterations will employ bounded model checking tools (Halmos) and formal verification (Certora Prover) to mathematically prove the absence of reentrancy, access-control violations, and state-corruption vulnerabilities in the core contracts (ZKTCore, NullifierRegistry, PrivateDonationPool).
+
+### Mempool Front-Running Mitigation
+
+The `donateZKPrivate()` function does not bind `msg.sender` into the ZK proof's public inputs. An MEV searcher who observes a pending donation in the mempool can extract the valid (proof, publicInputs, nullifier) calldata and front-run the transaction. The attacker pays gas and the funds come from the attacker's wallet, but the donation amount and destination pool remain unchanged — this is a **griefing attack** (funds route to the correct pool, but from the wrong donor). Mitigation requires binding the donor address into the circuit as a public input, or using EIP-712 signed authorization.
+
+### Advanced Transaction Graph Heuristics
+
+An observer can correlate donation timing with claim timing on public blockchains, potentially breaking donor-privacy guarantees through temporal analysis. Mitigating advanced on-chain sleuthing requires implementing time-delay routing between donation and disbursement, randomized relayer networks to obfuscate transaction origins, and constant-size denomination pools to completely break amount-based timing heuristics.
+
+### Client-Side Proving (WASM)
+
+The current backend API proving model is susceptible to network-level resource exhaustion (DDoS) if a malicious actor spams invalid witnesses to the proof generation endpoint. Moving UltraHONK proof generation entirely to client-side WebAssembly (WASM) eliminates this server-side denial-of-service vector and improves decentralization by removing the trusted prover intermediary.
+
+### Fixed-Denomination Privacy Pools
+
+The current `donateZKPrivate()` function exposes the donation amount in calldata (required for `transferFrom`). Future work will move the amount into a circuit-private witness using fixed denominations (e.g., 10, 50, 100, 500 IDRX), similar to Tornado Cash's pool design, so that an observer sees only a commitment and cannot infer the donation value from the calldata.
 
 ## Acknowledgments
 

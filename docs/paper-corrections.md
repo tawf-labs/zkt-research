@@ -41,6 +41,25 @@
 
 ---
 
+### Correction 1a: Donation Functions — Which Are the Paper's Contribution
+
+`ZKTCore.sol` defines four external functions:
+
+| Function | ZK Proof | Routes Through | Event Emitted | Paper Role |
+|----------|----------|----------------|---------------|------------|
+| `donate()` | No | `ZakatEscrowManager` / `PoolManager` | `DonationReceived` | Public baseline |
+| `donatePrivate()` | No | `ZakatEscrowManager` / `PoolManager` | `DonationReceived` (with commitment) | **Dead end — not relevant** |
+| `donateZK()` | Yes — `ZKVerifier.verify()` | `ZakatEscrowManager` | `ZKDonationReceived(poolId, nullifier, amount, donor)` | ZK-verified, public events |
+| `donateZKPrivate()` | Yes — `ZKVerifier.verify()` | `PrivateDonationPool` | `PrivateDonationReceived(poolId, nullifier, amountCommitment)` | ZK-verified, private events |
+
+**`donatePrivate()` is a dead-end function**: It accepts a `bytes32 commitment` but performs no ZK proof verification, no nullifier check, and no eligibility check. It routes through the public-path managers, not `PrivateDonationPool`. The commitment field is accepted but never cryptographically enforced. It was left in the codebase but plays no role in the paper's privacy model.
+
+**The three functions that matter for the paper**: `donate()` (public baseline), `donateZK()` (ZK-verified, donor + amount exposed in event), `donateZKPrivate()` (ZK-verified, only nullifier + commitment exposed in event, amount in calldata).
+
+The paper's payment flow paragraph describes only these three. A reviewer who finds `donatePrivate()` in the repo should treat it as unreferenced code — the paper never claimed it doesn't exist, it simply doesn't discuss an irrelevant function.
+
+---
+
 ### Correction 2: ZKVerifier Architecture (v9-specific)
 
 **Paper, Section IV.E.1, Line 118:**

@@ -53,11 +53,11 @@ export default function ContactUsPage() {
 
                   {/* Email Button */}
                   <a 
-                    href="mailto:marcell@tawf.xyz" 
+                    href="mailto:marcell@tawflabs.com" 
                     className="flex items-center justify-center gap-2 w-full bg-primary hover:bg-primary/90 text-white font-semibold py-4 px-6 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-primary/20 group"
                   >
                     <Mail className="w-5 h-5" />
-                    marcell@tawf.xyz
+                    marcell@tawflabs.com
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </a>
 
